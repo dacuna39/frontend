@@ -15,7 +15,7 @@ export default class AdminFeed extends React.Component { // eslint-disable-line 
 
   // Since state and props are static,
   // there's no need to re-render this component
-  shouldComponentUpdate() {
+  shouldComponentUpdate() { 
     return false;
   }
 

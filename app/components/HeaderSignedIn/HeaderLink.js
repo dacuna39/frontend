@@ -1,9 +1,10 @@
-import { css } from 'styled-components';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
-const buttonStyles = css`
-  display: inline-block;
-  box-sizing: border-box;
+export default styled(Link)`
+  display: inline-flex;
   padding: 0.25em 2em;
+  margin: 1em;
   text-decoration: none;
   border-radius: 4px;
   -webkit-font-smoothing: antialiased;
@@ -14,15 +15,11 @@ const buttonStyles = css`
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: bold;
   font-size: 16px;
-  
-  border: 2px solid #f5b01d;
-  background: #f5b01d;
-  color: #FFF;
+  border: 2px solid #41ADDD;
+  color: #41ADDD;
 
   &:active {
-    background: #002147;
+    background: #41ADDD;
     color: #FFF;
   }
 `;
-
-export default buttonStyles;

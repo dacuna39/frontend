@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 
 function Img(props) {
   return (
-    <img className={props.className} src={props.src} alt={props.alt} width={props.width} height={props.height}/>
+    <img className={props.className} src={props.src} alt={props.alt} />
   );
 }
 

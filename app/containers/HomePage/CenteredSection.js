@@ -2,7 +2,8 @@ import Section from './Section';
 
 const CenteredSection = Section.extend`
   text-align: center;
-  width: 50%
+  padding-left: 10%;
+  padding-right: 10%;
 `;
 
 export default CenteredSection;

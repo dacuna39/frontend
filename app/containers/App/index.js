@@ -20,6 +20,7 @@ import TutorFeed from 'containers/TutorFeed/Loadable';
 import AdminFeed from 'containers/AdminFeed/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
+import HeaderSignedIn from 'components/HeaderSignedIn';
 import Footer from 'components/Footer';
 
 const AppWrapper = styled.div`

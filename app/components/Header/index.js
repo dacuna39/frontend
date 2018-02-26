@@ -15,21 +15,16 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
   render() {
     return (
       <div>
-	  <Wrapper>
-        <A href="/">
-          <Img src={logo} alt="Tutorfind - Logo" length="100px" width="100px"/>
-        </A>
-        <NavBar>
-          <HeaderLink to="/">
-            <FormattedMessage {...messages.home} />
-          </HeaderLink>
-          <HeaderLink to="/features">
-            <FormattedMessage {...messages.features} />
-          </HeaderLink>
-		  <Button> Sign In </Button>
-		  
-        </NavBar>
-	  </Wrapper> 
+		<Wrapper>
+			<section>
+				<A href="/">
+					<Img src={logo} alt="Tutorfind - Logo" length="100px" width="100px"/>
+				</A>
+			</section>
+			<section>
+				<Button> Sign In </Button>
+			</section>
+		</Wrapper> 
       </div>
     );
   }
