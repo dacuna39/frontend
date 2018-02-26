@@ -20,19 +20,19 @@ export default defineMessages({
   },
   usernameMessage: {
     id: 'boilerplate.containers.HomePage.username.message',
-    defaultMessage: 'User Name',
+    defaultMessage: 'User Name: ',
   },
   passwordMessage: {
     id: 'boilerplate.containers.HomePage.password.message',
-    defaultMessage: 'Password',
+    defaultMessage: 'Password: ',
   },
   confirmPasswordMessage: {
     id: 'boilerplate.containers.HomePage.confirmPassword.message',
-    defaultMessage: 'Confirm Password',
+    defaultMessage: 'Confirm Password: ',
   },
   emailMessage: {
     id: 'boilerplate.containers.HomePage.email.message',
-    defaultMessage: 'Email',
+    defaultMessage: 'Email:',
   },
   studentMessage: {
     id: 'boilerplate.containers.HomePage.student.message',
