@@ -23,8 +23,8 @@ import Header from 'components/Header';
 import HeaderSignedIn from 'components/HeaderSignedIn';
 import Footer from 'components/Footer';
 
-const AppWrapper = styled.div`
-  max-width: calc(1200px + 16px * 2);
+const BodyWrapper = styled.div`
+  max-width: calc(1000px + 16px * 2);
   margin: 0 auto;
   display: flex;
   min-height: 100%;
@@ -32,16 +32,37 @@ const AppWrapper = styled.div`
   flex-direction: column;
 `;
 
+const AppWrapper = styled.div`
+  min-width: calc((1200px + 16px * 2) * .55);
+`;
+
+//load header
+function LoggedOutNav(props) {
+		return <Header />;
+	}
+	
+function LoggedInNav(props) {
+	return <HeaderSignedIn />;
+}
+
+function NavLoad(props){
+	const isLoggedIn = props.isLoggedIn;
+	if (isLoggedIn) {
+		return <LoggedInNav />;
+	} 
+	return <LoggedOutNav />;
+}
+//end load header
+
 export default function App() {
   return (
     <AppWrapper>
-      <Helmet
-        titleTemplate=""
-        defaultTitle="TutorFind"
-      >
+      <Helmet titleTemplate="" defaultTitle="TutorFind">
         <meta name="description" content="A web app to connect students and teachers for improved learning" />
       </Helmet>
-      <Header />
+	  
+      <NavLoad isLoggedIn={false} />  {/*loads the appropriate header (signed in/out)*/}
+	  <BodyWrapper>
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/features" component={FeaturePage} />
@@ -52,6 +73,7 @@ export default function App() {
 		<Route path="/AdminFeed" component={AdminFeed} />
         <Route path="" component={NotFoundPage} />
       </Switch>
+	  </BodyWrapper>
       <Footer />
     </AppWrapper>
   );
