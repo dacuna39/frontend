@@ -15,22 +15,16 @@ class HeaderSignedIn extends React.Component { // eslint-disable-line react/pref
   render() {
     return (
       <div>
-	  <Wrapper>
-        <A href="/">
-          <Img src={logo} alt="Tutorfind - Logo"/>
-        </A>
-        <NavBar>
-          <HeaderLink to="/">
-            <FormattedMessage {...messages.home} />
-          </HeaderLink>
-          <HeaderLink to="/features">
-            <FormattedMessage {...messages.features} />
-          </HeaderLink>
-		  
-		  <Button> Edit Profile </Button>
-		  
-        </NavBar>
-	  </Wrapper> 
+		<Wrapper>
+			<section>
+				<A href="/">
+					<Img src={logo} alt="Tutorfind - Logo"/>
+				</A>
+			</section>
+			<section>
+				<Button> Edit Profile </Button>
+			</section>
+		</Wrapper> 
       </div>
     );
   }

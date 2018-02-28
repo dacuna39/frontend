@@ -14,6 +14,7 @@ import Input from './Input';
 import Section from './Section';
 import messages from './messages';
 import Wrapper from './Wrapper';
+import Modal from'./Modal';
 
 import H2 from 'components/H2';
 import H1 from 'components/H1';
@@ -21,6 +22,33 @@ import Button from 'components/Button';
 import Toggle from 'components/Toggle';
 import ToggleOption from 'components/ToggleOption';
 
+const { array } = ["Student","Teacher"];
+//functions (will probably remove)
+  function ToggleModal(props) { //opens and closes the sign in modal
+	const signUp = props.signUp;
+		if (signUp) {
+			return <SignUpModal />;
+		} 
+	return <SignInModal />;
+  }
+  
+  function SignUpModal(props) { //The sign up modal
+	return (
+		<div>
+		
+		</div>
+	);
+  }
+  
+  function SignInModal(props) { //The sign in modal
+	return (
+		<div>
+			hi
+		</div>
+	);
+  }
+//end functions
+  
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   // Since state and props are static,
@@ -30,15 +58,18 @@ export default class HomePage extends React.Component { // eslint-disable-line r
   }
 
   render() {
+
     return (
       <article>
         <Helmet>
           <title>TutorFind</title>
           <meta name="Tutorfind" content="A web app to connect students and teachers for improved learning" />
         </Helmet>
+		
         <div>
 		<Wrapper>
-		  {/*About Us*/}
+		
+		  {/* About Us */}
           <CenteredSection>
             <H1>
               About Us
@@ -47,15 +78,15 @@ export default class HomePage extends React.Component { // eslint-disable-line r
               <FormattedMessage {...messages.aboutMessage} />
             </p>
           </CenteredSection>
-		  {/*end About Us*/}
-		
-		  {/*Sign up*/}
+		  {/* end About Us */}
+		  
+		  {/* Sign up */}
           <CenteredSection>
 			<H1>
-			  <FormattedMessage {...messages.signUpHeader} />
+			  Sign Up
 			</H1>
 			
-			{/*Form*/}
+			{/* Form */}
 			<Form onSubmit={this.props.onSubmitForm}>
 			  <div>
               <label htmlFor="username">
@@ -107,10 +138,8 @@ export default class HomePage extends React.Component { // eslint-disable-line r
 			  
 			  <div>
 			    <p> I am a 
-				<Toggle>
-					<ToggleOption value="student" intl="" />
-									
-				</Toggle>
+				<Toggle value="Student" values={array} />
+					
 				</p>
 			  </div>
 			  
@@ -119,14 +148,14 @@ export default class HomePage extends React.Component { // eslint-disable-line r
 			  </div>
 			  
 			</Form>
-			{/*end Form*/}
+			{/* end Form */}
 			
 		   </CenteredSection>  
-		   {/*end Sign up */}
+		   {/* end Sign up */}
+		   
 		</Wrapper>	
         </div>
       </article>
     );
   }
 }
-
