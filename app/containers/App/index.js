@@ -21,7 +21,14 @@ import AdminFeed from 'containers/AdminFeed/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import HeaderSignedIn from 'components/HeaderSignedIn';
+import TutorSendRequests from 'components/TutorSendRequests';
+import AdminPosts from 'components/AdminPosts';
+import StudentSignedInLandingPage from 'components/StudentSignedInLandingPage';
+import ArchivedPosts from 'components/ArchivedPosts';
+import AdminInbox from 'components/AdminInbox';
+import TutorSignedInLandingPage from 'components/TutorSignedInLandingPage';
 import Footer from 'components/Footer';
+
 
 const BodyWrapper = styled.div`
   max-width: calc(1000px + 16px * 2);
@@ -71,6 +78,12 @@ export default function App() {
 		<Route path="/TutorProfile" component={TutorProfile} />
 		<Route path="/TutorFeed" component={TutorFeed} />
 		<Route path="/AdminFeed" component={AdminFeed} />
+    <Route path="/TutorSendRequests" component={TutorSendRequests} />
+    <Route path="/AdminPosts" component={AdminPosts} />
+    <Route path="/StudentSignedInLandingPage" component={StudentSignedInLandingPage} />
+    <Route path="/ArchivedPosts" component={ArchivedPosts} />
+    <Route path="/AdminInbox" component={AdminInbox} />
+    <Route path="TutorSignedInLandingPage" component={TutorSignedInLandingPage} />
         <Route path="" component={NotFoundPage} />
       </Switch>
 	  </BodyWrapper>
