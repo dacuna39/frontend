@@ -21,12 +21,12 @@ import AdminFeed from 'containers/AdminFeed/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import HeaderSignedIn from 'components/HeaderSignedIn';
-import TutorSendRequests from 'components/TutorSendRequests';
-import AdminPosts from 'components/AdminPosts';
-import StudentSignedInLandingPage from 'components/StudentSignedInLandingPage';
-import ArchivedPosts from 'components/ArchivedPosts';
-import AdminInbox from 'components/AdminInbox';
-import TutorSignedInLandingPage from 'components/TutorSignedInLandingPage';
+import TutorSendRequests from 'containers/TutorSendRequests';
+import AdminPosts from 'containers/AdminPosts';
+import StudentSignedInLandingPage from 'containers/StudentSignedInLandingPage';
+import ArchivedPosts from 'containers/ArchivedPosts';
+import AdminInbox from 'containers/AdminInbox';
+import TutorSignedInLandingPage from 'containers/TutorSignedInLandingPage';
 import Footer from 'components/Footer';
 
 
