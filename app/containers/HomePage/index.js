@@ -69,18 +69,6 @@ export default class HomePage extends React.Component { // eslint-disable-line r
   shouldComponentUpdate() {
     return false;
   }
-  
-  handleSubmit(event) { //sends the data when pressing submit
-    event.preventDefault();
-    const data = new FormData(event.target);
-    
-    fetch('/api/form-submit-url', {
-      method: 'POST',
-      body: data,
-    });
-}
-
-
 
   render() {
 
