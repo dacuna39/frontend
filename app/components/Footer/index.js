@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
 
 import A from 'components/A';
 import LocaleToggle from 'containers/LocaleToggle';
@@ -43,11 +44,13 @@ function Footer() {
 		  </List>
 		</section>
 	</Wrapper>
-  
+    
+	
     <Wrapper>
       <section>
         <FormattedMessage {...messages.copyrightMessage} />
       </section>
+	  {/* max stoiber 
       <section>
         <LocaleToggle />
       </section>
@@ -59,7 +62,9 @@ function Footer() {
           }}
         />
       </section>
+	  */}
     </Wrapper>
+	
   </div>	
   );
 }
