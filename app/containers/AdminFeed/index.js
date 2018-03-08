@@ -29,6 +29,8 @@ export default class AdminFeed extends React.Component { // eslint-disable-line 
         <H1>
           <FormattedMessage {...messages.header} />
         </H1>
+
+        <p><i class="fa fa-graduation-cap" aria-hidden="true"></i></p>
      
       </div>
     );
