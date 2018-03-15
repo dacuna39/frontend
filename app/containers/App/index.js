@@ -11,6 +11,7 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 
+/**import containers*/
 import HomePage from 'containers/HomePage/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 import StudentProfile from 'containers/StudentProfile/Loadable';
@@ -19,15 +20,19 @@ import TutorProfile from 'containers/TutorProfile/Loadable';
 import TutorFeed from 'containers/TutorFeed/Loadable';
 import AdminFeed from 'containers/AdminFeed/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import Header from 'components/Header';
-import HeaderSignedIn from 'components/HeaderSignedIn';
 import TutorSendRequests from 'containers/TutorSendRequests';
 import AdminPosts from 'containers/AdminPosts';
 import StudentSignedInLandingPage from 'containers/StudentSignedInLandingPage';
 import ArchivedPosts from 'containers/ArchivedPosts';
 import AdminInbox from 'containers/AdminInbox';
 import TutorSignedInLandingPage from 'containers/TutorSignedInLandingPage';
+/**import containers end*/
+
+/**import component*/
 import Footer from 'components/Footer';
+import Header from 'components/Header';
+import HeaderSignedIn from 'components/HeaderSignedIn';
+/**import component end*/
 
 const BodyWrapper = styled.div`
   max-width: calc(1000px + 16px * 2);
