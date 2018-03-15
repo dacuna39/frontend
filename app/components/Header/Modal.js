@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
 import Button from 'components/Button';
+
+const ModalStyle = styled.div`
+  background-color: #ddd;
+  padding: 1em;
+`;
 
 class Modal extends React.Component {
   render() {
@@ -31,7 +38,7 @@ class Modal extends React.Component {
     };
 
     return (
-      <div>
+      <ModalStyle>
         <div>
           {this.props.children}
           <div className="footer">
@@ -40,7 +47,7 @@ class Modal extends React.Component {
             </Button>
           </div>
         </div>
-      </div>
+      </ModalStyle>
     );
   }
 }

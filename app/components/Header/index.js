@@ -39,6 +39,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
 					<Img src={logo} alt="Tutorfind - Logo" />
 				</A>
 			</section>
+
 			<section>
 				<Button onClick={this.toggleModal}> Sign In </Button>
 			</section>
@@ -49,7 +50,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
 					onClose={this.toggleModal}>
 					<H1> Sign In </H1>
 					<SignInForm />
-					<a href="/"> I forgot my password </a>
+					<p><a href="/"> I forgot my password </a></p>
 			</Modal>
 		</CenteredSection>
       </div>
