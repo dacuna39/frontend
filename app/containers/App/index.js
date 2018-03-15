@@ -29,7 +29,6 @@ import AdminInbox from 'containers/AdminInbox';
 import TutorSignedInLandingPage from 'containers/TutorSignedInLandingPage';
 import Footer from 'components/Footer';
 
-
 const BodyWrapper = styled.div`
   max-width: calc(1000px + 16px * 2);
   margin: 0 auto;
