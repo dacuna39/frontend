@@ -11,7 +11,7 @@ class FormContainer extends Component {
 			ownerName: '',
 			petSelections: [],
 			selectedPets: [],
-			ageOptions: [],
+			ageOptions: ['student','teacher'],
 			ownerAgeRangeSelection: '',
 			siblingOptions: [],
 			siblingSelection: [],

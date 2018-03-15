@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 
 import SingleInput from 'components/FormComponents/SingleInput';
+import Select from 'components/FormComponents/Select';
 import Button from 'components/Button';
 
 import CenteredSection from './CenteredSection';
@@ -32,6 +33,7 @@ const SubmitInput = styled.input`
   }
 `;
 
+//form css
 const Form = styled.form`
  
 `;
@@ -43,13 +45,16 @@ class SignUpForm extends Component {
 			userName: '',
 			email: '',
 			password: '',
-			confirmPassword: ''
+			confirmPassword: '',
+			accountOptions: ['Student','Tutor'],
+			accountSelection: 'Student'
 		};
 
 		this.handleUserNameChange = this.handleUserNameChange.bind(this);
 		this.handleEmailChange = this.handleEmailChange.bind(this);
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
+		this.handleAccountOptionSelect = this.handleAccountOptionSelect.bind(this);
 	}
 	componentDidMount() {
 		fetch('./fake_db.json')
@@ -60,6 +65,8 @@ class SignUpForm extends Component {
 					email: data.email,
 					password: data.password,
 					//confirmPassword: data.confirmPassword
+					accountOptions: data.accountOptions,
+					accountSelection: data.accountSelection
 				});
 			});
 	}
@@ -79,6 +86,10 @@ class SignUpForm extends Component {
 	handleConfirmPasswordChange(e) {
 		this.setState({ confirmPassword: e.target.value }, () => console.log('confirmPassword:', this.state.confirmPassword));
 	}
+
+	handleAccountOptionSelect(e) {
+		this.setState({ accountSelection: e.target.value }, () => console.log('accountType:', this.state.accountSelection));
+	}
 	
 	handleClearForm(e) {
 		e.preventDefault();
@@ -86,7 +97,9 @@ class SignUpForm extends Component {
 			userName: '',
 			email: '',
 			password: '',
-			confirmPassword: ''
+			confirmPassword: '',
+			accountOptions: ['Student','Tutor'],
+			accountSelection: 'Student'
 		});
 	}
 	handleFormSubmit(e) {
@@ -96,7 +109,8 @@ class SignUpForm extends Component {
 			userName: this.state.userName,
 			email: this.state.email,
 			password: this.state.password,
-			confirmPassword: this.state.confirmPassword
+			//confirmPassword: this.state.confirmPassword,
+			accountSelection: this.state.accountSelection
 		};
 
 		console.log('Send this in a POST request:', formPayload);
@@ -133,10 +147,17 @@ class SignUpForm extends Component {
 					name={'confirmPassword'}
 					controlFunc={this.handleConfirmPasswordChange}
 					content={this.state.confirmPassword}
-					placeholder={'Confirm Password'} />				
+					placeholder={'Confirm Password'} />
+				<p> I am a 
+				<Select
+					name={'accountSelection'}
+					placeholder={''}
+					controlFunc={this.handleAccountOptionSelect}
+					options={this.state.accountOptions}
+					selectedOption={this.state.accountSelection} />
+				</p>
 				<SubmitInput
 					type="submit"
-					className="btn btn-primary float-right"
 					value="Sign Up"
 					/>
 			</Form>

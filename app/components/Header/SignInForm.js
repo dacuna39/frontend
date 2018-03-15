@@ -101,12 +101,13 @@ class SignInForm extends Component {
 					name={'password'}
 					controlFunc={this.handlePasswordChange}
 					content={this.state.password}
-					placeholder={'Password'} />					
+					placeholder={'Password'} />		
+				<p>			
 				<SubmitInput
 					type="submit"
-					className="btn btn-primary float-right"
 					value="Sign In"
 					/>
+				</p>
 			</Form>
 			</div>
 		);

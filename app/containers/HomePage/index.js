@@ -42,13 +42,11 @@ export default class HomePage extends React.Component { // eslint-disable-line r
     super();
 }
 
-  
   // Since state and props are static,
   // there's no need to re-render this component
   shouldComponentUpdate() {
     return false;
   }
-  
 
   render() {
     return (
