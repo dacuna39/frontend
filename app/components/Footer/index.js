@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 import A from 'components/A';
 import LocaleToggle from 'containers/LocaleToggle';
@@ -9,6 +10,15 @@ import messages from './messages';
 import H2 from 'components/H2';
 import List from './List';
 import ListItem from './ListItem';
+
+const YellowWrapper = styled.div`
+ display: flex;
+ justify-content: space-around;
+ padding: 1em 0;
+
+ border-top: 1px solid #666;
+ background: #f5b01d;
+`;
 
 function Footer() {
   return (
@@ -46,9 +56,9 @@ function Footer() {
 	</Wrapper>
     
 	
-    <Wrapper>
+    <YellowWrapper>
       <section>
-        <FormattedMessage {...messages.copyrightMessage} />
+        <h4> <FormattedMessage {...messages.copyrightMessage} /> </h4>
       </section>
 	  {/* max stoiber 
       <section>
@@ -63,7 +73,7 @@ function Footer() {
         />
       </section>
 	  */}
-    </Wrapper>
+    </YellowWrapper>
 	
   </div>	
   );

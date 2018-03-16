@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Button from 'components/Button';
 
 const ModalStyle = styled.div`
-  background-color: #ddd;
+  background-color: #ccc;
   padding: 1em;
 `;
 
@@ -15,27 +15,6 @@ class Modal extends React.Component {
     if(!this.props.show) {
       return null;
     }
-
-    // The gray background
-    const backdropStyle = {
-      position: 'fixed',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      backgroundColor: 'rgba(0,0,0,0.3)',
-      padding: 50
-    };
-
-    // The modal "window"
-    const modalStyle = {
-      backgroundColor: '#FFF',
-      borderRadius: 5,
-      maxWidth: 500,
-      minHeight: 300,
-      margin: '0 auto',
-      padding: 30
-    };
 
     return (
       <ModalStyle>
