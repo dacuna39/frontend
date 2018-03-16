@@ -34,17 +34,20 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
     return (
       <div>
 		<Wrapper>
+			{/* Logo */}
 			<section>
 				<A href="/">
 					<Img src={logo} alt="Tutorfind - Logo" />
 				</A>
 			</section>
-
+			
+			{/* Sign In Button */}
 			<section>
 				<Button onClick={this.toggleModal}> Sign In </Button>
 			</section>
 		</Wrapper> 
 		
+		{/* Modal for Signing In (popup) */}
 		<CenteredSection>
 			<Modal show={this.state.isOpen}
 					onClose={this.toggleModal}>

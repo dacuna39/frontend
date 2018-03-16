@@ -33,7 +33,7 @@ const SubmitInput = styled.input`
 `;
 
 const Form = styled.form`
-
+  
 `;
 
 class SignInForm extends Component {
@@ -47,13 +47,14 @@ class SignInForm extends Component {
 		this.handleEmailChange = this.handleEmailChange.bind(this);
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 	}
+
 	componentDidMount() {
-		fetch('./fake_db.json')
+		fetch('./fake_db.json') //creates the json form for backend
 			.then(res => res.json())
 			.then(data => {
 				this.setState({
 					email: data.email,
-					password: daa.password
+					password: data.password
 				});
 			});
 	}
@@ -66,14 +67,15 @@ class SignInForm extends Component {
 		this.setState({ password: e.target.value }, () => console.log('password:', this.state.password));
 	}
 	
-	handleClearForm(e) {
+	handleClearForm(e) { // clears all fields of the form
 		e.preventDefault();
 		this.setState({
 			email: '',
-			password: ''	
+			password: ''
 		});
 	}
-	handleFormSubmit(e) {
+
+	handleFormSubmit(e) { //validates and submits the form to the server
 		e.preventDefault();
 
 		const formPayload = {
@@ -84,6 +86,7 @@ class SignInForm extends Component {
 		console.log('Send this in a POST request:', formPayload);
 		this.handleClearForm(e);
 	}
+
 	render() {
 		return (
 			<div>
