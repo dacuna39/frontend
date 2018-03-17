@@ -57,7 +57,7 @@ class SignUpForm extends Component {
 		this.handleAccountOptionSelect = this.handleAccountOptionSelect.bind(this);
 	}
 	componentDidMount() {
-		fetch('./fake_db.json')
+		fetch('https://tutor-find.herokuapp.com/users?userName=joetest')
 			.then(res => res.json())
 			.then(data => {
 				this.setState({

@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import CenteredSection from './CenteredSection';
-import Form from './Form';
+//import Form from './Form';
 import Input from './Input';
 import Section from './Section';
 import messages from './messages';
@@ -59,6 +59,11 @@ const Button = styled.button`
 const LeftAlignSection = styled.section`
   text-align: left;
   padding-right: 15%;
+`;
+
+//form css
+const Form = styled.form`
+ 
 `;
 
 export default class TutorProfile extends React.Component { // eslint-disable-line react/prefer-stateless-function

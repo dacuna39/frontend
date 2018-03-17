@@ -44,24 +44,14 @@ class ProfileForm extends Component {
 		this.state = {
 			firstName: '',
 			lastName: '',
-			email: '',
 			//picture: '',
 			majorOptions: ['Student','Tutor'],
 			majorSelection: 'Student',
-
-			subjectOptions: ['Student','Tutor'],
-			subjectSelection: 'Student',
-
-			payOptions: ['Student','Tutor'],
-			paySelection: 'Student',
-
 			bio: ''
 		};
 
-		this.handlefirstNameChange = this.handlefirstNameChange.bind(this);
-		this.handleEmailChange = this.handleEmailChange.bind(this);
-		this.handlePasswordChange = this.handlePasswordChange.bind(this);
-		this.handleAccountOptionSelect = this.handleAccountOptionSelect.bind(this);
+		this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
+		this.handleLastNameChange = this.handleLastNameChange.bind(this);
 	}
 	componentDidMount() {
 		fetch('./fake_db.json')
