@@ -42,6 +42,8 @@ class SignUpForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			firstName: '',
+			lastName: '',
 			userName: '',
 			email: '',
 			password: '',
@@ -56,8 +58,8 @@ class SignUpForm extends Component {
 		this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
 		this.handleAccountOptionSelect = this.handleAccountOptionSelect.bind(this);
 	}
-	componentDidMount() {
-		fetch('https://tutor-find.herokuapp.com/users?userName=joetest')
+	componentDidMount() { //to load values from database, useful for Feed pages!! See ProfileForm.js
+		fetch('https://tutor-find.herokuapp.com/users')
 			.then(res => res.json())
 			.then(data => {
 				this.setState({
@@ -114,6 +116,20 @@ class SignUpForm extends Component {
 		};
 
 		console.log('Send this in a POST request:', formPayload);
+		fetch('https://tutor-find.herokuapp.com/users', {
+  			method: 'POST',
+  			headers: {
+    			'Accept': 'application/json',
+    			'Content-Type': 'application/json',
+ 			 },
+  			body: JSON.stringify({
+    			userName: this.state.userName,
+				email: this.state.email,
+				password: this.state.password
+  			})
+		})
+
+
 		this.handleClearForm(e);
 	}
 	render() {
