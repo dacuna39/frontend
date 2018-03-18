@@ -47,17 +47,6 @@ class SignInForm extends Component {
 		this.handleEmailChange = this.handleEmailChange.bind(this);
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 	}
-
-	componentDidMount() {
-		fetch('./fake_db.json') //creates the json form for backend
-			.then(res => res.json())
-			.then(data => {
-				this.setState({
-					email: data.email,
-					password: data.password
-				});
-			});
-	}
 	
 	handleEmailChange(e) {
 		this.setState({ email: e.target.value }, () => console.log('email:', this.state.email));
@@ -83,7 +72,18 @@ class SignInForm extends Component {
 			password: this.state.password
 		};
 
-		console.log('Send this in a POST request:', formPayload);
+		//console.log('Send this in a POST request:', formPayload);
+		fetch('https://tutor-find.herokuapp.com/users', {
+  			method: 'POST',
+  			headers: {
+    			'Accept': 'application/json',
+    			'Content-Type': 'application/json',
+ 			 },
+  			body: JSON.stringify({
+				email: this.state.email,
+				password: this.state.password
+  			})
+		})
 		this.handleClearForm(e);
 	}
 

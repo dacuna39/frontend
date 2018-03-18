@@ -3,8 +3,10 @@ import styled from 'styled-components';
 
 //Input css
 const Input = styled.input`
-  outline: none;
-  border-bottom: 1px dotted #999;
+   outline: none;
+  border: 1px solid #666;
+  padding: 0.25em;
+  background: #ddd;
 `;
 
 const SingleInput = (props) => (

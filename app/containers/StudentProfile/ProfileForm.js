@@ -2,12 +2,44 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 
 import SingleInput from 'components/FormComponents/SingleInput';
-import Select from 'components/FormComponents/Select';
-import Button from 'components/Button';
+import TextArea from 'components/FormComponents/TextArea';
+//import Button from 'components/Button';
 
 import CenteredSection from './CenteredSection';
+import Form from './Form';
+//import Input from './Input'; delete the file!
+import Section from './Section';
+import messages from './messages';
+import Wrapper from './Wrapper';
+import Img from './Img';
+import profile from './default_profile_pic.jpg';
 
 //button css
+const Button = styled.button`
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0.25em 2em;
+  text-decoration: none;
+  border-radius: 4px;
+  -webkit-font-smoothing: antialiased;
+  -webkit-touch-callout: none;
+  user-select: none;
+  cursor: pointer;
+  outline: 0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+
+  border: 2px solid #f5b01d;
+  background-color: #002147;
+  color: #FFF;
+
+  &:active {
+    background: #fff;
+    color: #000;
+  }
+`;
+
 const SubmitInput = styled.input`
   display: inline-block;
   box-sizing: border-box;
@@ -22,141 +54,209 @@ const SubmitInput = styled.input`
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: bold;
   font-size: 16px;
-  
+
   border: 2px solid #f5b01d;
-  background: #f5b01d;
+  background-color: #002147;
   color: #FFF;
 
   &:active {
-    background: #002147;
-    color: #FFF;
+    background: #fff;
+    color: #000;
   }
 `;
 
-//form css
-const Form = styled.form`
- 
+const LeftAlignSection = styled.section`
+  text-align: left;
+  padding-right: 15%;
 `;
 
 class ProfileForm extends Component {
 	constructor(props) {
 		super(props);
+		
 		this.state = {
 			firstName: '',
 			lastName: '',
-			//picture: '',
-			majorOptions: ['Student','Tutor'],
-			majorSelection: 'Student',
+			picture: '',
+			major: '',
+			minor: '',
 			bio: ''
 		};
 
 		this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
 		this.handleLastNameChange = this.handleLastNameChange.bind(this);
+		this.handlePictureChange = this.handlePictureChange.bind(this);
+		this.handleMajorChange = this.handleMajorChange.bind(this);
+		this.handleMinorChange = this.handleMinorChange.bind(this);
+		this.handleBioChange = this.handleBioChange.bind(this);
 	}
-	componentDidMount() {
-		fetch('./fake_db.json')
+
+	componentDidMount() { //loads user from heroku
+		fetch('https://tutor-find.herokuapp.com/users?userName=joetest')
 			.then(res => res.json())
 			.then(data => {
-				this.setState({
-					userName: data.userName,
-					email: data.email,
-					password: data.password,
-					//confirmPassword: data.confirmPassword
-					accountOptions: data.accountOptions,
-					accountSelection: data.accountSelection
+				this.setState({ //loads values from user to data
+					firstName: data.firstName,
+					lastName: data.lastName,
+					picture: data.picture,
+					major: data.major,
+					minor: data.minor,
+					bio: data.bio
 				});
 			});
 	}
 	
-	handleUserNameChange(e) {
-		this.setState({ userName: e.target.value }, () => console.log('userName:', this.state.userName));
+	handleFirstNameChange(e) {
+		this.setState({ firstName: e.target.value }, () => console.log('firstName:', this.state.firstName));
 	}
 
-	handleEmailChange(e) {
-		this.setState({ email: e.target.value }, () => console.log('email:', this.state.email));
-	}
-	
-	handlePasswordChange(e) {
-		this.setState({ password: e.target.value }, () => console.log('password:', this.state.password));
+	handleLastNameChange(e) {
+		this.setState({ lastName: e.target.value }, () => console.log('lastName:', this.state.lastName));
 	}
 
-	handleConfirmPasswordChange(e) {
-		this.setState({ confirmPassword: e.target.value }, () => console.log('confirmPassword:', this.state.confirmPassword));
+	handlePictureChange(e) {
+		this.setState({ picture: e.target.value }, () => console.log('picture:', this.state.picture));
 	}
 
-	handleAccountOptionSelect(e) {
-		this.setState({ accountSelection: e.target.value }, () => console.log('accountType:', this.state.accountSelection));
+	handleMajorChange(e) {
+		this.setState({ major: e.target.value }, () => console.log('major:', this.state.major));
+	}
+
+	handleMinorChange(e) {
+		this.setState({ minor: e.target.value }, () => console.log('minor:', this.state.minor));
+	}
+
+	handleBioChange(e) {
+		this.setState({ bio: e.target.value }, () => console.log('bio:', this.state.bio));
 	}
 	
 	handleClearForm(e) {
 		e.preventDefault();
 		this.setState({
-			userName: '',
-			email: '',
-			password: '',
-			confirmPassword: '',
-			accountOptions: ['Student','Tutor'],
-			accountSelection: 'Student'
+			firstName: '',
+			lastName: '',
+			picture: '',
+			major: '',
+			minor: '',
+			bio: ''
 		});
 	}
+
 	handleFormSubmit(e) {
 		e.preventDefault();
 
 		const formPayload = {
-			userName: this.state.userName,
-			email: this.state.email,
-			password: this.state.password,
-			//confirmPassword: this.state.confirmPassword,
-			accountSelection: this.state.accountSelection
+			firstName: this.state.firstName,
+			lastName: this.state.lastName,
+			picture: this.state.picture,
+			major: this.state.major,
+			minor: this.state.minor,
+			bio: this.state.bio
 		};
 
 		console.log('Send this in a POST request:', formPayload);
 		this.handleClearForm(e);
 	}
+
 	render() {
 		return (
 			<div>
 			<Form className="container" onSubmit={this.handleFormSubmit}>
-				<SingleInput
-					inputType={'text'}
-					title={''}
-					name={'userName'}
-					controlFunc={this.handleUserNameChange}
-					content={this.state.userName}
-					placeholder={'User Name'} />	
-				<SingleInput
-					inputType={'email'}
-					title={''}
-					name={'email'}
-					controlFunc={this.handleEmailChange}
-					content={this.state.email}
-					placeholder={'Email'} />
-				<SingleInput
-					inputType={'password'}
-					title={''}
-					name={'password'}
-					controlFunc={this.handlePasswordChange}
-					content={this.state.password}
-					placeholder={'Password'} />		
-				<SingleInput
-					inputType={'password'}
-					title={''}
-					name={'confirmPassword'}
-					controlFunc={this.handleConfirmPasswordChange}
-					content={this.state.confirmPassword}
-					placeholder={'Confirm Password'} />
-				<p> I am a 
-				<Select
-					name={'accountSelection'}
-					placeholder={''}
-					controlFunc={this.handleAccountOptionSelect}
-					options={this.state.accountOptions}
-					selectedOption={this.state.accountSelection} />
-				</p>
-				<SubmitInput
-					type="submit"
-					value="Sign Up"
-					/>
+
+			{/* Profile pic, first and last name */}
+      <Wrapper>
+          <CenteredSection>
+          <p> Profile Picture </p>
+            <Img src={profile} alt="Profile Picture" />
+						<SingleInput
+								inputType={'file'}
+								title={''}
+								name={'picture'}
+								controlFunc={this.handlePictureChange}
+								content={this.state.picture}
+								placeholder={'No File Selected'} />
+          </CenteredSection>
+          
+          <div>
+          <LeftAlignSection>
+            <p>First Name</p>
+						<SingleInput
+								inputType={'text'}
+								title={''}
+								name={'firstName'}
+								controlFunc={this.handleFirstNameChange}
+								content={this.state.firstName}
+								placeholder={'First Name'} />	
+          </LeftAlignSection>
+
+          <LeftAlignSection>
+            <p>Major</p>
+            <SingleInput
+								inputType={'text'}
+								title={''}
+								name={'major'}
+								controlFunc={this.handleMajorChange}
+								content={this.state.major}
+								placeholder={'Major'} />	
+          </LeftAlignSection> 
+          </div>
+
+          <div>
+          <LeftAlignSection>
+            <p>Last Name</p>
+            <SingleInput
+								inputType={'text'}
+								title={''}
+								name={'lastName'}
+								controlFunc={this.handleLastNameChange}
+								content={this.state.lastName}
+								placeholder={'Last Name'} />	
+          </LeftAlignSection>
+           
+
+          <LeftAlignSection>
+            <p>Minor</p>
+            <SingleInput
+								inputType={'text'}
+								title={''}
+								name={'minor'}
+								controlFunc={this.handleMinorChange}
+								content={this.state.minor}
+								placeholder={'Minor'} />
+					</LeftAlignSection>
+          </div>
+      </Wrapper>
+
+      {/* Bio */}
+      <Wrapper>
+          <CenteredSection>
+            <p> Bio </p>
+						<TextArea
+								inputType={'text'}
+								rows={5}
+								cols={100}
+								resize={false}
+								title={''}
+								name={'bio'}
+								controlFunc={this.handleBioChange}
+								content={this.state.bio}
+								placeholder={'Experience, details, and other juicy info goes here!'} />
+          </CenteredSection>
+      </Wrapper>
+
+      {/* save, cancel, change password, deactivate account */}
+      <Wrapper>
+          <CenteredSection>
+						<SubmitInput 
+								type="submit"
+								value="Save Changes" />
+						<Button> Cancel </Button>
+
+            <p> <a href="/"> Change Password </a> </p>
+            <p> <a href="/"> Deactivate Account </a> </p>
+          </CenteredSection>
+      </Wrapper>
+
 			</Form>
 			</div>
 		);
