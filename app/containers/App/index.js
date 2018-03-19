@@ -88,7 +88,7 @@ export default function App() {
     <Route path="/StudentSignedInLandingPage" component={StudentSignedInLandingPage} />
     <Route path="/ArchivedPosts" component={ArchivedPosts} />
     <Route path="/AdminInbox" component={AdminInbox} />
-    <Route path="TutorSignedInLandingPage" component={TutorSignedInLandingPage} />
+    <Route path="/TutorSignedInLandingPage" component={TutorSignedInLandingPage} />
         <Route path="" component={NotFoundPage} />
       </Switch>
 	  </BodyWrapper>
