@@ -2,8 +2,10 @@ import styled from 'styled-components';
 
 const Input = styled.input`
   outline: none;
-  border-bottom: 1px dotted #999;
-  border-style: solid;
+  border: 1px solid #666;
+  padding: 0.25em;
+  background: #ddd;
+  
 `;
 
 export default Input;
