@@ -75,8 +75,8 @@ class ProfileForm extends Component {
 		this.state = {
 			legalFirstName: "",
             legalLastName: "",
-            major: "",
-            minor: "",
+            degrees: "",
+            links: "",
             img: "",
             bio: ""
 		};
@@ -84,8 +84,8 @@ class ProfileForm extends Component {
 		this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
 		this.handleLastNameChange = this.handleLastNameChange.bind(this);
 		this.handlePictureChange = this.handlePictureChange.bind(this);
-		this.handleMajorChange = this.handleMajorChange.bind(this);
-		this.handleMinorChange = this.handleMinorChange.bind(this);
+		this.handleDegreesChange = this.handleDegreesChange.bind(this);
+		this.handleLinksChange = this.handleLinksChange.bind(this);
 		this.handleBioChange = this.handleBioChange.bind(this);
 	}
 
@@ -100,13 +100,13 @@ class ProfileForm extends Component {
 
 	componentDidMount() {
 
-        fetch("https://tutor-find.herokuapp.com/students/1")
+        fetch("https://tutor-find.herokuapp.com/tutors/4")
         .then(response => response.json())
-        .then(data => this.setState({ //hits: data.hits
+        .then(data => this.setState({ 
           legalFirstName: data.legalFirstName,
           legalLastName: data.legalLastName,
-          major: data.major,
-          minor: data.minor,
+          degrees: data.degrees,
+          links: data.links,
           img: data.img,
           bio: data.bio
        }))
@@ -116,27 +116,27 @@ class ProfileForm extends Component {
 	// handle variable changes
 	
 	handleFirstNameChange(e) {
-		this.setState({ legalFirstName: e.target.value }, () => console.log('firstName:', this.state.firstName));
+		this.setState({ legalFirstName: e.target.value });
 	}
 
 	handleLastNameChange(e) {
-		this.setState({ legalLastName: e.target.value }, () => console.log('lastName:', this.state.lastName));
+		this.setState({ legalLastName: e.target.value });
 	}
 
 	handlePictureChange(e) {
-		this.setState({ picture: e.target.value }, () => console.log('picture:', this.state.picture));
+		this.setState({ picture: e.target.value });
 	}
 
-	handleMajorChange(e) {
-		this.setState({ major: e.target.value }, () => console.log('major:', this.state.major));
+	handleDegreesChange(e) {
+		this.setState({ degrees: e.target.value });
 	}
 
-	handleMinorChange(e) {
-		this.setState({ minor: e.target.value }, () => console.log('minor:', this.state.minor));
+	handleLinksChange(e) {
+		this.setState({ links: e.target.value });
 	}
 
 	handleBioChange(e) {
-		this.setState({ bio: e.target.value }, () => console.log('bio:', this.state.bio));
+		this.setState({ bio: e.target.value });
 	}
 	
 	// handle forms 
@@ -145,8 +145,8 @@ class ProfileForm extends Component {
 		this.setState({
 			legalFirstName: "",
             legalLastName: "",
-            major: "",
-            minor: "",
+            degrees: "",
+            links: "",
             img: "",
             bio: ""
 		});
@@ -159,8 +159,8 @@ class ProfileForm extends Component {
 			legalFirstName: this.state.legalFirstName,
 			legalLastName: this.state.legalLastName,
 			img: this.state.img,
-			major: this.state.major,
-			minor: this.state.minor,
+			degrees: this.state.degrees,
+			links: this.state.links,
 			bio: this.state.bio
 		};
 
@@ -170,11 +170,11 @@ class ProfileForm extends Component {
 
 	render() {
 
-        const { legalFirstName, legalLastName, major, minor, img, bio } = this.state;
+        const { legalFirstName, legalLastName, degrees, links, img, bio } = this.state;
 
         return(
         <div>
-            <p>  {legalFirstName} {legalLastName} {major} {minor} {img} {bio} </p> 
+            <p>  {legalFirstName} {legalLastName} {degrees} {links} {img} {bio} </p> 
         <Form id="form">
 			{/* Profile pic, first/last name, major/minor */}
             <Wrapper>
@@ -204,14 +204,14 @@ class ProfileForm extends Component {
           </LeftAlignSection>
 
           <LeftAlignSection>
-            <p>Major</p>
+            <p>Degrees</p>
             <SingleInput
 								inputType={'text'}
 								title={''}
-								name={'major'}
-								controlFunc={this.handleMajorChange}
-								content={major}
-								placeholder={'Major'} />	
+								name={'degrees'}
+								controlFunc={this.handleDegreesChange}
+								content={degrees}
+								placeholder={'No Degrees'} />	
           </LeftAlignSection> 
           </div>
 
@@ -228,14 +228,14 @@ class ProfileForm extends Component {
           </LeftAlignSection>
 
           <LeftAlignSection>
-            <p>Minor</p>
+            <p>Links</p>
             <SingleInput
 								inputType={'text'}
 								title={''}
-								name={'minor'}
-								controlFunc={this.handleMinorChange}
-								content={minor}
-								placeholder={'Minor'} />
+								name={'links'}
+								controlFunc={this.handleLinksChange}
+								content={links}
+								placeholder={'No Links'} />
 					</LeftAlignSection>
           </div>
       </Wrapper>
