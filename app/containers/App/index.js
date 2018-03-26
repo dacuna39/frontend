@@ -34,6 +34,9 @@ import Header from 'components/Header';
 import HeaderSignedIn from 'components/HeaderSignedIn';
 /**import component end*/
 
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+
 const BodyWrapper = styled.div`
   max-width: calc(1000px + 16px * 2);
   margin: 0 auto;

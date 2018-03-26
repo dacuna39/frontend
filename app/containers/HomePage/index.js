@@ -1,7 +1,5 @@
 /*
  * HomePage
- *
- * This is the first thing users see of our App, at the '/' route
  */
 
 import React from 'react';
@@ -14,16 +12,6 @@ import Wrapper from './Wrapper';
 import SignUpForm from './SignUpForm';
 
 import H1 from 'components/H1';
-
-/*
-function stringifyFormData(fd) {
-  const data = {};
-	for (let key of fd.keys()) {
-  	data[key] = fd.get(key);
-  }
-  return JSON.stringify(data, null, 2);
-}
-*/
   
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 

@@ -3,12 +3,9 @@ import styled from 'styled-components';
 
 import SingleInput from 'components/FormComponents/SingleInput';
 import TextArea from 'components/FormComponents/TextArea';
-//import Button from 'components/Button';
 
 import CenteredSection from './CenteredSection';
 import Form from './Form';
-//import Input from './Input'; delete the file!
-import Section from './Section';
 import messages from './messages';
 import Wrapper from './Wrapper';
 import Img from './Img';
@@ -73,14 +70,15 @@ const LeftAlignSection = styled.section`
 class ProfileForm extends Component {
 	constructor(props) {
 		super(props);
-		
+		this.link = 'https://tutor-find.herokuapp.com';
+
 		this.state = {
-			firstName: '',
-			lastName: '',
-			picture: '',
-			major: '',
-			minor: '',
-			bio: ''
+			legalFirstName: "",
+            legalLastName: "",
+            major: "",
+            minor: "",
+            img: "",
+            bio: ""
 		};
 
 		this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -91,20 +89,31 @@ class ProfileForm extends Component {
 		this.handleBioChange = this.handleBioChange.bind(this);
 	}
 
-	componentDidMount() { //loads user from heroku
-		fetch('https://tutor-find.herokuapp.com/users?userName=joetest')
-			.then(res => res.json())
-			.then(data => {
-				this.setState({ //loads values from user to data
-					firstName: data.firstName,
-					lastName: data.lastName,
-					picture: data.picture,
-					major: data.major,
-					minor: data.minor,
-					bio: data.bio
-				});
-			});
+	/*
+	componentWillMount() {
+		localStorage.getItem('studentInfo') && this.setState({
+				studentInfo: JSON.parse(localStorage.getItem('studentInfo')),
+				isLoading: false
+		})
 	}
+	*/
+
+	componentDidMount() {
+
+        fetch("https://tutor-find.herokuapp.com/students/1")
+        .then(response => response.json())
+        .then(data => this.setState({ //hits: data.hits
+          legalFirstName: data.legalFirstName,
+          legalLastName: data.legalLastName,
+          major: data.major,
+          minor: data.minor,
+          img: data.img,
+          bio: data.bio
+       }))
+       .catch(error => console.log('parsing failed', error));
+	}
+
+	// handle variable changes
 	
 	handleFirstNameChange(e) {
 		this.setState({ firstName: e.target.value }, () => console.log('firstName:', this.state.firstName));
@@ -130,15 +139,16 @@ class ProfileForm extends Component {
 		this.setState({ bio: e.target.value }, () => console.log('bio:', this.state.bio));
 	}
 	
+	// handle forms 
 	handleClearForm(e) {
 		e.preventDefault();
 		this.setState({
-			firstName: '',
-			lastName: '',
-			picture: '',
-			major: '',
-			minor: '',
-			bio: ''
+			legalFirstName: "",
+            legalLastName: "",
+            major: "",
+            minor: "",
+            img: "",
+            bio: ""
 		});
 	}
 
@@ -146,34 +156,37 @@ class ProfileForm extends Component {
 		e.preventDefault();
 
 		const formPayload = {
-			firstName: this.state.firstName,
-			lastName: this.state.lastName,
-			picture: this.state.picture,
+			legalFirstName: this.state.firstName,
+			legalLastName: this.state.lastName,
+			img: this.state.picture,
 			major: this.state.major,
 			minor: this.state.minor,
 			bio: this.state.bio
 		};
 
 		console.log('Send this in a POST request:', formPayload);
-		this.handleClearForm(e);
+		//this.handleClearForm(e);
 	}
 
 	render() {
-		return (
-			<div>
-			<Form className="container" onSubmit={this.handleFormSubmit}>
 
-			{/* Profile pic, first and last name */}
-      <Wrapper>
+        const { legalFirstName, legalLastName, major, minor, img, bio } = this.state;
+
+        return(
+        <div>
+            <p>  {legalFirstName} {legalLastName} {major} {minor} {img} {bio} </p> 
+        <Form id="form">
+			{/* Profile pic, first/last name, major/minor */}
+            <Wrapper>
           <CenteredSection>
           <p> Profile Picture </p>
             <Img src={profile} alt="Profile Picture" />
 						<SingleInput
-								inputType={'file'}
+								inputType={'text'}
 								title={''}
 								name={'picture'}
 								controlFunc={this.handlePictureChange}
-								content={this.state.picture}
+								content={img}
 								placeholder={'No File Selected'} />
           </CenteredSection>
           
@@ -185,8 +198,9 @@ class ProfileForm extends Component {
 								title={''}
 								name={'firstName'}
 								controlFunc={this.handleFirstNameChange}
-								content={this.state.firstName}
-								placeholder={'First Name'} />	
+								content={legalFirstName}
+								placeholder={"First Name"}
+								/>	
           </LeftAlignSection>
 
           <LeftAlignSection>
@@ -196,7 +210,7 @@ class ProfileForm extends Component {
 								title={''}
 								name={'major'}
 								controlFunc={this.handleMajorChange}
-								content={this.state.major}
+								content={major}
 								placeholder={'Major'} />	
           </LeftAlignSection> 
           </div>
@@ -209,10 +223,9 @@ class ProfileForm extends Component {
 								title={''}
 								name={'lastName'}
 								controlFunc={this.handleLastNameChange}
-								content={this.state.lastName}
+								content={legalLastName}
 								placeholder={'Last Name'} />	
           </LeftAlignSection>
-           
 
           <LeftAlignSection>
             <p>Minor</p>
@@ -221,7 +234,7 @@ class ProfileForm extends Component {
 								title={''}
 								name={'minor'}
 								controlFunc={this.handleMinorChange}
-								content={this.state.minor}
+								content={minor}
 								placeholder={'Minor'} />
 					</LeftAlignSection>
           </div>
@@ -256,11 +269,11 @@ class ProfileForm extends Component {
             <p> <a href="/"> Deactivate Account </a> </p>
           </CenteredSection>
       </Wrapper>
-
-			</Form>
-			</div>
-		);
-	}
+	  </Form>
+	
+    </div>
+    ) //end return
+	}// end render
 }
 
 export default ProfileForm;
