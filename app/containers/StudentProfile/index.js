@@ -1,15 +1,11 @@
 /*
  * StudentProfile
- *
- * List all the features
  */
+
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 
 import CenteredSection from './CenteredSection';
-//import Input from './Input'; delete the file!
-import messages from './messages';
 import ProfileForm from './ProfileForm';
 
 import H1 from 'components/H1';

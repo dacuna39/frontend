@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
+//import request from "../../../node_modules/superagent/superagent"; uninstall this dependency!!!
 
 import SingleInput from 'components/FormComponents/SingleInput';
 import Select from 'components/FormComponents/Select';
@@ -48,31 +49,28 @@ class SignUpForm extends Component {
 			email: '',
 			password: '',
 			confirmPassword: '',
+
 			accountOptions: ['Student','Tutor'],
-			accountSelection: 'Student'
+			accountSelection: ''
 		};
 
+		this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
+		this.handleLastNameChange = this.handleLastNameChange.bind(this);
 		this.handleUserNameChange = this.handleUserNameChange.bind(this);
 		this.handleEmailChange = this.handleEmailChange.bind(this);
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
 		this.handleAccountOptionSelect = this.handleAccountOptionSelect.bind(this);
 	}
-	componentDidMount() { //to load values from database, useful for Feed pages!! See ProfileForm.js
-		fetch('https://tutor-find.herokuapp.com/users')
-			.then(res => res.json())
-			.then(data => {
-				this.setState({
-					userName: data.userName,
-					email: data.email,
-					password: data.password,
-					//confirmPassword: data.confirmPassword
-					accountOptions: data.accountOptions,
-					accountSelection: data.accountSelection
-				});
-			});
+
+	handleFirstNameChange(e) {
+		this.setState({ firstName: e.target.value }, () => console.log('firstName:', this.state.firstName));
 	}
-	
+
+	handleLastNameChange(e) {
+		this.setState({ lastName: e.target.value }, () => console.log('lastName:', this.state.lastName));
+	}
+
 	handleUserNameChange(e) {
 		this.setState({ userName: e.target.value }, () => console.log('userName:', this.state.userName));
 	}
@@ -96,46 +94,80 @@ class SignUpForm extends Component {
 	handleClearForm(e) {
 		e.preventDefault();
 		this.setState({
+			firstName: '',
+			lastName: '',
 			userName: '',
 			email: '',
 			password: '',
 			confirmPassword: '',
-			accountOptions: ['Student','Tutor'],
-			accountSelection: 'Student'
 		});
 	}
+
 	handleFormSubmit(e) {
+
 		e.preventDefault();
-
 		const formPayload = {
-			userName: this.state.userName,
-			email: this.state.email,
-			password: this.state.password,
+			userId: 500,
+			userName: "dacuna39",
+			email: "dacuna39@yahoo.com",
+			salt: "asdf200",
+			passhash: "hello",
+			userType: "student",
+			legalFirstName: "Diego",
+			legalLastName: "Acuna",
+			bio: "bio",
+			major: "major",
+			minor: "minor",
+			img: "No Image Selected",
+			active: true,
+			creationDate: 1000000000000
 			//confirmPassword: this.state.confirmPassword,
-			accountSelection: this.state.accountSelection
+			//accountSelection: this.state.accountSelection
 		};
-
-		console.log('Send this in a POST request:', formPayload);
-		fetch('https://tutor-find.herokuapp.com/users', {
-  			method: 'POST',
-  			headers: {
-    			'Accept': 'application/json',
-    			'Content-Type': 'application/json',
- 			 },
-  			body: JSON.stringify({
-    			userName: this.state.userName,
-				email: this.state.email,
-				password: this.state.password
-  			})
+		
+		fetch('https://tutor-find.herokuapp.com/students/insert', { //post entries to database :)
+			method: 'post',
+			headers: {
+			  //"Content-type": "application/x-www-form-urlencoded",
+			  //'Access-Control-Allow-Origin':'*',
+			  'Accept': 'application/json',
+			  'Content-Type': 'application/json',	
+			},
+			body: JSON.stringify(formPayload)					
 		})
+		.then(response => console.log('response: ', response))
+		//.then(parsedJSON => console.log(parsedJSON.results))
+		.catch(error => console.log('parsing failed', error))
 
-
-		this.handleClearForm(e);
+		alert(JSON.stringify(formPayload));
 	}
+
 	render() {
 		return (
 			<div>
+			<p> I am a </p>
+				<Select
+					name={'accountSelection'}
+					placeholder={'------'}
+					controlFunc={this.handleAccountOptionSelect}
+					options={this.state.accountOptions}
+					selectedOption={this.state.accountSelection} />	
+
 			<Form className="container" onSubmit={this.handleFormSubmit}>
+				<SingleInput
+					inputType={'text'}
+					title={''}
+					name={'firstName'}
+					controlFunc={this.handleFirstNameChange}
+					content={this.state.firstName}
+					placeholder={'First Name'} />	
+				<SingleInput
+					inputType={'text'}
+					title={''}
+					name={'lastName'}
+					controlFunc={this.handleLastNameChange}
+					content={this.state.lastName}
+					placeholder={'Last Name'} />	
 				<SingleInput
 					inputType={'text'}
 					title={''}
@@ -164,14 +196,8 @@ class SignUpForm extends Component {
 					controlFunc={this.handleConfirmPasswordChange}
 					content={this.state.confirmPassword}
 					placeholder={'Confirm Password'} />
-				<p> I am a 
-				<Select
-					name={'accountSelection'}
-					placeholder={''}
-					controlFunc={this.handleAccountOptionSelect}
-					options={this.state.accountOptions}
-					selectedOption={this.state.accountSelection} />
-				</p>
+
+				<p id="errorMessage"> </p>
 				<SubmitInput
 					type="submit"
 					value="Sign Up"

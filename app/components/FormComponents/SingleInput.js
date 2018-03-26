@@ -23,10 +23,10 @@ const SingleInput = (props) => (
 );
 
 SingleInput.propTypes = {
-	inputType: React.PropTypes.oneOf(['text', 'number']).isRequired,
+	inputType: React.PropTypes.oneOf(['text', 'number','file','email','password']).isRequired,
 	title: React.PropTypes.string.isRequired,
 	name: React.PropTypes.string.isRequired,
-	controlFunc: React.PropTypes.func.isRequired,
+	controlFunc: React.PropTypes.func,
 	content: React.PropTypes.oneOfType([
 		React.PropTypes.string,
 		React.PropTypes.number,
