@@ -1,0 +1,15 @@
+{"postId": 2,
+    "posterType": "tutor",
+    "ownerId": 2,
+    "subjectId": 2,
+    "location": "NDNU Library",
+    "availability": {"Monday":"Morning","Wednesday":"Afternoon"},
+    "acceptsPaid": false,
+    "rate": "10",
+    "unit": "euros/hour",
+    "createdTs": "2018-01-03 12:24:46",
+    "active": true,
+    "acceptsGroupTutoring": false,
+    "currentlySignedUp": 0
+}
+    
