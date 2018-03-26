@@ -42,9 +42,11 @@ const Form = styled.form`
 class SignUpForm extends Component {
 	constructor(props) {
 		super(props);
+		this.link = 'https://tutor-find.herokuapp.com';
+
 		this.state = {
-			firstName: '',
-			lastName: '',
+			legalFirstName: '',
+			legalLastName: '',
 			userName: '',
 			email: '',
 			password: '',
@@ -61,14 +63,16 @@ class SignUpForm extends Component {
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
 		this.handleAccountOptionSelect = this.handleAccountOptionSelect.bind(this);
+		this.handleFormSubmit = this.handleFormSubmit.bind(this);
+		
 	}
 
 	handleFirstNameChange(e) {
-		this.setState({ firstName: e.target.value }, () => console.log('firstName:', this.state.firstName));
+		this.setState({ legalFirstName: e.target.value }, () => console.log('legalFirstName:', this.state.legalFirstName));
 	}
 
 	handleLastNameChange(e) {
-		this.setState({ lastName: e.target.value }, () => console.log('lastName:', this.state.lastName));
+		this.setState({ legalLastName: e.target.value }, () => console.log('legalLastName:', this.state.legalLastName));
 	}
 
 	handleUserNameChange(e) {
@@ -93,58 +97,87 @@ class SignUpForm extends Component {
 	
 	handleClearForm(e) {
 		e.preventDefault();
-		this.setState({
-			firstName: '',
-			lastName: '',
+		this.state = {
+			legalFirstName: '',
+			legalLastName: '',
 			userName: '',
 			email: '',
 			password: '',
 			confirmPassword: '',
-		});
+
+			accountOptions: ['Student','Tutor'],
+			accountSelection: ''
+		};
 	}
 
 	handleFormSubmit(e) {
 
 		e.preventDefault();
-		const formPayload = {
-			userId: 500,
-			userName: "dacuna39",
-			email: "dacuna39@yahoo.com",
-			salt: "asdf200",
-			passhash: "hello",
+
+		//user Put
+		if(this.state.accountSelection == 'Student'){
+
+		const studentPayload = {
+			userName: this.state.userName,
+			email: this.state.email,
+			passhash: this.state.passhash,
 			userType: "student",
-			legalFirstName: "Diego",
-			legalLastName: "Acuna",
-			bio: "bio",
-			major: "major",
-			minor: "minor",
+			legalFirstName: this.state.legalFirstName,
+			legalLastName: this.state.legalLastName,
+			bio: "",
+			major: "",
+			minor: "",
 			img: "No Image Selected",
-			active: true,
-			creationDate: 1000000000000
-			//confirmPassword: this.state.confirmPassword,
-			//accountSelection: this.state.accountSelection
 		};
 		
-		fetch('https://tutor-find.herokuapp.com/students/insert', { //post entries to database :)
+		fetch('https://tutor-find.herokuapp.com/students', { //post entries to database :)
 			method: 'post',
 			headers: {
 			  //"Content-type": "application/x-www-form-urlencoded",
 			  //'Access-Control-Allow-Origin':'*',
-			  'Accept': 'application/json',
 			  'Content-Type': 'application/json',	
 			},
-			body: JSON.stringify(formPayload)					
+			body: JSON.stringify(studentPayload)					
 		})
-		.then(response => console.log('response: ', response))
-		//.then(parsedJSON => console.log(parsedJSON.results))
 		.catch(error => console.log('parsing failed', error))
 
-		alert(JSON.stringify(formPayload));
+		alert('studentPayload' + JSON.stringify(studentPayload));
+		}
+
+		//Tutor put
+		else if (this.state.accountSelection == 'Tutor'){
+			const tutorPayload = {
+				userName: this.state.userName,
+				email: this.state.email,
+				passhash: this.state.passhash,
+				userType: "tutor",
+				legalFirstName: this.state.legalFirstName,
+				legalLastName: this.state.legalLastName,
+				degrees: "",
+				links: "",
+				bio: "",
+				img: "No Image Selected",
+			};
+			
+			fetch('https://tutor-find.herokuapp.com/tutors', { //post entries to database :)
+				method: 'post',
+				headers: {
+				  //"Content-type": "application/x-www-form-urlencoded",
+				  //'Access-Control-Allow-Origin':'*',
+				  'Content-Type': 'application/json',	
+				},
+				body: JSON.stringify(tutorPayload)					
+			})
+			.catch(error => console.log('parsing failed', error))
+	
+			alert('tutorPayload' + JSON.stringify(tutorPayload));
+		}
 	}
 
 	render() {
 		return (
 			<div>
+			<Form className="container" onSubmit={this.handleFormSubmit}>
 			<p> I am a </p>
 				<Select
 					name={'accountSelection'}
@@ -152,21 +185,19 @@ class SignUpForm extends Component {
 					controlFunc={this.handleAccountOptionSelect}
 					options={this.state.accountOptions}
 					selectedOption={this.state.accountSelection} />	
-
-			<Form className="container" onSubmit={this.handleFormSubmit}>
 				<SingleInput
 					inputType={'text'}
 					title={''}
 					name={'firstName'}
 					controlFunc={this.handleFirstNameChange}
-					content={this.state.firstName}
+					content={this.state.legalFirstName}
 					placeholder={'First Name'} />	
 				<SingleInput
 					inputType={'text'}
 					title={''}
 					name={'lastName'}
 					controlFunc={this.handleLastNameChange}
-					content={this.state.lastName}
+					content={this.state.legalLastName}
 					placeholder={'Last Name'} />	
 				<SingleInput
 					inputType={'text'}

@@ -3,14 +3,11 @@ import PropTypes from 'prop-types';
 import CheckboxTableStyle from './checkboxTableStyle';
 import styled from 'styled-components';
 
-
-
 const CheckboxTableStyle = styled.CheckboxTableStyle`
     position: fixed;
     left: 0;
     text-align: left;
 `;
-
 
 function TableCheckbox() {
     return (
