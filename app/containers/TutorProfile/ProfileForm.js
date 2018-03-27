@@ -71,6 +71,7 @@ class ProfileForm extends Component {
 	constructor(props) {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
+		this.linkUser = '/tutors/4';
 
 		this.state = {
 			legalFirstName: "",
@@ -87,6 +88,8 @@ class ProfileForm extends Component {
 		this.handleDegreesChange = this.handleDegreesChange.bind(this);
 		this.handleLinksChange = this.handleLinksChange.bind(this);
 		this.handleBioChange = this.handleBioChange.bind(this);
+		this.validateForm = this.validateForm.bind(this);
+		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 	}
 
 	/*
@@ -100,7 +103,7 @@ class ProfileForm extends Component {
 
 	componentDidMount() {
 
-        fetch("https://tutor-find.herokuapp.com/tutors/4")
+        fetch(this.link + this.linkUser)
         .then(response => response.json())
         .then(data => this.setState({ 
           legalFirstName: data.legalFirstName,
@@ -139,34 +142,58 @@ class ProfileForm extends Component {
 		this.setState({ bio: e.target.value });
 	}
 	
-	// handle forms 
-	handleClearForm(e) {
-		e.preventDefault();
-		this.setState({
-			legalFirstName: "",
-            legalLastName: "",
-            degrees: "",
-            links: "",
-            img: "",
-            bio: ""
-		});
+	/* handle forms */
+
+	validateForm(){
+
+		if(this.state.legalFirstName == ''){
+			alert('Please enter your first name');
+			return false;
+		}
+		else if(this.state.legalLastName == ''){
+			alert('Please enter your last name');
+			return false;
+		}
+		else if(this.state.bio == ''){
+			alert('Please write a bio. Express yourself!');
+			return false;
+		}		
+		else {
+			return true;
+		}
 	}
 
 	handleFormSubmit(e) {
+
 		e.preventDefault();
 
-		const formPayload = {
-			legalFirstName: this.state.legalFirstName,
-			legalLastName: this.state.legalLastName,
-			img: this.state.img,
-			degrees: this.state.degrees,
-			links: this.state.links,
-			bio: this.state.bio
-		};
+			if(this.validateForm()){
 
-		console.log('Send this in a POST request:', formPayload);
-		//this.handleClearForm(e);
-	}
+			const formPayload = {
+				legalFirstName: this.state.legalFirstName,
+				legalLastName: this.state.legalLastName,
+				img: this.state.img,
+				degrees: this.state.degrees,
+				links: this.state.links,
+				bio: this.state.bio
+			};
+
+			fetch(this.link + this.linkUser, { //post profile updates to database :)
+				method: 'post',
+				headers: {
+					//"Content-type": "application/x-www-form-urlencoded",
+					//'Access-Control-Allow-Origin':'*',
+					'Accept': 'application/json',
+					'Content-Type': 'application/json',	
+				},
+				body: JSON.stringify(formPayload)					
+			})
+			.catch(error => console.log('parsing failed', error))
+
+			alert('formPayload' + JSON.stringify(formPayload));
+
+		}// end if
+	}// end handleformsubmit
 
 	render() {
 
@@ -175,101 +202,100 @@ class ProfileForm extends Component {
         return(
         <div>
             <p>  {legalFirstName} {legalLastName} {degrees} {links} {img} {bio} </p> 
-        <Form id="form">
+			<Form onSubmit={this.handleFormSubmit}>
 			{/* Profile pic, first/last name, major/minor */}
             <Wrapper>
-          <CenteredSection>
-          <p> Profile Picture </p>
-            <Img src={profile} alt="Profile Picture" />
-						<SingleInput
-								inputType={'text'}
-								title={''}
-								name={'picture'}
-								controlFunc={this.handlePictureChange}
-								content={img}
-								placeholder={'No File Selected'} />
-          </CenteredSection>
+          	<CenteredSection>
+          		<p> Profile Picture </p>
+            	<Img src={profile} alt="Profile Picture" />
+					<SingleInput
+						inputType={'text'}
+						title={''}
+						name={'picture'}
+						controlFunc={this.handlePictureChange}
+						content={img}
+						placeholder={'No File Selected'} />
+          		</CenteredSection>
           
-          <div>
-          <LeftAlignSection>
-            <p>First Name</p>
-						<SingleInput
-								inputType={'text'}
-								title={''}
-								name={'firstName'}
-								controlFunc={this.handleFirstNameChange}
-								content={legalFirstName}
-								placeholder={"First Name"}
-								/>	
-          </LeftAlignSection>
+          	<div>
+          		<LeftAlignSection>
+            		<p>First Name</p>
+					<SingleInput
+						inputType={'text'}
+						title={''}
+						name={'firstName'}
+						controlFunc={this.handleFirstNameChange}
+						content={legalFirstName}
+						placeholder={"First Name"}/>	
+          		</LeftAlignSection>
 
-          <LeftAlignSection>
-            <p>Degrees</p>
-            <SingleInput
-								inputType={'text'}
-								title={''}
-								name={'degrees'}
-								controlFunc={this.handleDegreesChange}
-								content={degrees}
-								placeholder={'No Degrees'} />	
-          </LeftAlignSection> 
-          </div>
+            	<LeftAlignSection>
+            		<p>Degrees</p>
+            		<SingleInput
+						inputType={'text'}
+						title={''}
+						name={'degrees'}
+						controlFunc={this.handleDegreesChange}
+						content={degrees}
+						placeholder={'Degrees'} />	
+          		</LeftAlignSection> 
+         	</div>
 
-          <div>
-          <LeftAlignSection>
-            <p>Last Name</p>
-            <SingleInput
-								inputType={'text'}
-								title={''}
-								name={'lastName'}
-								controlFunc={this.handleLastNameChange}
-								content={legalLastName}
-								placeholder={'Last Name'} />	
-          </LeftAlignSection>
+          	<div>
+          		<LeftAlignSection>
+            		<p>Last Name</p>
+            		<SingleInput
+						inputType={'text'}
+						title={''}
+						name={'lastName'}
+						controlFunc={this.handleLastNameChange}
+						content={legalLastName}
+						placeholder={'Last Name'} />	
+         		</LeftAlignSection>
 
-          <LeftAlignSection>
-            <p>Links</p>
-            <SingleInput
-								inputType={'text'}
-								title={''}
-								name={'links'}
-								controlFunc={this.handleLinksChange}
-								content={links}
-								placeholder={'No Links'} />
-					</LeftAlignSection>
-          </div>
-      </Wrapper>
+            	<LeftAlignSection>
+             		<p>Links</p>
+            		<SingleInput
+						inputType={'text'}
+						title={''}
+						name={'links'}
+						controlFunc={this.handleLinksChange}
+						content={links}
+						placeholder={'Links'} />
+				</LeftAlignSection>
+          	</div>
+    	    </Wrapper>
 
-      {/* Bio */}
-      <Wrapper>
-          <CenteredSection>
-            <p> Bio </p>
-						<TextArea
-								inputType={'text'}
-								rows={5}
-								cols={100}
-								resize={false}
-								title={''}
-								name={'bio'}
-								controlFunc={this.handleBioChange}
-								content={this.state.bio}
-								placeholder={'Experience, details, and other juicy info goes here!'} />
-          </CenteredSection>
-      </Wrapper>
+        	{/* Bio */}
+     		<Wrapper>
+          		<CenteredSection>
+            	<p> Bio </p>
+					<TextArea
+						inputType={'text'}
+						rows={5}
+						cols={100}
+						resize={false}
+						title={''}
+						name={'bio'}
+						controlFunc={this.handleBioChange}
+						content={this.state.bio}
+						placeholder={'Experience, details, and other juicy info goes here!'} />
+          		</CenteredSection>
+		    </Wrapper>
 
-      {/* save, cancel, change password, deactivate account */}
-      <Wrapper>
-          <CenteredSection>
-						<SubmitInput 
-								type="submit"
-								value="Save Changes" />
-						<Button> Cancel </Button>
+	      	{/* save, cancel, change password, deactivate account */}
+    	  	<Wrapper>
+        	  	<CenteredSection>
+					<SubmitInput 
+						type="submit"
+						value="Save Changes" />
+					<Button> Back </Button>
 
-            <p> <a href="/"> Change Password </a> </p>
-            <p> <a href="/"> Deactivate Account </a> </p>
-          </CenteredSection>
-      </Wrapper>
-	  </Form>
+		        	<p> <a href="/tutorProfile"> Change Password </a> </p>
+        	    	<p> <a href="/tutorProfile"> Deactivate Account </a> </p>
+		        </CenteredSection>
+      		</Wrapper>
+	  	</Form>
 	
     </div>
     ) //end return
