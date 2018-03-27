@@ -46,6 +46,8 @@ class SignInForm extends Component {
 
 		this.handleEmailChange = this.handleEmailChange.bind(this);
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
+		this.handleFormSubmit = this.handleFormSubmit.bind(this);
+		this.validateForm = this.validateForm.bind(this);
 	}
 	
 	handleEmailChange(e) {
@@ -62,6 +64,10 @@ class SignInForm extends Component {
 			email: '',
 			password: ''
 		});
+	}
+
+	validateForm(){
+		
 	}
 
 	handleFormSubmit(e) { //validates and submits the form to the server
