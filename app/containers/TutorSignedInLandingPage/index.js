@@ -35,6 +35,17 @@ import H1 from 'components/H1';
 
 export default class TutorSignedInLandingPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   
+    constructor(props) {
+		super(props);
+		this.link = 'https://tutor-find.herokuapp.com';
+
+		this.state = {
+            rate: '',
+            unit: '',
+            acceptsGroupTutoring: false,
+            
+        };
+    }
 
  shouldComponentUpdate() {
     return false;
@@ -49,10 +60,8 @@ export default class TutorSignedInLandingPage extends React.Component { // eslin
     <meta name="description" content="Description of Tutor Landing Page" />
     </Helmet>
 
-
     <div>
     <Form onSubmit={this.handleSubmit}>
-    
 
    {/* Page */}
    <CenteredSection>

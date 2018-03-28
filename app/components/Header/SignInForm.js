@@ -46,6 +46,8 @@ class SignInForm extends Component {
 
 		this.handleEmailChange = this.handleEmailChange.bind(this);
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
+		this.handleFormSubmit = this.handleFormSubmit.bind(this);
+		this.validateForm = this.validateForm.bind(this);
 	}
 	
 	handleEmailChange(e) {
@@ -56,12 +58,10 @@ class SignInForm extends Component {
 		this.setState({ password: e.target.value }, () => console.log('password:', this.state.password));
 	}
 	
-	handleClearForm(e) { // clears all fields of the form
-		e.preventDefault();
-		this.setState({
-			email: '',
-			password: ''
-		});
+	/* handle form */
+
+	validateForm(){
+		
 	}
 
 	handleFormSubmit(e) { //validates and submits the form to the server

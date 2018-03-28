@@ -13,7 +13,6 @@ import { Switch, Route } from 'react-router-dom';
 
 /**import containers*/
 import HomePage from 'containers/HomePage/Loadable';
-import FeaturePage from 'containers/FeaturePage/Loadable';
 import StudentProfile from 'containers/StudentProfile/Loadable';
 import StudentFeed from 'containers/StudentFeed/Loadable';
 import TutorProfile from 'containers/TutorProfile/Loadable';
@@ -76,7 +75,6 @@ export default function App() {
 	  <BodyWrapper>
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route path="/features" component={FeaturePage} />
 		<Route path="/StudentProfile" component={StudentProfile} />
 		<Route path="/StudentFeed" component={StudentFeed} />
 		<Route path="/TutorProfile" component={TutorProfile} />
@@ -87,6 +85,7 @@ export default function App() {
     <Route path="/StudentSignedInLandingPage" component={StudentSignedInLandingPage} />
     <Route path="/ArchivedPosts" component={ArchivedPosts} />
     <Route path="/AdminInbox" component={AdminInbox} />
+    <Route path="/AdminPosts" component={AdminPosts} />
     <Route path="/TutorSignedInLandingPage" component={TutorSignedInLandingPage} />
         <Route path="" component={NotFoundPage} />
       </Switch>
