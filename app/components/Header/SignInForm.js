@@ -58,13 +58,7 @@ class SignInForm extends Component {
 		this.setState({ password: e.target.value }, () => console.log('password:', this.state.password));
 	}
 	
-	handleClearForm(e) { // clears all fields of the form
-		e.preventDefault();
-		this.setState({
-			email: '',
-			password: ''
-		});
-	}
+	/* handle form */
 
 	validateForm(){
 		
