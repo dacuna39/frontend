@@ -56,11 +56,6 @@ componentDidMount() { //loads user from heroku
       });
   }
 
-  
-
-    console.log('Send this in a POST request:', formPayload);
-    this.handleClearForm(e);
-  }
 
 
 {/*Table Style CSS goes here.*/}
