@@ -8,10 +8,8 @@ import TextArea from 'components/FormComponents/TextArea';
 import CenteredSection from './CenteredSection';
 import Form from './Form';
 //import Input from './Input'; delete the file!
-import Section from './Section';
-import messages from './messages';
-import Wrapper from './Wrapper';
-import Img from './Img';
+import TableStyle from 'components/Table/TableStyle';
+import Button from 'components/Button';
 
 
 class Table extends Component {
@@ -19,58 +17,72 @@ class Table extends Component {
     super(props);
     
     this.state = {
-      activePost: '',
+      active: '',
       posterType: '',
       subjectId: '',
       availability: '',
       rate: '',
       unit: '',
-      createdTime: '',
-      acceptsGroup: ''
+      createdTs: '',
+      acceptsGroupTutoring: ''
     };
 
-    this.handleActivePostChange = this.handleActivePostChange.bind(this);
-    this.handlePosterTypeChange = this.handlePosterTypeChange.bind(this);
-    this.handleSubjectIdChange = this.handleSubjectIdChange.bind(this);
-    this.handleAvailabilityChange = this.handleAvailabilityChange.bind(this);
-    this.handleRateChange = this.handleRateChange.bind(this);
-    this.handleUnitChange = this.handleUnitChange.bind(this);
-    this.handleCreatedTimeChange = this.handleCreatedTimeChange.bind(this);
-    this.handleAcceptsGroupChange = this.handleAcceptsGroupChange.bind(this);
+    // this.handleActiveChange = this.handleActiveChange.bind(this);
+    // this.handlePosterTypeChange = this.handlePosterTypeChange.bind(this);
+    // this.handleSubjectIdChange = this.handleSubjectIdChange.bind(this);
+    // this.handleAvailabilityChange = this.handleAvailabilityChange.bind(this);
+    // this.handleRateChange = this.handleRateChange.bind(this);
+    // this.handleUnitChange = this.handleUnitChange.bind(this);
+    // this.handleCreatedTsChange = this.handleCreatedTsChange.bind(this);
+    // this.handleAcceptsGroupTutoringChange = this.handleAcceptsGroupTutoringChange.bind(this);
   }
 
 componentDidMount() { //loads user from heroku
-    fetch('https://tutor-find.herokuapp.com/posts?type=student')
+    fetch('https://tutor-find.herokuapp.com/posts')
       .then(res => res.json())
       .then(data => {
         this.setState({ //loads values from user to data
-          activePost: data.active,
+          active: data.active,
           posterType: data.posterType,
           subjectId: data.subjectId,
           availability: data.availability,
           rate: data.rate,
           unit: data.unit,
-          createdTime: data.createdTs,
-          acceptsGroup: data.acceptsGroupTutoring
+          createdTs: data.createdTs,
+          acceptsGroupTutoring: data.acceptsGroupTutoring
         });
-      });
+      })
+  }
+
+  handleFormSubmit(e) {
+    e.preventDefault();
+
+    const formPayload = {
+      active: this.state.active,
+      posterType: this.state.posterType,
+      subjectId: this.state.subjectId,
+      availability: this.state.availability,
+      rate: this.state.rate,
+      unit: this.state.unit, 
+      createdTs: this.state.createdTs,
+      acceptsGroupTutoring: this.state.acceptsGroupTutoring
+    };
+
+    console.log('state', formPayload);
   }
 
 
-
-{/*Table Style CSS goes here.*/}
-
 render() {
-    return (
 
-<CenteredSection>
+    return (
+    <div>
      <TableStyle>
              <tbody>
               <tr>
-                <th><center><label>Student Post Name</label></center></th>
+                <th><center><label>{this.state.subjectId}</label></center></th>
                </tr>
                <tr> 
-                <th><center><label>Student Post Rate</label></center></th>
+                <th><center><label>{this.state.unit}{this.state.rate}</label></center></th>
               </tr>
               <tr>
                 <th><label>Student Post Desired Subject</label></th>
@@ -82,10 +94,16 @@ render() {
                 <th><label>Willing to tutor groups?</label></th>
               </tr>
                <tr>
-            <th><Button>Apply</Button></th>
-        </tr>
+              <th><Button>Apply</Button></th>
+             </tr>
             </tbody>
      </TableStyle>
-  </CenteredSection>
-  );
+    </div>
+    
+    );
+  }
 }
+
+export default Table;
+
+

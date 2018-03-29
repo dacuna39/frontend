@@ -29,23 +29,12 @@ import graduationcap from './images/graduation-cap.png';
 import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
 import TableStyle from 'components/Table/TableStyle';
 import Button from 'components/Button';
+import Table from './Table';
 
 import H1 from 'components/H1';
 
 
 export default class TutorSignedInLandingPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  
-    constructor(props) {
-		super(props);
-		this.link = 'https://tutor-find.herokuapp.com';
-
-		this.state = {
-            rate: '',
-            unit: '',
-            acceptsGroupTutoring: false,
-            
-        };
-    }
 
  shouldComponentUpdate() {
     return false;
@@ -118,28 +107,7 @@ export default class TutorSignedInLandingPage extends React.Component { // eslin
 
   {/*For every request - we need another centered section*/}
   <CenteredSection>
-     <TableStyle>
-             <tbody>
-              <tr>
-                <th><center><label>Student Post Name</label></center></th>
-               </tr>
-               <tr> 
-                <th><center><label>Student Post Rate</label></center></th>
-              </tr>
-              <tr>
-                <th><label>Student Post Desired Subject</label></th>
-              </tr>
-              <tr>
-                <th><label>Student Post Description</label></th>
-              </tr>
-              <tr>
-                <th><label>Willing to tutor groups?</label></th>
-              </tr>
-               <tr>
-            <th><Button>Apply</Button></th>
-        </tr>
-            </tbody>
-     </TableStyle>
+     <Table />
   </CenteredSection>
 
 
