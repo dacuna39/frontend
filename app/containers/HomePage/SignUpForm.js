@@ -35,22 +35,20 @@ const SubmitInput = styled.input`
   }
 `;
 
-//form css
-
-
 class SignUpForm extends Component {
 	constructor(props) {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
 
 		this.state = {
-			legalFirstName: '',
-			legalLastName: '',
+			
 			userName: '',
 			email: '',
 			password: '',
-			confirmPassword: '',
+			legalFirstName: '',
+			legalLastName: '',
 
+			confirmPassword: '',
 			accountOptions: ['Student','Tutor'],
 			accountSelection: ''
 		};
@@ -93,21 +91,6 @@ class SignUpForm extends Component {
 
 	handleAccountOptionSelect(e) {
 		this.setState({ accountSelection: e.target.value }, () => console.log('accountType:', this.state.accountSelection));
-	}
-	
-	handleClearForm(e) {
-		e.preventDefault();
-		this.state = {
-			legalFirstName: '',
-			legalLastName: '',
-			userName: '',
-			email: '',
-			password: '',
-			confirmPassword: '',
-
-			accountOptions: ['Student','Tutor'],
-			accountSelection: ''
-		};
 	}
 
 	validateForm(){
@@ -154,23 +137,28 @@ class SignUpForm extends Component {
 			if(this.state.accountSelection == 'Student'){
 
 				const studentPayload = {
+					userId: 2021, //Note: for now you will have to change the userId every time
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,
+					salt: "",
 					userType: "student",
+
 					legalFirstName: this.state.legalFirstName,
 					legalLastName: this.state.legalLastName,
 					bio: "",
+					img: "No Image Selected",
+
 					major: "",
 					minor: "",
-					img: "No Image Selected",
+
+					active: true,
+					creationDate: Math.floor(Date.now()/1000),						
 				};
 		
 				fetch('https://tutor-find.herokuapp.com/students', { //post entries to database :)
 					method: 'put',
 					headers: {
-					  //"Content-type": "application/x-www-form-urlencoded",
-					  //'Access-Control-Allow-Origin':'*',
 					  'Accept': 'application/json',
 					  'Content-Type': 'application/json',	
 					},
@@ -184,23 +172,29 @@ class SignUpForm extends Component {
 			//Tutor put
 			else if (this.state.accountSelection == 'Tutor'){
 				const tutorPayload = {
+					userId: 2022, //Note: for now you will have to change the userId every time
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,
+					salt: "",
 					userType: "tutor",
+
 					legalFirstName: this.state.legalFirstName,
 					legalLastName: this.state.legalLastName,
-					degrees: "",
-					links: "",
 					bio: "",
 					img: "No Image Selected",
+
+					degrees: "",
+					links: "",
+
+					active: true,
+					timestamp: Math.floor(Date.now()/1000),
+					ratings: [],
 				};
 				
 				fetch('https://tutor-find.herokuapp.com/tutors', { //post entries to database :)
 					method: 'put',
 					headers: {
-					  //"Content-type": "application/x-www-form-urlencoded",
-					  //'Access-Control-Allow-Origin':'*',
 					  'Accept': 'application/json',
 					  'Content-Type': 'application/json',	
 					},

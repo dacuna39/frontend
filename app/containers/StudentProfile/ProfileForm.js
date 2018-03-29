@@ -71,15 +71,25 @@ class ProfileForm extends Component {
 	constructor(props) {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
-		this.linkUser = '/students/1';
+		this.linkUser = '/students/2020';
 
 		this.state = {
+			userName: "",
+			email: "",
+			salt: "",
+			passhash: "",
+			userType: "",
+
 			legalFirstName: "",
             legalLastName: "",
             major: "",
             minor: "",
             img: "",
-            bio: ""
+			bio: "",
+			
+			active: true,
+			timestamp: 10000000000000,
+			ratings: []
 		};
 
 		this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -106,25 +116,34 @@ class ProfileForm extends Component {
         fetch(this.link + this.linkUser)
         .then(response => response.json())
         .then(data => this.setState({
-          legalFirstName: data.legalFirstName,
-          legalLastName: data.legalLastName,
-          major: data.major,
-          minor: data.minor,
-          img: data.img,
-          bio: data.bio
+			userName: data.userName,
+			email: data.email,
+			salt: data.salt,
+			passhash: data.passhash,
+			userType: data.userType,
+
+	        legalFirstName: data.legalFirstName,
+    	    legalLastName: data.legalLastName,
+            major: data.major,
+            minor: data.minor,
+            img: data.img,
+	    	bio: data.bio,
+		  
+			active: data.active,
+		    timestamp: data.timestamp,
+		    ratings: data.ratings,
        }))
 	   .catch(error => console.log('parsing failed', error));
-
 	}
 
 	/* handle variable changes */
 
 	handleFirstNameChange(e) {
-		this.setState({ legalFirstName: e.target.value }, () => console.log('firstName:', this.state.firstName));
+		this.setState({ legalFirstName: e.target.value }, () => console.log('firstName:', this.state.legalFirstName));
 	}
 
 	handleLastNameChange(e) {
-		this.setState({ legalLastName: e.target.value }, () => console.log('lastName:', this.state.lastName));
+		this.setState({ legalLastName: e.target.value }, () => console.log('lastName:', this.state.legalLastName));
 	}
 
 	handlePictureChange(e) {
@@ -174,21 +193,29 @@ class ProfileForm extends Component {
 
 		if(this.validateForm()){
 
-			const formPayload = {
+			const formPayload = { //Json to be submitted
+				userName: this.state.userName,
+				email: this.state.email,
+				salt: this.state.salt,
+				passhash: this.state.passhash,
+				userType: this.state.userType,
+
 				legalFirstName: this.state.legalFirstName,
 				legalLastName: this.state.legalLastName,
 				img: this.state.img,
 				major: this.state.major,
 				minor: this.state.minor,
-				bio: this.state.bio
+				bio: this.state.bio,
+
+				active: this.state.active,
+		  		creationDate: this.state.timestamp,
+		  		ratings: this.state.ratings,
 			};
 
 			fetch(this.link + this.linkUser, { //post profile updates to database :)
 				method: 'post',
 				headers: {
-				  //"Content-type": "application/x-www-form-urlencoded",
-				  //'Access-Control-Allow-Origin':'*',
-				  'Accept': 'application/json',
+
 				  'Content-Type': 'application/json',	
 				},
 				body: JSON.stringify(formPayload)					

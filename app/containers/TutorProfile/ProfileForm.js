@@ -71,15 +71,25 @@ class ProfileForm extends Component {
 	constructor(props) {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
-		this.linkUser = '/tutors/4';
+		this.linkUser = '/tutors/2021';
 
 		this.state = {
+			userName: "",
+			email: "",
+			salt: "",
+			passhash: "",
+			userType: "",
+
 			legalFirstName: "",
             legalLastName: "",
             degrees: "",
             links: "",
             img: "",
-            bio: ""
+			bio: "",
+
+			active: true,
+			timestamp: 10000000000000,
+			ratings: []
 		};
 
 		this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -106,12 +116,23 @@ class ProfileForm extends Component {
         fetch(this.link + this.linkUser)
         .then(response => response.json())
         .then(data => this.setState({ 
-          legalFirstName: data.legalFirstName,
-          legalLastName: data.legalLastName,
-          degrees: data.degrees,
-          links: data.links,
-          img: data.img,
-          bio: data.bio
+			userName: data.userName,
+			email: data.email,
+			salt: data.salt,
+			passhash: data.passhash,
+			userType: data.userType,
+
+        	legalFirstName: data.legalFirstName,
+        	legalLastName: data.legalLastName,
+        	degrees: data.degrees,
+        	links: data.links,
+        	img: data.img,
+			bio: data.bio,
+		  
+			active: data.active,
+			timestamp: data.timestamp,
+			ratings: data.ratings,
+
        }))
        .catch(error => console.log('parsing failed', error));
 	}
@@ -169,20 +190,28 @@ class ProfileForm extends Component {
 
 			if(this.validateForm()){
 
-			const formPayload = {
+			const formPayload = { //Json to be submitted
+				userName: this.state.userName,
+				email: this.state.email,
+				salt: this.state.salt,
+				passhash: this.state.passhash,
+				userType: this.state.userType,
+
 				legalFirstName: this.state.legalFirstName,
 				legalLastName: this.state.legalLastName,
 				img: this.state.img,
 				degrees: this.state.degrees,
 				links: this.state.links,
-				bio: this.state.bio
+				bio: this.state.bio,
+
+				active: this.state.active,
+		  		timestamp: this.state.timestamp,
+		  		ratings: this.state.ratings,
 			};
 
 			fetch(this.link + this.linkUser, { //post profile updates to database :)
 				method: 'post',
 				headers: {
-					//"Content-type": "application/x-www-form-urlencoded",
-					//'Access-Control-Allow-Origin':'*',
 					'Accept': 'application/json',
 					'Content-Type': 'application/json',	
 				},
