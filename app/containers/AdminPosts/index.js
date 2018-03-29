@@ -12,6 +12,8 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
+import styled from 'styled-components';
+
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import makeSelectAdminPosts from './selectors';
@@ -33,6 +35,16 @@ import TableStyle from 'components/Table/TableStyle';
 import H1 from 'components/H1';
 import Button from 'components/Button';
 
+import HeaderSignedIn from 'components/HeaderSignedIn';
+
+const BodyWrapper = styled.div`
+  max-width: calc(1000px + 16px * 2);
+  margin: 0 auto;
+  display: flex;
+  min-height: 100%;
+  padding: 0 16px;
+  flex-direction: column;
+`;
 
 export default class AdminPosts extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -43,8 +55,9 @@ export default class AdminPosts extends React.Component { // eslint-disable-line
     <meta name="description" content="Description of Admin Posts" />
     </Helmet>
 
+    <HeaderSignedIn />
 
-    <div>
+    <BodyWrapper>
     <Form onSubmit={this.handleSubmit}>
     
 
@@ -123,7 +136,7 @@ export default class AdminPosts extends React.Component { // eslint-disable-line
 
 
   </Form>
-  </div>
+  </BodyWrapper>
   </article>
   );
   }

@@ -12,6 +12,8 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
+import styled from 'styled-components';
+
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import makeSelectArchivedPosts from './selectors';
@@ -31,6 +33,16 @@ import graduationcap from './images/graduation-cap.png';
 import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
 import TableStyle from 'components/Table/TableStyle';
 import H1 from 'components/H1';
+import HeaderSignedIn from 'components/HeaderSignedIn';
+
+const BodyWrapper = styled.div`
+  max-width: calc(1000px + 16px * 2);
+  margin: 0 auto;
+  display: flex;
+  min-height: 100%;
+  padding: 0 16px;
+  flex-direction: column;
+`;
 
 export default class ArchivedPosts extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -41,8 +53,9 @@ export default class ArchivedPosts extends React.Component { // eslint-disable-l
     <meta name="description" content="Description of Admin Inbox" />
     </Helmet>
 
+    <HeaderSignedIn />
 
-    <div>
+    <BodyWrapper>
     <Form onSubmit={this.handleSubmit}>
     
 
@@ -118,7 +131,7 @@ export default class ArchivedPosts extends React.Component { // eslint-disable-l
 
 
   </Form>
-  </div>
+  </BodyWrapper>
   </article>
   );
   }
