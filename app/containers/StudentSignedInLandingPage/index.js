@@ -12,12 +12,24 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
+import styled from 'styled-components';
+import HeaderSignedIn from 'components/HeaderSignedIn';
+
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import makeSelectStudentSignedInLandingPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+
+const BodyWrapper = styled.div`
+  max-width: calc(1000px + 16px * 2);
+  margin: 0 auto;
+  display: flex;
+  min-height: 100%;
+  padding: 0 16px;
+  flex-direction: column;
+`;
 
 export class StudentSignedInLandingPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -27,6 +39,7 @@ export class StudentSignedInLandingPage extends React.Component { // eslint-disa
           <title>StudentSignedInLandingPage</title>
           <meta name="description" content="Description of StudentSignedInLandingPage" />
         </Helmet>
+        <HeaderSignedIn />
         <FormattedMessage {...messages.header} />
       </div>
     );

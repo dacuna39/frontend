@@ -33,14 +33,7 @@ import Header from 'components/Header';
 import HeaderSignedIn from 'components/HeaderSignedIn';
 /**import component end*/
 
-const BodyWrapper = styled.div`
-  max-width: calc(1000px + 16px * 2);
-  margin: 0 auto;
-  display: flex;
-  min-height: 100%;
-  padding: 0 16px;
-  flex-direction: column;
-`;
+
 
 const AppWrapper = styled.div`
   min-width: calc((1200px + 16px * 2) * .55);
@@ -72,8 +65,8 @@ export default function App() {
         <meta name="description" content="A web app to connect students and teachers for improved learning" />
       </Helmet>
 	  
-      <NavLoad isLoggedIn={false} />  {/*loads the appropriate header (signed in/out)*/}
-	  <BodyWrapper>
+      {/* <NavLoad isLoggedIn={false} />  loads the appropriate header (signed in/out)*/}
+	  
       <Switch>
         <Route exact path="/" component={HomePage} />
 		<Route path="/StudentProfile" component={StudentProfile} />
@@ -90,7 +83,7 @@ export default function App() {
     <Route path="/TutorSignedInLandingPage" component={TutorSignedInLandingPage} />
         <Route path="" component={NotFoundPage} />
       </Switch>
-	  </BodyWrapper>
+	  
       <Footer />
     </AppWrapper>
   );
