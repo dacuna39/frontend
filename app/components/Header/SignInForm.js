@@ -32,22 +32,22 @@ const SubmitInput = styled.input`
   }
 `;
 
-const Form = styled.form`
-  
-`;
-
 class SignInForm extends Component {
 	constructor(props) {
 		super(props);
+		this.link = 'https://tutor-find.herokuapp.com';
+		this.linkUser = '/students';
+
 		this.state = {
 			email: '',
-			password: ''			
+			password: '',
+			errors: [],
+			isLoading: false		
 		};
 
 		this.handleEmailChange = this.handleEmailChange.bind(this);
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
-		this.validateForm = this.validateForm.bind(this);
 	}
 	
 	handleEmailChange(e) {
@@ -57,40 +57,34 @@ class SignInForm extends Component {
 	handlePasswordChange(e) {
 		this.setState({ password: e.target.value }, () => console.log('password:', this.state.password));
 	}
-	
-	/* handle form */
-
-	validateForm(){
-		
-	}
 
 	handleFormSubmit(e) { //validates and submits the form to the server
 		e.preventDefault();
 
+		this.setState({isLoading: true});
+		this.props.login(this.state);
+
 		const formPayload = {
 			email: this.state.email,
-			password: this.state.password
+			passhash: this.state.password
 		};
 
-		//console.log('Send this in a POST request:', formPayload);
-		fetch('https://tutor-find.herokuapp.com/users', {
-  			method: 'POST',
-  			headers: {
-    			'Accept': 'application/json',
-    			'Content-Type': 'application/json',
- 			 },
-  			body: JSON.stringify({
-				email: this.state.email,
-				password: this.state.password
-  			})
+		fetch(this.link + this.linkUser, { 
+			method: 'get',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',	
+			},
+			body: JSON.stringify(formPayload)					
 		})
-		this.handleClearForm(e);
+		.then(response => console.log(response.json()))
+		.catch(error => console.log('parsing failed', error));
 	}
 
 	render() {
 		return (
 			<div>
-			<Form className="container" onSubmit={this.handleFormSubmit}>
+			<form onSubmit={this.handleFormSubmit}>
 				<SingleInput
 					inputType={'email'}
 					title={''}
@@ -111,7 +105,7 @@ class SignInForm extends Component {
 					value="Sign In"
 					/>
 				</p>
-			</Form>
+			</form>
 			</div>
 		);
 	}
