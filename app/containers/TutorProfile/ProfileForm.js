@@ -72,27 +72,32 @@ class ProfileForm extends Component {
 	constructor(props) {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
-		this.linkUser = '/tutors/4';
+		this.linkUser = '/tutors/100';
 
 		this.state = {
 			userName: "",
 			email: "",
 			salt: "",
-			passhash: "",
+			password: "",
 			userType: "",
 
 			legalFirstName: "",
             legalLastName: "",
             degrees: "",
             links: "",
-            img: "",
+            img: profile,
 			bio: "",
 
 			active: true,
 			timestamp: 10000000000000,
 			ratings: [],
 
-			isOpen: false //whether the modal is rendered
+			isChangePassOpen: false, //whether the change password modal is rendered
+			isDeactivateOpen: false, //whether the deactivate account modal is rendered
+
+			enterPassword: "",
+			newPassword: "",
+			reenterPassword: "",
 		};
 
 		this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -101,9 +106,16 @@ class ProfileForm extends Component {
 		this.handleDegreesChange = this.handleDegreesChange.bind(this);
 		this.handleLinksChange = this.handleLinksChange.bind(this);
 		this.handleBioChange = this.handleBioChange.bind(this);
+		
+		this.handlePasswordChange = this.handlePasswordChange.bind(this);
+		this.handleNewPassChange = this.handleNewPassChange.bind(this);
+		this.handleReenterPassChange = this.handleReenterPassChange.bind(this);
+
 		this.validateForm = this.validateForm.bind(this);
+		this.validatePassChange = this.validatePassChange.bind(this);
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.deactivateAccount = this.deactivateAccount.bind(this);
+		this.changePassword = this.changePassword.bind(this);
 	}
 
 	/*
@@ -114,11 +126,17 @@ class ProfileForm extends Component {
 		})
 	}
 	*/
-	toggleModal = () => { //opens and closes the modal
+	toggleChangePassModal = () => { //opens and closes the modal
 		this.setState({
-		  isOpen: !this.state.isOpen
+		  isChangePassOpen: !this.state.isChangePassOpen
 		});
 	  }
+
+	toggleDeactivateModal = () => { //opens and closes the modal
+		this.setState({
+		  isDeactivateOpen: !this.state.isDeactivateOpen
+		});
+	}
 
 	componentDidMount() {
 
@@ -128,7 +146,7 @@ class ProfileForm extends Component {
 			userName: data.userName,
 			email: data.email,
 			salt: data.salt,
-			passhash: data.passhash,
+			password: data.passhash,
 			userType: data.userType,
 
         	legalFirstName: data.legalFirstName,
@@ -157,7 +175,7 @@ class ProfileForm extends Component {
 	}
 
 	handlePictureChange(e) {
-		this.setState({ picture: e.target.value });
+		this.setState({ img: e.target.value });
 	}
 
 	handleDegreesChange(e) {
@@ -170,6 +188,18 @@ class ProfileForm extends Component {
 
 	handleBioChange(e) {
 		this.setState({ bio: e.target.value });
+	}
+
+	handlePasswordChange(e) {
+		this.setState({ enterPassword: e.target.value }, () => console.log('enterPassword:', this.state.enterPassword));
+	}
+
+	handleNewPassChange(e) {
+		this.setState({ newPassword: e.target.value }, () => console.log('new password:', this.state.newPassword));
+	}
+
+	handleReenterPassChange(e) {
+		this.setState({ reenterPassword: e.target.value }, () => console.log('reenter password:', this.state.reenterPassword));
 	}
 	
 	/* handle forms */
@@ -193,6 +223,22 @@ class ProfileForm extends Component {
 		}
 	}
 
+	validatePassChange() {
+
+		if (this.state.enterPassword != this.state.password){
+			alert('Your current password is incorrect');
+			return false;
+		}
+		else if (this.state.newPassword.length < 6){
+			alert('Password must be at least 6 characters long');
+			return false;
+		}
+		else if (this.state.newPassword != this.state.reenterPassword){
+			alert('New passwords do not match');
+			return false;
+		}
+	}
+
 	handleFormSubmit(e) {
 
 		e.preventDefault();
@@ -203,7 +249,7 @@ class ProfileForm extends Component {
 				userName: this.state.userName,
 				email: this.state.email,
 				salt: this.state.salt,
-				passhash: this.state.passhash,
+				passhash: this.state.password,
 				userType: this.state.userType,
 
 				legalFirstName: this.state.legalFirstName,
@@ -236,10 +282,20 @@ class ProfileForm extends Component {
 
 	deactivateAccount(){
 		this.setState({ 
-			bio: "being deleted", //because the form still checks if bio is empty before deleting the user
+			bio: "being deleted",//because the form still validates before deleting the user, will change this
+			major: "deleted", 
 			active: false 
 		});
 		this.handleFormSubmit();
+	}
+
+	changePassword(){
+
+		if (this.validatePassChange()){
+
+			this.setState({ password: this.state.enterPassword });
+			this.handleFormSubmit();
+		}
 	}
 
 	render() {
@@ -254,11 +310,11 @@ class ProfileForm extends Component {
             <Wrapper>
           	<CenteredSection>
           		<p> Profile Picture </p>
-            	<Img src={profile} alt="Profile Picture" />
+            	<Img src={img} alt="Profile Picture" />
 					<SingleInput
 						inputType={'text'}
 						title={''}
-						name={'picture'}
+						name={'img'}
 						controlFunc={this.handlePictureChange}
 						content={img}
 						placeholder={'No File Selected'} />
@@ -336,21 +392,61 @@ class ProfileForm extends Component {
 					<SubmitInput 
 						type="submit"
 						value="Save Changes" />
-					<Button> Back </Button>
-
-		        	<p> <a href="/tutorProfile"> Change Password </a> </p>
-        	    	<Button form="" onClick={this.toggleModal}> Deactivate Account </Button>
+					<a href="/tutorSignedInLandingPage"> <Button form="" > Back </Button> </a>
+				</CenteredSection>
+			</Wrapper>
+			
+			<Wrapper>
+				<CenteredSection>
+					 <Button form="" onClick={this.toggleChangePassModal}> Change Password </Button>
+					 <Button form="" onClick={this.toggleDeactivateModal}> Deactivate Account </Button>
+        	    	  
 		        </CenteredSection>
       		</Wrapper>
 	  	</Form>
 
-		<Modal show={this.state.isOpen}
-					onClose={this.toggleModal}>
+		{/* Change Password Modal */}
+		<Modal show={this.state.isChangePassOpen}
+					onClose={this.toggleChangePassModal}>
+
+				<h4> Change password </h4>
+				<label> Enter current password </label> 
+				<SingleInput
+					inputType={'password'}
+					title={''}
+					name={'password'}
+					controlFunc={this.handlePasswordChange}
+					content={this.state.enterPassword}
+					placeholder={'Password'} />	
+
+				<label> Enter new password </label> 
+				<SingleInput
+					inputType={'password'}
+					title={''}
+					name={'newPassword'}
+					controlFunc={this.handleNewPassChange}
+					content={this.state.newPassword}
+					placeholder={'Password'} />
+
+				<label> Re-enter password </label> 
+				<SingleInput
+					inputType={'password'}
+					title={''}
+					name={'reenterPassword'}
+					controlFunc={this.handleReenterPassChange}
+					content={this.state.reenterPassword}
+					placeholder={'Password'} />	
+
+				<Button form="" onClick={this.changePassword}> Change </Button>
+		</Modal>
+
+		{/* Deactivate Account Modal */}
+		<Modal show={this.state.isDeactivateOpen}
+					onClose={this.toggleDeactivateModal}>
 
 				<p> This will deactivate your account. Are you sure? </p>
 				<Button form="form" onClick={this.deactivateAccount}> Deactivate Account </Button>
-
-		</Modal>
+		</Modal>		
 	
     </div>
     ) //end return

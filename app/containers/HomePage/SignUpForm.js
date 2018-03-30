@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 //import request from "../../../node_modules/superagent/superagent"; uninstall this dependency!!!
+import { withRouter } from 'react-router-dom'
 
 import SingleInput from 'components/FormComponents/SingleInput';
 import Select from 'components/FormComponents/Select';
@@ -8,6 +9,8 @@ import Button from 'components/Button';
 
 import CenteredSection from './CenteredSection';
 import Form from './Form';
+
+import profile from './default_profile_pic.jpg';
 
 //button css
 const SubmitInput = styled.input`
@@ -34,6 +37,16 @@ const SubmitInput = styled.input`
     color: #FFF;
   }
 `;
+
+const SubmitButton = withRouter(({ history }) => (
+	<button
+	  type='button'
+	  onClick={() => { history.push('/studentProfile') }}
+	>
+	  Click Me!
+
+	</button>
+  ))
 
 class SignUpForm extends Component {
 	constructor(props) {
@@ -137,7 +150,7 @@ class SignUpForm extends Component {
 			if(this.state.accountSelection == 'Student'){
 
 				const studentPayload = {
-					userId: 2021, //Note: for now you will have to change the userId every time
+					userId: 101, //Note: for now you will have to change the userId every time
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,
@@ -172,7 +185,7 @@ class SignUpForm extends Component {
 			//Tutor put
 			else if (this.state.accountSelection == 'Tutor'){
 				const tutorPayload = {
-					userId: 2022, //Note: for now you will have to change the userId every time
+					userId: 101, //Note: for now you will have to change the userId every time
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,
@@ -205,6 +218,8 @@ class SignUpForm extends Component {
 				alert('tutorPayload' + JSON.stringify(tutorPayload));
 			}//end tutor put
 
+			history.push('/studentProfile');
+
 		}// end if validateForm()
 	}//end handleformsubmit()
 
@@ -212,13 +227,15 @@ class SignUpForm extends Component {
 		return (
 			<div>
 			<Form onSubmit={this.handleFormSubmit}>
-			<p> I am a </p>
+			<p> I am a: 
 				<Select
 					name={'accountSelection'}
 					placeholder={'------'}
 					controlFunc={this.handleAccountOptionSelect}
 					options={this.state.accountOptions}
 					selectedOption={this.state.accountSelection} />	
+			</p>
+				
 				<SingleInput
 					inputType={'text'}
 					title={''}
@@ -261,11 +278,13 @@ class SignUpForm extends Component {
 					controlFunc={this.handleConfirmPasswordChange}
 					content={this.state.confirmPassword}
 					placeholder={'Confirm Password'} />
-
-				<SubmitInput
-					type="submit"
-					value="Sign Up"
-					/>
+				<p>
+					<SubmitInput
+							type="submit"
+							value="Sign Up"
+							/> 
+				</p>
+				<SubmitButton />
 			</Form>
 			</div>
 		);
