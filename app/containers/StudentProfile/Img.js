@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import NormalImg from 'components/Img';
 
 const Img = styled(NormalImg)`
-  width: 50%;
+  width: 200px;
+  height: 200px;
   margin: 0 auto;
   display: flex;
   padding: .5em;
