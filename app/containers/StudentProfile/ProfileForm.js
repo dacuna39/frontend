@@ -9,6 +9,8 @@ import Form from './Form';
 import messages from './messages';
 import Wrapper from './Wrapper';
 import Img from './Img';
+import Modal from './Modal'
+
 import profile from './default_profile_pic.jpg';
 
 //css
@@ -68,10 +70,11 @@ const LeftAlignSection = styled.section`
 `;
 
 class ProfileForm extends Component {
+
 	constructor(props) {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
-		this.linkUser = '/students/2020';
+		this.linkUser = '/students/2020'; 
 
 		this.state = {
 			userName: "",
@@ -84,12 +87,13 @@ class ProfileForm extends Component {
             legalLastName: "",
             major: "",
             minor: "",
-            img: "",
+            img: "default_profile_pic.jpg",
 			bio: "",
 			
 			active: true,
 			timestamp: 10000000000000,
-			ratings: []
+
+			isOpen: false //whether the modal is rendered
 		};
 
 		this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -100,16 +104,14 @@ class ProfileForm extends Component {
 		this.handleBioChange = this.handleBioChange.bind(this);
 		this.validateForm = this.validateForm.bind(this);
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
+		this.deactivateAccount = this.deactivateAccount.bind(this);
 	}
 
-	/*
-	componentWillMount() {
-		localStorage.getItem('studentInfo') && this.setState({
-				studentInfo: JSON.parse(localStorage.getItem('studentInfo')),
-				isLoading: false
-		})
-	}
-	*/
+	toggleModal = () => { //opens and closes the modal
+		this.setState({
+		  isOpen: !this.state.isOpen
+		});
+	  }
 
 	componentDidMount() {
 
@@ -130,8 +132,9 @@ class ProfileForm extends Component {
 	    	bio: data.bio,
 		  
 			active: data.active,
-		    timestamp: data.timestamp,
-		    ratings: data.ratings,
+			timestamp: data.timestamp,
+			
+
        }))
 	   .catch(error => console.log('parsing failed', error));
 	}
@@ -147,7 +150,8 @@ class ProfileForm extends Component {
 	}
 
 	handlePictureChange(e) {
-		this.setState({ picture: e.target.value }, () => console.log('picture:', this.state.picture));
+		this.setState({ img: e.target.value });
+		
 	}
 
 	handleMajorChange(e) {
@@ -209,7 +213,6 @@ class ProfileForm extends Component {
 
 				active: this.state.active,
 		  		creationDate: this.state.timestamp,
-		  		ratings: this.state.ratings,
 			};
 
 			fetch(this.link + this.linkUser, { //post profile updates to database :)
@@ -223,9 +226,15 @@ class ProfileForm extends Component {
 			.catch(error => console.log('parsing failed', error))
 
 			alert('formPayload' + JSON.stringify(formPayload));
+			alert("Saved!");
 			
 		}// end if
 	}// end handleformsubmit
+
+	deactivateAccount(){
+		this.setState({ active: false });
+		this.handleFormSubmit();
+	}
 
 	render() {
 
@@ -234,19 +243,25 @@ class ProfileForm extends Component {
         return(
         <div>
             <p>  {legalFirstName} {legalLastName} {major} {minor} {img} {bio} </p> 
-        <Form onSubmit={this.handleFormSubmit}>
+        <Form id="form" onSubmit={this.handleFormSubmit}>
 			{/* Profile pic, first/last name, major/minor */}
             <Wrapper>
           	<CenteredSection>
           		<p> Profile Picture </p>
-            	<Img src={profile} alt="Profile Picture" />
+            	<Img src={img} alt="Profile Picture" />
 					<SingleInput
 						inputType={'text'}
+						//ref={input => {
+              			//	this.fileInput = input;
+            			//}}
+						accept={'image/*'}
 						title={''}
 						name={'picture'}
 						controlFunc={this.handlePictureChange}
 						content={img}
-						placeholder={'No File Selected'} />
+						placeholder={'No File Selected'} />          			
+
+				
           		</CenteredSection>
           
           	<div>
@@ -321,13 +336,22 @@ class ProfileForm extends Component {
 					<SubmitInput 
 						type="submit"
 						value="Save Changes" />
-					<Button> Back </Button>
+					<Button form="" > Back </Button>
 
-		        	<p> <a href="/studentProfile"> Change Password </a> </p>
-        	    	<p> <a href="/studentProfile"> Deactivate Account </a> </p>
+		        	 <p> <a href="/studentProfile"> Change Password </a> </p>
+					 <Button form="" onClick={this.toggleModal}> Deactivate Account </Button>
+        	    	  
 		        </CenteredSection>
       		</Wrapper>
 	  	</Form>
+		
+		<Modal show={this.state.isOpen}
+					onClose={this.toggleModal}>
+
+				<p> This will deactivate your account. Are you sure? </p>
+				<Button form="form" onClick={this.deactivateAccount}> Deactivate Account </Button>
+
+		</Modal>
 	
     	</div>
 		) //end return

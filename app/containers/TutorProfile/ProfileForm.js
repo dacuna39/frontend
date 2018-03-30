@@ -10,6 +10,7 @@ import messages from './messages';
 import Wrapper from './Wrapper';
 import Img from './Img';
 import profile from './default_profile_pic.jpg';
+import Modal from './Modal'
 
 //button css
 const Button = styled.button`
@@ -71,7 +72,7 @@ class ProfileForm extends Component {
 	constructor(props) {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
-		this.linkUser = '/tutors/2021';
+		this.linkUser = '/tutors/4';
 
 		this.state = {
 			userName: "",
@@ -89,7 +90,9 @@ class ProfileForm extends Component {
 
 			active: true,
 			timestamp: 10000000000000,
-			ratings: []
+			ratings: [],
+
+			isOpen: false //whether the modal is rendered
 		};
 
 		this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -100,6 +103,7 @@ class ProfileForm extends Component {
 		this.handleBioChange = this.handleBioChange.bind(this);
 		this.validateForm = this.validateForm.bind(this);
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
+		this.deactivateAccount = this.deactivateAccount.bind(this);
 	}
 
 	/*
@@ -110,6 +114,11 @@ class ProfileForm extends Component {
 		})
 	}
 	*/
+	toggleModal = () => { //opens and closes the modal
+		this.setState({
+		  isOpen: !this.state.isOpen
+		});
+	  }
 
 	componentDidMount() {
 
@@ -220,9 +229,18 @@ class ProfileForm extends Component {
 			.catch(error => console.log('parsing failed', error))
 
 			alert('formPayload' + JSON.stringify(formPayload));
+			alert("Saved!");
 
 		}// end if
 	}// end handleformsubmit
+
+	deactivateAccount(){
+		this.setState({ 
+			bio: "being deleted", //because the form still checks if bio is empty before deleting the user
+			active: false 
+		});
+		this.handleFormSubmit();
+	}
 
 	render() {
 
@@ -231,7 +249,7 @@ class ProfileForm extends Component {
         return(
         <div>
             <p>  {legalFirstName} {legalLastName} {degrees} {links} {img} {bio} </p> 
-			<Form onSubmit={this.handleFormSubmit}>
+			<Form id="form" onSubmit={this.handleFormSubmit}>
 			{/* Profile pic, first/last name, major/minor */}
             <Wrapper>
           	<CenteredSection>
@@ -321,10 +339,18 @@ class ProfileForm extends Component {
 					<Button> Back </Button>
 
 		        	<p> <a href="/tutorProfile"> Change Password </a> </p>
-        	    	<p> <a href="/tutorProfile"> Deactivate Account </a> </p>
+        	    	<Button form="" onClick={this.toggleModal}> Deactivate Account </Button>
 		        </CenteredSection>
       		</Wrapper>
 	  	</Form>
+
+		<Modal show={this.state.isOpen}
+					onClose={this.toggleModal}>
+
+				<p> This will deactivate your account. Are you sure? </p>
+				<Button form="form" onClick={this.deactivateAccount}> Deactivate Account </Button>
+
+		</Modal>
 	
     </div>
     ) //end return
