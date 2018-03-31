@@ -25,6 +25,8 @@ import StudentSignedInLandingPage from 'containers/StudentSignedInLandingPage/Lo
 import ArchivedPosts from 'containers/ArchivedPosts/Loadable';
 import AdminInbox from 'containers/AdminInbox/Loadable';
 import TutorSignedInLandingPage from 'containers/TutorSignedInLandingPage/Loadable';
+import ForgotPassword from 'containers/ForgotPassword/Loadable';
+import LoggedOut from 'containers/LoggedOut/Loadable';
 /**import containers end*/
 
 /**import component*/
@@ -79,6 +81,8 @@ export default function App() {
     <Route path="/AdminInbox" component={AdminInbox} />
     <Route path="/AdminPosts" component={AdminPosts} />
     <Route path="/TutorSignedInLandingPage" component={TutorSignedInLandingPage} />
+    <Route path="/ForgotPassword" component={ForgotPassword} />
+    <Route path="/LoggedOut" component={LoggedOut} />
         <Route path="" component={NotFoundPage} />
       </Switch>
 	  
