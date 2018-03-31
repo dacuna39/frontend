@@ -19,12 +19,12 @@ import TutorProfile from 'containers/TutorProfile/Loadable';
 import TutorFeed from 'containers/TutorFeed/Loadable';
 import AdminFeed from 'containers/AdminFeed/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import TutorSendRequests from 'containers/TutorSendRequests';
-import AdminPosts from 'containers/AdminPosts';
-import StudentSignedInLandingPage from 'containers/StudentSignedInLandingPage';
-import ArchivedPosts from 'containers/ArchivedPosts';
-import AdminInbox from 'containers/AdminInbox';
-import TutorSignedInLandingPage from 'containers/TutorSignedInLandingPage';
+import TutorSendRequests from 'containers/TutorSendRequests/Loadable';
+import AdminPosts from 'containers/AdminPosts/Loadable';
+import StudentSignedInLandingPage from 'containers/StudentSignedInLandingPage/Loadable';
+import ArchivedPosts from 'containers/ArchivedPosts/Loadable';
+import AdminInbox from 'containers/AdminInbox/Loadable';
+import TutorSignedInLandingPage from 'containers/TutorSignedInLandingPage/Loadable';
 /**import containers end*/
 
 /**import component*/
