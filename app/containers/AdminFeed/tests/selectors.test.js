@@ -1,7 +1,7 @@
 // import { fromJS } from 'immutable';
-// import { selectAdminFeedDomain } from '../selectors';
+// import { selectAdminInboxDomain } from '../selectors';
 
-describe('selectAdminFeedDomain', () => {
+describe('selectAdminInboxDomain', () => {
   it('Expect to have unit tests specified', () => {
     expect(true).toEqual(false);
   });

@@ -31,6 +31,7 @@ import graduationcap from './images/graduation-cap.png';
 import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
 import TableStyle from 'components/Table/TableStyle';
 import H1 from 'components/H1';
+import Table from './Table';
 
 export default class AdminInbox extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -95,16 +96,7 @@ export default class AdminInbox extends React.Component { // eslint-disable-line
 
   {/*For every request - we need another centered section*/}
   <CenteredSection>
-     <TableStyle>
-             <tbody>
-              <tr>
-                <th><center><label>Name of User</label></center></th>
-               </tr>
-               <tr> 
-                <th><center><label>Message</label></center></th>
-              </tr>
-            </tbody>
-     </TableStyle>
+    <Table />
   </CenteredSection>
 
 

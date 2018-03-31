@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for AdminFeed
+ * Asynchronously loads the component for AdminInbox
  *
  */
 

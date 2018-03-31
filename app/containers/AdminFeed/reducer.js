@@ -1,6 +1,6 @@
 /*
  *
- * AdminFeed reducer
+ * AdminInbox reducer
  *
  */
 
@@ -11,7 +11,7 @@ import {
 
 const initialState = fromJS({});
 
-function adminFeedReducer(state = initialState, action) {
+function adminInboxReducer(state = initialState, action) {
   switch (action.type) {
     case DEFAULT_ACTION:
       return state;
@@ -20,4 +20,4 @@ function adminFeedReducer(state = initialState, action) {
   }
 }
 
-export default adminFeedReducer;
+export default adminInboxReducer;

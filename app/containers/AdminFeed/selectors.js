@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect';
 
 /**
- * Direct selector to the adminFeed state domain
+ * Direct selector to the adminInbox state domain
  */
-const selectAdminFeedDomain = (state) => state.get('adminFeed');
+const selectAdminInboxDomain = (state) => state.get('adminInbox');
 
 /**
  * Other specific selectors
@@ -11,15 +11,15 @@ const selectAdminFeedDomain = (state) => state.get('adminFeed');
 
 
 /**
- * Default selector used by AdminFeed
+ * Default selector used by AdminInbox
  */
 
-const makeSelectAdminFeed = () => createSelector(
-  selectAdminFeedDomain,
+const makeSelectAdminInbox = () => createSelector(
+  selectAdminInboxDomain,
   (substate) => substate.toJS()
 );
 
-export default makeSelectAdminFeed;
+export default makeSelectAdminInbox;
 export {
-  selectAdminFeedDomain,
+  selectAdminInboxDomain,
 };

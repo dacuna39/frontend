@@ -25,14 +25,11 @@ import Wrapper from './Wrapper';
 import Form from './Form';
 import Img from './Img';
 import graduationcap from './images/graduation-cap.png';
-// import Table from 'components/Table';
-import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
 import TableStyle from 'components/Table/TableStyle';
-import Button from 'components/Button';
 import Table from './Table';
-
+import Button from 'components/Button';
 import H1 from 'components/H1';
-
+import SubjectFilter from './SubjectFilter';
 
 export default class TutorSignedInLandingPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -41,7 +38,6 @@ export default class TutorSignedInLandingPage extends React.Component { // eslin
   }
 
   render() {
-
     return (
     <article>
     <Helmet>
@@ -62,45 +58,7 @@ export default class TutorSignedInLandingPage extends React.Component { // eslin
    </CenteredSection>
 
    <CenteredSection>
-
-        <CheckboxTableStyle>
-
-         <tr>
-            <th>
-                <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Subject 1</label>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Subject 2</label>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Subject 3</label>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Subject 4</label>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Subject 5</label>
-            </th>
-        </tr>
-        <tr>
-            <th><Button>Filter Subjects</Button></th>
-        </tr>
-
-        </CheckboxTableStyle>
-        
+      <SubjectFilter />        
    </CenteredSection>
 
   {/* end Page Title */}

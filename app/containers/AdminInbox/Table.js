@@ -9,32 +9,8 @@ import CenteredSection from './CenteredSection';
 import Form from './Form';
 //import Input from './Input'; delete the file!
 import TableStyle from 'components/Table/TableStyle';
+import Button from 'components/Button';
 
-//button css
-const Button = styled.button`
-  display: inline-block;
-  box-sizing: border-box;
-  padding: 0.25em 2em;
-  text-decoration: none;
-  border-radius: 4px;
-  -webkit-font-smoothing: antialiased;
-  -webkit-touch-callout: none;
-  user-select: none;
-  cursor: pointer;
-  outline: 0;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-
-  border: 2px solid #f5b01d;
-  background-color: #002147;
-  color: #FFF;
-
-  &:active {
-    background: #fff;
-    color: #000;
-  }
-`;
 
 class Table extends Component {
   constructor(props) {
@@ -48,6 +24,7 @@ class Table extends Component {
       rate: '',
       unit: '',
       createdTs: '',
+      acceptsGroupTutoring: '',
       email: '',
       userName: ''
     };
@@ -67,27 +44,14 @@ componentDidMount() { //loads user from heroku
           rate: data.rate,
           unit: data.unit,
           createdTs: data.createdTs,
+          acceptsGroupTutoring: data.acceptsGroupTutoring,
           ownerId: data.ownerId
         });
       })
   }
 
-// loadPostData(props) {
-//   const posts = this.state.posts;
-//   const postItems = posts.map((singlePost) => 
-//     <div key={singlePost.toString()}>
-//     {singlePost}
-//     </div>
-//   );
-//   return (
-//     <p>postItems</p>
-//   );
-//   alert(postItems);
-// }
-
-applyButton() { 
+applyButton() { //loads user from heroku
     fetch('https://tutor-find.herokuapp.com/students/' + this.state.ownerId.toString())
-    // + this.state.ownerId.toString())
       .then(res => res.json())
       .then(data => {
         this.setState({ //loads values from user to data
@@ -103,10 +67,14 @@ alert(this.state.email);
       document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the student.' + '<' + '/a>');
   }
 
+changePostStatus() {
+
+}
+
 
 render() {
 
-    const { subjectId, unit, rate, active, posterType, availability, createdTs, ownerId, email, userName } = this.state;
+    const { subjectId, unit, rate, active, posterType, availability, createdTs, acceptsGroupTutoring, ownerId, email, userName } = this.state;
     
     return (
     <div>
@@ -124,53 +92,16 @@ render() {
               <tr>
                 <th><label>{availability}</label></th>
               </tr>
-               <tr>
-              <th><Button onClick={this.applyButton}>Apply</Button></th>
-             </tr>
-            </tbody>
-     </TableStyle>
-<br />
-     <TableStyle>
-             <tbody>
               <tr>
-                <th><center><label>{posterType}</label></center></th>
-               </tr>
-               <tr> 
-                <th><center><label>{rate} {unit}</label></center></th>
-              </tr>
-              <tr>
-                <th><label>{subjectId}</label></th>
-              </tr>
-              <tr>
-                <th><label>{availability}</label></th>
+                <th><label>Group tutoring?{acceptsGroupTutoring}</label></th>
               </tr>
                <tr>
-              <th><Button onClick={this.applyButton}>Apply</Button></th>
-             </tr>
-            </tbody>
-     </TableStyle>
-<br />
-     <TableStyle>
-             <tbody>
-              <tr>
-                <th><center><label>{posterType}</label></center></th>
-               </tr>
-               <tr> 
-                <th><center><label>{rate} {unit}</label></center></th>
-              </tr>
-              <tr>
-                <th><label>{subjectId}</label></th>
-              </tr>
-              <tr>
-                <th><label>{availability}</label></th>
-              </tr>
-               <tr>
-              <th><Button onClick={this.applyButton}>Apply</Button></th>
+              <th><button onClick={this.applyButton}>Reply</button></th>
              </tr>
             </tbody>
      </TableStyle>
     </div>
-
+    
     );
   }
 }
