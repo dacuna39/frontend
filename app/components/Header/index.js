@@ -49,7 +49,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
 					onClose={this.toggleModal}>
 					<H1> Sign In </H1>
 					<SignInForm />
-					<p><a href="/"> I forgot my password </a></p>
+					<p><a href="./ForgotPassword"> I forgot my password </a></p>
 			</Modal>
 		</CenteredSection>
       </div>

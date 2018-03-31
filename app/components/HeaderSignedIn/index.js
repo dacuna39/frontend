@@ -22,7 +22,9 @@ class HeaderSignedIn extends React.Component { // eslint-disable-line react/pref
 				</A>
 			</section>
 			<section>
+
 				<Button> Edit Profile </Button>
+				<Button><a href="./LoggedOut"> Sign Out </a></Button>
 			</section>
 		</Wrapper> 
       </div>
