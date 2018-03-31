@@ -76,7 +76,7 @@ class ProfileForm extends Component {
 	constructor(props) {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
-		this.linkUser = '/students/100'; 
+		this.linkUser = '/students/101'; 
 
 		this.state = {
 			userName: "",
@@ -407,7 +407,6 @@ class ProfileForm extends Component {
       		</Wrapper>
 	  	</Form>
 
-		
 		{/* Change Password Modal */}
 		<Modal show={this.state.isChangePassOpen}
 					onClose={this.toggleChangePassModal}>
