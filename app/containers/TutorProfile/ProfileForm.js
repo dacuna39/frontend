@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 
+import CheckboxOrRadioGroup from 'components/FormComponents/CheckboxOrRadioGroup';
 import SingleInput from 'components/FormComponents/SingleInput';
 import TextArea from 'components/FormComponents/TextArea';
 
@@ -88,6 +89,9 @@ class ProfileForm extends Component {
             img: profile,
 			bio: "",
 
+			subjects: ["English", "Math", "Science", "History", "Computer Science", "Business", "Psychology","Spanish"],
+			selectedSubjects: [],
+
 			active: true,
 			timestamp: 10000000000000,
 			ratings: [],
@@ -106,6 +110,7 @@ class ProfileForm extends Component {
 		this.handleDegreesChange = this.handleDegreesChange.bind(this);
 		this.handleLinksChange = this.handleLinksChange.bind(this);
 		this.handleBioChange = this.handleBioChange.bind(this);
+		this.handleSubjectSelection = this.handleSubjectSelection.bind(this);
 		
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.handleNewPassChange = this.handleNewPassChange.bind(this);
@@ -155,6 +160,7 @@ class ProfileForm extends Component {
         	links: data.links,
         	img: data.img,
 			bio: data.bio,
+			//selectedSubjects: data.subjects,
 		  
 			active: data.active,
 			timestamp: data.timestamp,
@@ -190,6 +196,17 @@ class ProfileForm extends Component {
 		this.setState({ bio: e.target.value });
 	}
 
+	handleSubjectSelection(e) {
+		const newSelection = e.target.value;
+		let newSelectionArray;
+		if(this.state.selectedSubjects.indexOf(newSelection) > -1) {
+			newSelectionArray = this.state.selectedSubjects.filter(s => s !== newSelection)
+		} else {
+			newSelectionArray = [...this.state.selectedSubjects, newSelection];
+		}
+		this.setState({ selectedSubjects: newSelectionArray }, () => console.log('subject selection', this.state.selectedSubjects));
+	}
+
 	handlePasswordChange(e) {
 		this.setState({ enterPassword: e.target.value }, () => console.log('enterPassword:', this.state.enterPassword));
 	}
@@ -217,7 +234,11 @@ class ProfileForm extends Component {
 		else if(this.state.bio == ''){
 			alert('Please write a bio. Express yourself!');
 			return false;
-		}		
+		}
+		else if(this.state.selectedSubjects.length == 0){
+			alert('Please select at least one subject you are willing to tutor');
+			return false;
+		}
 		else {
 			return true;
 		}
@@ -258,6 +279,7 @@ class ProfileForm extends Component {
 				degrees: this.state.degrees,
 				links: this.state.links,
 				bio: this.state.bio,
+				//selectedSubjects: this.state.subjects,
 
 				active: this.state.active,
 		  		timestamp: this.state.timestamp,
@@ -274,7 +296,7 @@ class ProfileForm extends Component {
 			})
 			.catch(error => console.log('parsing failed', error))
 
-			alert('formPayload' + JSON.stringify(formPayload));
+			alert('formPayload: ' + JSON.stringify(formPayload));
 			alert("Saved!");
 
 		}// end if
@@ -283,7 +305,8 @@ class ProfileForm extends Component {
 	deactivateAccount(){
 		this.setState({ 
 			bio: "being deleted",//because the form still validates before deleting the user, will change this
-			major: "deleted", 
+			degrees: "deleted", 
+			selectedSubjects: ["deleted"],
 			active: false 
 		});
 		this.handleFormSubmit();
@@ -300,11 +323,12 @@ class ProfileForm extends Component {
 
 	render() {
 
-        const { legalFirstName, legalLastName, degrees, links, img, bio } = this.state;
+        const { legalFirstName, legalLastName, degrees, links, img, bio, password, selectedSubjects } = this.state;
 
         return(
         <div>
-            <p>  {legalFirstName} {legalLastName} {degrees} {links} {img} {bio} </p> 
+            <p>  {legalFirstName} {legalLastName} {degrees} {links} {img} {bio} {selectedSubjects} </p> 
+			<p> {password} </p>
 			<Form id="form" onSubmit={this.handleFormSubmit}>
 			{/* Profile pic, first/last name, major/minor */}
             <Wrapper>
@@ -368,6 +392,17 @@ class ProfileForm extends Component {
 				</LeftAlignSection>
           	</div>
     	    </Wrapper>
+
+			{/* Subject Options */}
+			<Wrapper>
+				<CheckboxOrRadioGroup
+						title={'Select the subjects you need help with'}
+						setName={'subjects'}
+						type={'checkbox'}
+						controlFunc={this.handleSubjectSelection}
+						options={this.state.subjects}
+						selectedOptions={this.state.selectedSubjects} />
+			</Wrapper>
 
         	{/* Bio */}
      		<Wrapper>
