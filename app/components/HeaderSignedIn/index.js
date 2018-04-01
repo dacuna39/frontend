@@ -6,6 +6,7 @@ import Img from './Img';
 import NavBar from './NavBar';
 import HeaderLink from './HeaderLink';
 import logo from './tutorfindlogo.png';
+
 import messages from './messages';
 import Wrapper from './Wrapper';
 import Button from 'components/Button';
@@ -21,10 +22,10 @@ class HeaderSignedIn extends React.Component { // eslint-disable-line react/pref
 					<Img src={logo} alt="Tutorfind - Logo"/>
 				</A>
 			</section>
+			
 			<section>
-
 				<Button> Edit Profile </Button>
-				<Button><a href="./LoggedOut"> Sign Out </a></Button>
+				<Button href="/loggedOut"> Sign Out </Button>
 			</section>
 		</Wrapper> 
       </div>

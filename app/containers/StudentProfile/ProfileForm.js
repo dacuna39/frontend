@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 
+import CheckboxOrRadioGroup from 'components/FormComponents/CheckboxOrRadioGroup';
 import SingleInput from 'components/FormComponents/SingleInput';
 import TextArea from 'components/FormComponents/TextArea';
 
@@ -69,6 +70,7 @@ const SubmitInput = styled.input`
 const LeftAlignSection = styled.section`
   text-align: left;
   padding-right: 15%;
+  margin: 3em 0;
 `;
 
 class ProfileForm extends Component {
@@ -91,6 +93,9 @@ class ProfileForm extends Component {
             minor: "",
             img: profile,
 			bio: "",
+
+			subjects: ["English", "Math", "Science", "History", "Computer Science", "Business", "Psychology","Spanish"],
+			selectedSubjects: [],
 			
 			active: true,
 			timestamp: 10000000000000,
@@ -109,6 +114,7 @@ class ProfileForm extends Component {
 		this.handleMajorChange = this.handleMajorChange.bind(this);
 		this.handleMinorChange = this.handleMinorChange.bind(this);
 		this.handleBioChange = this.handleBioChange.bind(this);
+		this.handleSubjectSelection = this.handleSubjectSelection.bind(this);
 
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.handleNewPassChange = this.handleNewPassChange.bind(this);
@@ -149,7 +155,8 @@ class ProfileForm extends Component {
             major: data.major,
             minor: data.minor,
             img: data.img,
-	    	bio: data.bio,
+			bio: data.bio,
+			//selectedSubjects: data.subjects,
 		  
 			active: data.active,
 			timestamp: data.timestamp,
@@ -181,6 +188,17 @@ class ProfileForm extends Component {
 
 	handleBioChange(e) {
 		this.setState({ bio: e.target.value });
+	}
+
+	handleSubjectSelection(e) {
+		const newSelection = e.target.value;
+		let newSelectionArray;
+		if(this.state.selectedSubjects.indexOf(newSelection) > -1) {
+			newSelectionArray = this.state.selectedSubjects.filter(s => s !== newSelection)
+		} else {
+			newSelectionArray = [...this.state.selectedSubjects, newSelection];
+		}
+		this.setState({ selectedSubjects: newSelectionArray }, () => console.log('subject selection', this.state.selectedSubjects));
 	}
 
 	handlePasswordChange(e) {
@@ -215,6 +233,10 @@ class ProfileForm extends Component {
 			alert('Please write a bio. Express yourself!');
 			return false;
 		}		
+		else if(this.state.selectedSubjects.length == 0){
+			alert('Please select at least one subject you need help with');
+			return false;
+		}
 		else {
 			return true;
 		}
@@ -255,6 +277,7 @@ class ProfileForm extends Component {
 				major: this.state.major,
 				minor: this.state.minor,
 				bio: this.state.bio,
+				//selectedSubjects: this.state.subjects,				
 
 				active: this.state.active,
 		  		creationDate: this.state.timestamp,
@@ -263,14 +286,14 @@ class ProfileForm extends Component {
 			fetch(this.link + this.linkUser, { //post profile updates to database :)
 				method: 'post',
 				headers: {
-
-				  'Content-Type': 'application/json',	
+					'Accept': 'application/json',
+				  	'Content-Type': 'application/json',	
 				},
 				body: JSON.stringify(formPayload)					
 			})
 			.catch(error => console.log('parsing failed', error))
 
-			alert('formPayload' + JSON.stringify(formPayload));
+			alert('formPayload: ' + JSON.stringify(formPayload));
 			alert("Saved!");
 			
 		}// end if validating form
@@ -280,7 +303,8 @@ class ProfileForm extends Component {
 	deactivateAccount(){
 		this.setState({ 
 			bio: "being deleted",//because the form still validates before deleting the user, will change this
-			major: "deleted", 
+			major: "deleted",
+			selectedSubjects: ["deleted"],
 			active: false 
 		});
 		this.handleFormSubmit();
@@ -297,11 +321,12 @@ class ProfileForm extends Component {
 
 	render() {
 
-        const { legalFirstName, legalLastName, major, minor, img, bio } = this.state;
+        const { legalFirstName, legalLastName, major, minor, img, bio, password, selectedSubjects } = this.state;
 
         return(
         <div>
-            <p>  {legalFirstName} {legalLastName} {major} {minor} {img} {bio} </p> 
+            <p>  {legalFirstName} {legalLastName} {major} {minor} {img} {bio} {selectedSubjects} </p> 
+			<p> {password} </p>
         <Form id="form" onSubmit={this.handleFormSubmit}>
 			{/* Profile pic, first/last name, major/minor */}
             <Wrapper>
@@ -310,10 +335,6 @@ class ProfileForm extends Component {
             	<Img src={img} alt="Profile Picture" />
 					<SingleInput
 						inputType={'text'}
-						//ref={input => {
-              			//	this.fileInput = input;
-            			//}}
-						//accept={'image/*'}
 						title={''}
 						name={'img'}
 						controlFunc={this.handlePictureChange}
@@ -370,6 +391,17 @@ class ProfileForm extends Component {
 				</LeftAlignSection>
           	</div>
     	    </Wrapper>
+
+			{/* Subject Options */}
+			<Wrapper>
+				<CheckboxOrRadioGroup
+						title={'Select the subjects you need help with'}
+						setName={'subjects'}
+						type={'checkbox'}
+						controlFunc={this.handleSubjectSelection}
+						options={this.state.subjects}
+						selectedOptions={this.state.selectedSubjects} />
+			</Wrapper>
 
         	{/* Bio */}
      		<Wrapper>
