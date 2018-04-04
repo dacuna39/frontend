@@ -10,6 +10,8 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
 /**import containers*/
 import HomePage from 'containers/HomePage/Loadable';
@@ -35,37 +37,22 @@ import Header from 'components/Header';
 import HeaderSignedIn from 'components/HeaderSignedIn';
 /**import component end*/
 
+import userReducer from './userReducer';
+
 const AppWrapper = styled.div`
   min-width: calc((1200px + 16px * 2) * .55);
 `;
 
-//load header
-function LoggedOutNav(props) {
-		return <Header />;
-	}
-	
-function LoggedInNav(props) {
-	return <HeaderSignedIn />;
-}
-
-function NavLoad(props){
-	const isLoggedIn = props.isLoggedIn;
-	if (isLoggedIn) {
-		return <LoggedInNav />;
-	} 
-	return <LoggedOutNav />;
-}
-//end load header
+var store = createStore(userReducer);
 
 export default function App() {
 
   return (
+    <Provider store={store}>
     <AppWrapper>
       <Helmet titleTemplate="" defaultTitle="TutorFind">
         <meta name="description" content="A web app to connect students and teachers for improved learning" />
       </Helmet>
-	  
-      {/* <NavLoad isLoggedIn={false} />  loads the appropriate header (signed in/out)*/}
 	  
       <Switch>
         <Route exact path="/" component={HomePage} />
@@ -87,6 +74,8 @@ export default function App() {
       </Switch>
 	  
       <Footer />
+    
     </AppWrapper>
+    </Provider>
   );
 }

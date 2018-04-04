@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux'
 
 import CheckboxOrRadioGroup from 'components/FormComponents/CheckboxOrRadioGroup';
 import SingleInput from 'components/FormComponents/SingleInput';
@@ -321,6 +322,7 @@ class ProfileForm extends Component {
 
 	render() {
 
+		console.log("first: ", this.props.legalFirstName);
         const { legalFirstName, legalLastName, major, minor, img, bio, password, selectedSubjects } = this.state;
 
         return(
@@ -339,8 +341,7 @@ class ProfileForm extends Component {
 						name={'img'}
 						controlFunc={this.handlePictureChange}
 						content={img}
-						placeholder={'No Image Selected'} />          			
-				
+						placeholder={'No Image Selected'} />          							
           		</CenteredSection>
           
           	<div>
@@ -488,4 +489,30 @@ class ProfileForm extends Component {
 	} // end render
 }
 
-export default ProfileForm;
+function mapStateToProps(state) {
+	return{
+		userId: state.userId,
+		userName: state.userName,
+		email: state.email,
+		password: state.password,
+		salt: state.salt,
+		userType: state.userType,
+
+		legalFirstName: state.legalFirstName,
+		legalLastName: state.legalLastName,
+		bio: state.bio,
+		img: state.img,
+		active: state.active,
+
+		major: state.major, //student props
+		minor: state.minor,
+		creationDate: state.creationDate,
+
+		degrees: state.degrees, //tutor props
+		links: state.links,
+		timestamp: state.timestamp,
+		ratings: state.ratings,
+	}
+}
+
+export default connect(mapStateToProps)(ProfileForm);
