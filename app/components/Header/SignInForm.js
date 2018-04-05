@@ -8,44 +8,17 @@ import SingleInput from '../FormComponents/SingleInput';
 
 import Button from 'components/Button';
 import CenteredSection from './CenteredSection';
-
-//button css
-const SubmitInput = styled.input`
-  display: inline-block;
-  box-sizing: border-box;
-  padding: 0.25em 2em;
-  text-decoration: none;
-  border-radius: 4px;
-  -webkit-font-smoothing: antialiased;
-  -webkit-touch-callout: none;
-  user-select: none;
-  cursor: pointer;
-  outline: 0;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-  
-  border: 2px solid #f5b01d;
-  background: #f5b01d;
-  color: #FFF;
-
-  &:active {
-    background: #002147;
-    color: #FFF;
-  }
-`;
+import SubmitInput from './SubmitInput';
 
 class SignInForm extends Component {
 	constructor(props) {
 		super(props);
-		this.link = 'https://tutor-find.herokuapp.com/login';
-
+		this.link = 'https://tutor-find.herokuapp.com';
 		
 		this.state = {
 			email: '',
 			password: '',	
 		};
-		
 
 		this.handleEmailChange = this.handleEmailChange.bind(this);
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -64,11 +37,11 @@ class SignInForm extends Component {
 		e.preventDefault();
 
 		const formPayload = {
-			email: this.props.email,
-			passhash: this.props.password
+			email: this.state.email,
+			passhash: this.state.password
 		};
 
-		fetch(this.link, { 
+		fetch(this.link + '/login', { 
 			method: 'post',
 			headers: {
 				'Accept': 'application/json',
