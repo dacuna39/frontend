@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import styled from 'styled-components';
 
 import { BindActionCreators } from 'redux';
 import { connect } from 'react-redux'
