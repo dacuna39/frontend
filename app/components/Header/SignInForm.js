@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { withRouter } from "react-router-dom";
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
@@ -63,9 +64,26 @@ class SignInForm extends Component {
 				},
 				body: JSON.stringify(formPayload)					
 			})
-			.then(response => response.json())
-			.then(data => this.props.loadProfile(data)) // need to check response status
+			.then(response => {
+				if (response.status == 200){ //checks if user was found
+					console.log("Loggin in");
+					return response.json();
+				} else {
+					alert("Invalid login");
+				}
+			})
+			.then(data => { // loads data into store/props
+				this.props.loadProfile(data);			
+				return true;
+			})
+			.then(doneLoading => { //once job is finished, go to profile page
+				if(doneLoading == true){
+					this.props.history.push("/studentProfile");					
+				}
+				
+			})
 			.catch(error => console.log('parsing failed', error));
+			
 		}// end student post
 
 		//Tutor post
@@ -78,8 +96,24 @@ class SignInForm extends Component {
 				},
 				body: JSON.stringify(formPayload)					
 			})
-			.then(response => response.json())
-			.then(data => this.props.loadProfile(data)) // need to check response status
+			.then(response => { //checks if user was found
+				if (response.status == 200){
+					console.log("Loggin in");
+					return response.json();
+				} else {
+					alert("Invalid login");
+				}
+			})
+			.then(data => { // loads data into store/props
+				this.props.loadProfile(data);			
+				return true;
+			})
+			.then(doneLoading => { //once job is finished, go to profile page
+				if(doneLoading == true){
+					this.props.history.push("/tutorProfile");					
+				}
+				
+			})
 			.catch(error => console.log('parsing failed', error));
 		}
 		//end tutor post
@@ -87,7 +121,7 @@ class SignInForm extends Component {
 
 	render() {
 		return (
-			<div>
+			<article>
 				
 			<form onSubmit={this.handleFormSubmit}>
 
@@ -121,7 +155,7 @@ class SignInForm extends Component {
 					/>
 				</p>
 			</form>
-			</div>
+			</article>
 		);
 	}
 }
@@ -156,4 +190,4 @@ function matchDispatchToProps(dispatch) {
 	return bindActionCreators({loadProfile: loadProfile}, dispatch)
 }
 
-export default connect(mapStateToProps, matchDispatchToProps) (SignInForm);
+export default withRouter( connect(mapStateToProps, matchDispatchToProps)(SignInForm) );

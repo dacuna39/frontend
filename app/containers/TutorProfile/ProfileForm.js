@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import CheckboxOrRadioGroup from 'components/FormComponents/CheckboxOrRadioGroup';
 import SingleInput from 'components/FormComponents/SingleInput';
@@ -14,34 +15,36 @@ import Wrapper from './Wrapper';
 import Img from './Img';
 import Modal from './Modal';
 
+//actions
+import { loadProfile } from './loadProfile';
+
 import profile from './default_profile_pic.jpg';
 
 class ProfileForm extends Component {
 	constructor(props) {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
-		this.linkUser = '/tutors/100';
 
 		this.state = {
-			userName: "",
-			email: "",
-			salt: "",
-			password: "",
-			userType: "",
+			userName: this.props.userName,
+			email: this.props.email,
+			salt: this.props.salt,
+			password: this.props.password,
+			userType: this.props.userType,
 
-			legalFirstName: "",
-            legalLastName: "",
-            degrees: "",
-            links: "",
-            img: profile,
-			bio: "",
+			legalFirstName: this.props.legalFirstName,
+            legalLastName: this.props.legalLastName,
+            degrees: this.props.degrees,
+            links: this.props.links,
+            img: this.props.img,
+			bio: this.props.bio,
 
 			subjects: ["English", "Math", "Science", "History", "Computer Science", "Business", "Psychology","Spanish"],
 			selectedSubjects: [],
 
-			active: true,
-			timestamp: 10000000000000,
-			ratings: [],
+			active: this.props.active,
+			timestamp: this.props.timestamp,
+			ratings: this.props.ratings,
 
 			isChangePassOpen: false, //whether the change password modal is rendered
 			isDeactivateOpen: false, //whether the deactivate account modal is rendered
@@ -70,14 +73,6 @@ class ProfileForm extends Component {
 		this.changePassword = this.changePassword.bind(this);
 	}
 
-	/*
-	componentWillMount() {
-		localStorage.getItem('studentInfo') && this.setState({
-				studentInfo: JSON.parse(localStorage.getItem('studentInfo')),
-				isLoading: false
-		})
-	}
-	*/
 	toggleChangePassModal = () => { //opens and closes the modal
 		this.setState({
 		  isChangePassOpen: !this.state.isChangePassOpen
@@ -90,6 +85,7 @@ class ProfileForm extends Component {
 		});
 	}
 
+	/*
 	componentDidMount() {
 
         fetch(this.link + this.linkUser)
@@ -116,6 +112,7 @@ class ProfileForm extends Component {
        }))
        .catch(error => console.log('parsing failed', error));
 	}
+	*/
 
 	// handle variable changes
 	
@@ -166,7 +163,7 @@ class ProfileForm extends Component {
 		this.setState({ reenterPassword: e.target.value }, () => console.log('reenter password:', this.state.reenterPassword));
 	}
 	
-	/* handle forms */
+	/* validate forms */
 
 	validateForm(){
 
@@ -207,6 +204,8 @@ class ProfileForm extends Component {
 		}
 	}
 
+	/* submit form */
+
 	handleFormSubmit(e) {
 
 		e.preventDefault();
@@ -233,7 +232,7 @@ class ProfileForm extends Component {
 		  		ratings: this.state.ratings,
 			};
 
-			fetch(this.link + this.linkUser, { //post profile updates to database :)
+			fetch(this.link + this.props.userId, { //post profile updates to database :)
 				method: 'post',
 				headers: {
 					'Accept': 'application/json',
@@ -435,4 +434,35 @@ class ProfileForm extends Component {
 	}// end render
 }
 
-export default ProfileForm;
+function mapStateToProps(state) {
+	return{
+		userId: state.userId,
+		userName: state.userName,
+		email: state.email,
+		password: state.password,
+		salt: state.salt,
+		userType: state.userType,
+
+		legalFirstName: state.legalFirstName,
+		legalLastName: state.legalLastName,
+		bio: state.bio,
+		img: state.img,
+		active: state.active,
+
+		major: state.major, //student props
+		minor: state.minor,
+		creationDate: state.creationDate,
+
+		degrees: state.degrees, //tutor props
+		links: state.links,
+		timestamp: state.timestamp,
+		ratings: state.ratings,
+	}
+}
+
+function matchDispatchToProps(dispatch) {
+	return bindActionCreators({loadProfile: loadProfile}, dispatch)
+}
+
+
+export default connect(mapStateToProps, matchDispatchToProps)(ProfileForm);
