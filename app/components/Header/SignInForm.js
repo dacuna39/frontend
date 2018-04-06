@@ -4,13 +4,14 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 
 import SingleInput from '../FormComponents/SingleInput';
+import Select from 'components/FormComponents/Select';
 
 import Button from 'components/Button';
 import CenteredSection from './CenteredSection';
 import SubmitInput from './SubmitInput';
 
 //actions
-import {actionProfile} from './actionProfile';
+import {loadProfile} from './loadProfile';
 
 class SignInForm extends Component {
 	constructor(props) {
@@ -19,20 +20,28 @@ class SignInForm extends Component {
 		
 		this.state = {
 			userName: '',
-			password: '',	
+			password: '',
+			accountOptions: ['Student','Tutor'],
+			accountSelection: '',
 		};
 
 		this.handleUserNameChange = this.handleUserNameChange.bind(this);
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
+		this.handleAccountOptionSelect = this.handleAccountOptionSelect.bind(this);
+
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 	}
 	
 	handleUserNameChange(e) {
-		this.setState({ userName: e.target.value }, () => console.log('userName:', this.state.userName));
+		this.setState({ userName: e.target.value });
 	}
 	
 	handlePasswordChange(e) {
-		this.setState({ password: e.target.value }, () => console.log('password:', this.state.password));
+		this.setState({ password: e.target.value });
+	}
+
+	handleAccountOptionSelect(e) {
+		this.setState({ accountSelection: e.target.value });
 	}
 
 	handleFormSubmit(e) { //validates and submits the form to the server
@@ -43,24 +52,54 @@ class SignInForm extends Component {
 			passhash: this.state.password
 		};
 
-		fetch(this.link + '/login', { 
-			method: 'post',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',	
-			},
-			body: JSON.stringify(formPayload)					
-		})
-		.then(response => console.log(response.json()))
-		.catch(error => console.log('parsing failed', error));
+		//student post
+		if(this.state.accountSelection == 'Student'){
+		
+			fetch(this.link + '/students/login', { 
+				method: 'post',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json',	
+				},
+				body: JSON.stringify(formPayload)					
+			})
+			.then(response => response.json())
+			.then(data => this.props.loadProfile(data)) // need to check response status
+			.catch(error => console.log('parsing failed', error));
+		}// end student post
+
+		//Tutor post
+		else if (this.state.accountSelection == 'Tutor'){
+			fetch(this.link + '/tutors/login', { 
+				method: 'post',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json',	
+				},
+				body: JSON.stringify(formPayload)					
+			})
+			.then(response => response.json())
+			.then(data => this.props.loadProfile(data)) // need to check response status
+			.catch(error => console.log('parsing failed', error));
+		}
+		//end tutor post
 	}
 
 	render() {
-		console.log("store first name", this.props.legalFirstName);
 		return (
 			<div>
-				<p onClick={() => this.props.actionProfile("Test")}> hello </p>
+				
 			<form onSubmit={this.handleFormSubmit}>
+
+				<p> I am a: 
+				<Select
+					name={'accountSelection'}
+					placeholder={'------'}
+					controlFunc={this.handleAccountOptionSelect}
+					options={this.state.accountOptions}
+					selectedOption={this.state.accountSelection} />	
+				</p>
+
 				<SingleInput
 					inputType={'text'}
 					title={''}
@@ -114,7 +153,7 @@ function mapStateToProps(state) {
 }
 
 function matchDispatchToProps(dispatch) {
-	return bindActionCreators({actionProfile: actionProfile}, dispatch)
+	return bindActionCreators({loadProfile: loadProfile}, dispatch)
 }
 
 export default connect(mapStateToProps, matchDispatchToProps) (SignInForm);

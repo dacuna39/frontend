@@ -1,41 +1,65 @@
 export default function (state=
     
     {
-        userId: 1000,
-		userName: "ramgav",
-		email: "ram@.com",
-		password: "yeeezy",
-		salt: "1234",
-        userType: "student",
+        userId: 0,
+		userName: "userName",
+		email: "default@tutorfind.com",
+		password: "default",
+		salt: "",
+        userType: "",
         
-        legalFirstName: "Ryan",
-        legalLastName: "Gaviola",
-        bio: "deadass",
-		img: "smile.jpg",
+        legalFirstName: "first",
+        legalLastName: "last",
+        bio: "",
+		img: "",
 		active: true,
 
-		major: "major", //student props
-		minor: "minor",
+		major: "", //student props
+		minor: "",
 		creationDate: 100000000000000,
 
-		degrees: "Degrees", //tutor props
-		links: "links",
+		degrees: "", //tutor props
+		links: "",
 		timestamp: 100000000000000,
 		ratings: []
     }
 
     , action){
     switch(action.type) {
+        
+        case "UPDATE_PROFILE":
 
-        case "SET_FNAME":
-            state.legalFirstName = action.payload;
-            console.log("SET_FNAME action payload: ", action.payload);
-            console.log("state legalFirstName: ", state.legalFirstName);
+            if (action.payload.userId == undefined){
+                alert("Invalid Login");
+                console.log("state: ", state);
+                return state;
+            }
+            else {
+                state.userId = action.payload.userId;
+                state.userName = action.payload.userName;
+                state.email = action.payload.email;
+                state.password = action.payload.password;
+                state.salt = action.payload.salt;
+                state.userType = action.payload.userType;
+
+                state.legalFirstName = action.payload.legalFirstName;
+                state.legalLastName = action.payload.legalLastName;
+                state.bio = action.payload.bio;
+                state.img = action.payload.img;
+                state.active = action.payload.active;
+
+                state.major = action.payload.major; //student info
+                state.minor = action.payload.minor;
+                state.creationDate = action.payload.creationDate;
+
+                state.degrees = action.payload.degrees; //tutor info
+                state.links = action.payload.links;
+                state.timestamp = action.payload.timestamp;
+                state.ratings = action.payload.ratings;
+            }
+
             console.log("state: ", state);
             return state;
-        
-        case "UPDATE_USER":
-            return action.payload;
 
     }
     return state;
