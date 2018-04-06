@@ -20,13 +20,11 @@ import { loadProfile } from './loadProfile';
 
 import profile from './default_profile_pic.jpg';
 
-//var {Link, IndexLink} = require('react-router');
-
 class ProfileForm extends Component {
 
 	constructor(props) {
 		super(props);
-		this.link = 'https://tutor-find.herokuapp.com';
+		this.link = 'https://tutor-find.herokuapp.com/students/';
 
 		this.state = {
 			userName: this.props.userName,
@@ -86,33 +84,6 @@ class ProfileForm extends Component {
 		  isDeactivateOpen: !this.state.isDeactivateOpen
 		});
 	}
-
-	/*
-	componentDidMount() {
-
-        fetch(this.link + this.linkUser)
-        .then(response => response.json())
-        .then(data => this.setState({
-			userName: data.userName,
-			email: data.email,
-			salt: data.salt,
-			password: data.passhash,
-			userType: data.userType,
-
-	        legalFirstName: data.legalFirstName,
-    	    legalLastName: data.legalLastName,
-            major: data.major,
-            minor: data.minor,
-            img: data.img,
-			bio: data.bio,
-			//selectedSubjects: data.subjects,
-		  
-			active: data.active,
-			timestamp: data.timestamp,
-       }))
-	   .catch(error => console.log('parsing failed', error));
-	}
-	*/
 
 	/* handle variable changes */
 

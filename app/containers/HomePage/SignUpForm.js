@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { withRouter } from 'react-router-dom'
-import { Link } from 'react-router-dom';
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux'
 
 import styled from 'styled-components';
 
@@ -10,6 +12,9 @@ import Button from 'components/Button';
 
 import CenteredSection from './CenteredSection';
 import Form from './Form';
+
+//actions
+import {loadProfile} from './loadProfile';
 
 import profile from './default_profile_pic.jpg';
 
@@ -67,10 +72,6 @@ class SignUpForm extends Component {
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.validateForm = this.validateForm.bind(this);
 		
-	}
-
-	submitRedirect() {
-		history.push("/studentProfile");
 	}
 
 	handleFirstNameChange(e) {
@@ -145,7 +146,7 @@ class SignUpForm extends Component {
 			if(this.state.accountSelection == 'Student'){
 
 				const studentPayload = {
-					userId: 1001, //Note: for now you will have to change the userId every time
+					userId: 51, //Note: for now you will have to change the userId every time
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,
@@ -172,18 +173,31 @@ class SignUpForm extends Component {
 					},
 					body: JSON.stringify(studentPayload)					
 				})
+				.then(response => {
+					if (response.status == 200){ //checks if user was found
+						console.log("success");
+						this.props.loadProfile(studentPayload);
+						return true;
+					} else {
+						alert("Error signing Up");
+					}
+				})
+				.then(doneLoading => { //once job is finished, go to profile page
+					if(doneLoading == true){
+						this.props.history.push("/studentProfile");					
+					}
+					
+				})
 				.catch(error => console.log('parsing failed', error))
 
 				alert('studentPayload' + JSON.stringify(studentPayload));
-
-				this.submitRedirect();
 
 			}// end student put
 
 			//Tutor put
 			else if (this.state.accountSelection == 'Tutor'){
 				const tutorPayload = {
-					userId: 1001, //Note: for now you will have to change the userId every time
+					userId: 51, //Note: for now you will have to change the userId every time
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,
@@ -210,6 +224,21 @@ class SignUpForm extends Component {
 					  'Content-Type': 'application/json',	
 					},
 					body: JSON.stringify(tutorPayload)					
+				})
+				.then(response => {
+					if (response.status == 200){ //checks if user was found
+						console.log("success");
+						this.props.loadProfile(tutorPayload);
+						return true;
+					} else {
+						alert("Error signing Up");
+					}
+				})
+				.then(doneLoading => { //once job is finished, go to profile page
+					if(doneLoading == true){
+						this.props.history.push("/tutorProfile");					
+					}
+					
 				})
 				.catch(error => console.log('parsing failed', error))
 	
@@ -288,4 +317,35 @@ class SignUpForm extends Component {
 	}
 }
 
-export default SignUpForm;
+function mapStateToProps(state) {
+	return{
+		userId: state.userId,
+		userName: state.userName,
+		email: state.email,
+		password: state.password,
+		salt: state.salt,
+		userType: state.userType,
+
+		legalFirstName: state.legalFirstName,
+		legalLastName: state.legalLastName,
+		bio: state.bio,
+		img: state.img,
+		active: state.active,
+
+		major: state.major, //student props
+		minor: state.minor,
+		creationDate: state.creationDate,
+
+		degrees: state.degrees, //tutor props
+		links: state.links,
+		timestamp: state.timestamp,
+		ratings: state.ratings,
+	}
+}
+
+function matchDispatchToProps(dispatch) {
+	return bindActionCreators({loadProfile: loadProfile}, dispatch)
+}
+
+export default withRouter( connect(mapStateToProps, matchDispatchToProps)(SignUpForm) );
+

@@ -23,7 +23,7 @@ import profile from './default_profile_pic.jpg';
 class ProfileForm extends Component {
 	constructor(props) {
 		super(props);
-		this.link = 'https://tutor-find.herokuapp.com';
+		this.link = 'https://tutor-find.herokuapp.com/tutors/';
 
 		this.state = {
 			userName: this.props.userName,
@@ -84,35 +84,6 @@ class ProfileForm extends Component {
 		  isDeactivateOpen: !this.state.isDeactivateOpen
 		});
 	}
-
-	/*
-	componentDidMount() {
-
-        fetch(this.link + this.linkUser)
-        .then(response => response.json())
-        .then(data => this.setState({ 
-			userName: data.userName,
-			email: data.email,
-			salt: data.salt,
-			password: data.passhash,
-			userType: data.userType,
-
-        	legalFirstName: data.legalFirstName,
-        	legalLastName: data.legalLastName,
-        	degrees: data.degrees,
-        	links: data.links,
-        	img: data.img,
-			bio: data.bio,
-			//selectedSubjects: data.subjects,
-		  
-			active: data.active,
-			timestamp: data.timestamp,
-			ratings: data.ratings,
-
-       }))
-       .catch(error => console.log('parsing failed', error));
-	}
-	*/
 
 	// handle variable changes
 	
