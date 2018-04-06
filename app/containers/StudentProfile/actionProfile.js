@@ -1,7 +1,7 @@
-export const updateFirstName = (firstName) => {
-    console.log("You clicked on user: ", legalFirstName);
+export const actionProfile = (fName) => {
+    console.log("You clicked on user (props): ", fName);
     return{
         type: "USER_SELECTED",
-        payload: firstName
+        payload: fName
     }
 }

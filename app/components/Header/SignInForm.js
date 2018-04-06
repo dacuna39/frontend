@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { BindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 
 import SingleInput from '../FormComponents/SingleInput';
@@ -9,23 +9,26 @@ import Button from 'components/Button';
 import CenteredSection from './CenteredSection';
 import SubmitInput from './SubmitInput';
 
+//actions
+import {actionProfile} from './actionProfile';
+
 class SignInForm extends Component {
 	constructor(props) {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
 		
 		this.state = {
-			email: '',
+			userName: '',
 			password: '',	
 		};
 
-		this.handleEmailChange = this.handleEmailChange.bind(this);
+		this.handleUserNameChange = this.handleUserNameChange.bind(this);
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 	}
 	
-	handleEmailChange(e) {
-		this.setState({ email: e.target.value }, () => console.log('email:', this.state.email));
+	handleUserNameChange(e) {
+		this.setState({ userName: e.target.value }, () => console.log('userName:', this.state.userName));
 	}
 	
 	handlePasswordChange(e) {
@@ -36,7 +39,7 @@ class SignInForm extends Component {
 		e.preventDefault();
 
 		const formPayload = {
-			email: this.state.email,
+			userName: this.state.userName,
 			passhash: this.state.password
 		};
 
@@ -53,17 +56,18 @@ class SignInForm extends Component {
 	}
 
 	render() {
-		console.log("first name", this.props.legalFirstName);
+		console.log("store first name", this.props.legalFirstName);
 		return (
 			<div>
+				<p onClick={() => this.props.actionProfile("Test")}> hello </p>
 			<form onSubmit={this.handleFormSubmit}>
 				<SingleInput
-					inputType={'email'}
+					inputType={'text'}
 					title={''}
-					name={'email'}
-					controlFunc={this.handleEmailChange}
-					content={this.state.email}
-					placeholder={'Email'} />
+					name={'userName'}
+					controlFunc={this.handleUserNameChange}
+					content={this.state.userName}
+					placeholder={'User Name'} />
 				<SingleInput
 					inputType={'password'}
 					title={''}
@@ -109,4 +113,8 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps) (SignInForm);
+function matchDispatchToProps(dispatch) {
+	return bindActionCreators({actionProfile: actionProfile}, dispatch)
+}
+
+export default connect(mapStateToProps, matchDispatchToProps) (SignInForm);

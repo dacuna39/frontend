@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import CheckboxOrRadioGroup from 'components/FormComponents/CheckboxOrRadioGroup';
 import SingleInput from 'components/FormComponents/SingleInput';
@@ -13,6 +14,7 @@ import Form from './Form';
 import Wrapper from './Wrapper';
 import Img from './Img';
 import Modal from './Modal'
+import { actionProfile } from './actionProfile';
 
 import profile from './default_profile_pic.jpg';
 
@@ -269,11 +271,11 @@ class ProfileForm extends Component {
 	render() {
 
 		console.log("first: ", this.props.legalFirstName);
-        const { legalFirstName, legalLastName, major, minor, img, bio, password, selectedSubjects } = this.state;
+		const { legalFirstName, legalLastName, major, minor, img, bio, password, selectedSubjects } = this.state;
 
         return(
         <div>
-            <p>  {legalFirstName} {legalLastName} {major} {minor} {img} {bio} {selectedSubjects} </p> 
+            <p> this.state. {legalFirstName} {legalLastName} {major} {minor} {img} {bio} {selectedSubjects} </p> 
 			<p> {password} </p>
         <Form id="form" onSubmit={this.handleFormSubmit}>
 			{/* Profile pic, first/last name, major/minor */}
@@ -292,7 +294,9 @@ class ProfileForm extends Component {
           
           	<div>
           		<LeftAlignSection>
-            		<p>First Name</p>
+					<p 
+					onClick={() => this.props.actionProfile(this.props.legalFirstName)}
+					> First Name </p>
 					<SingleInput
 						inputType={'text'}
 						title={''}
@@ -463,4 +467,8 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps)(ProfileForm);
+function matchDispatchToProps(dispatch) {
+	return bindActionCreators({actionProfile: actionProfile}, dispatch)
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(ProfileForm);
