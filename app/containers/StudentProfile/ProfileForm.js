@@ -14,7 +14,9 @@ import Form from './Form';
 import Wrapper from './Wrapper';
 import Img from './Img';
 import Modal from './Modal'
-import { actionProfile } from './actionProfile';
+
+//actions
+import { loadProfile } from './loadProfile';
 
 import profile from './default_profile_pic.jpg';
 
@@ -468,7 +470,7 @@ function mapStateToProps(state) {
 }
 
 function matchDispatchToProps(dispatch) {
-	return bindActionCreators({actionProfile: actionProfile}, dispatch)
+	return bindActionCreators({loadProfile: loadProfile}, dispatch)
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(ProfileForm);

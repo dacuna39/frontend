@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 //import request from "../../../node_modules/superagent/superagent"; uninstall this dependency!!!
 import { withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import SingleInput from 'components/FormComponents/SingleInput';
 import Select from 'components/FormComponents/Select';
@@ -43,7 +44,7 @@ const SubmitButton = withRouter(({ history }) => (
 	  type='button'
 	  onClick={() => { history.push('/studentProfile') }}
 	>
-	  Click Me!
+		click me
 
 	</button>
   ))
@@ -76,6 +77,10 @@ class SignUpForm extends Component {
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.validateForm = this.validateForm.bind(this);
 		
+	}
+
+	submitRedirect() {
+		history.push("/studentProfile");
 	}
 
 	handleFirstNameChange(e) {
@@ -146,11 +151,11 @@ class SignUpForm extends Component {
 
 		if(this.validateForm()){
 
-			//user Put
+			//student Put
 			if(this.state.accountSelection == 'Student'){
 
 				const studentPayload = {
-					userId: 101, //Note: for now you will have to change the userId every time
+					userId: 1001, //Note: for now you will have to change the userId every time
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,
@@ -180,12 +185,15 @@ class SignUpForm extends Component {
 				.catch(error => console.log('parsing failed', error))
 
 				alert('studentPayload' + JSON.stringify(studentPayload));
-			}// end user put
+
+				this.submitRedirect();
+
+			}// end student put
 
 			//Tutor put
 			else if (this.state.accountSelection == 'Tutor'){
 				const tutorPayload = {
-					userId: 101, //Note: for now you will have to change the userId every time
+					userId: 1001, //Note: for now you will have to change the userId every time
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,
@@ -217,8 +225,6 @@ class SignUpForm extends Component {
 	
 				alert('tutorPayload' + JSON.stringify(tutorPayload));
 			}//end tutor put
-
-			history.push('/studentProfile');
 
 		}// end if validateForm()
 	}//end handleformsubmit()
@@ -279,10 +285,12 @@ class SignUpForm extends Component {
 					content={this.state.confirmPassword}
 					placeholder={'Confirm Password'} />
 				<p>
+				{/* <Link to ="studentProfile"> */}
 					<SubmitInput
 							type="submit"
 							value="Sign Up"
 							/> 
+				{/* </Link> */}
 				</p>
 				<SubmitButton />
 			</Form>
