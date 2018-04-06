@@ -45,8 +45,8 @@ class SubjectFilter extends Component {
 //           )
 //         );
 //       });
-//     }
-    fetch('https://tutor-find.herokuapp.com/posts')
+//     
+    fetch('https://tutor-find.herokuapp.com/tutors') // + this.state.ownerId.toString())
         .then(res => res.json())
         .then(data => {
       //    console.log(data);

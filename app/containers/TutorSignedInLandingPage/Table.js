@@ -36,16 +36,21 @@ const Button = styled.button`
   }
 `;
 
+// const firstPromise = new Promise((resolve, reject) => {
+//   setTimeout(funtion(){
+//      resolve(email); 
+//   })
+// }
 class Table extends Component {
   constructor(props) {
     super(props);
     
     this.state = {
-      active: '',
+      active: false,
       posterType: '',
       subjectId: '',
       availability: '',
-      rate: '',
+      rate: 0.0,
       unit: '',
       createdTs: '',
       email: '',
@@ -53,10 +58,11 @@ class Table extends Component {
     };
 
     this.applyButton = this.applyButton.bind(this);
+    this.generateEmail = this.generateEmail.bind(this);
   }
 
 componentDidMount() { //loads user from heroku
-    fetch('https://tutor-find.herokuapp.com/posts/3')
+    fetch('https://tutor-find.herokuapp.com/posts/3') //doesn't work unless I specify a post number. The general 'Posts' gives an array of post objects. 
       .then(res => res.json())
       .then(data => {
         this.setState({ //loads values from user to data
@@ -69,6 +75,8 @@ componentDidMount() { //loads user from heroku
           createdTs: data.createdTs,
           ownerId: data.ownerId
         });
+        console.log("componentDidMount");
+        console.log(this.state);
       })
   }
 
@@ -87,21 +95,25 @@ componentDidMount() { //loads user from heroku
 
 applyButton() { 
     fetch('https://tutor-find.herokuapp.com/students/' + this.state.ownerId.toString())
-    // + this.state.ownerId.toString())
       .then(res => res.json())
       .then(data => {
         this.setState({ //loads values from user to data
           email: data.email,
           userName: data.userName
         });
+        console.log("applyButton");
+        console.log(data.email); 
       })
+  }
 
-alert(this.state.email);
+generateEmail() {
+      console.log("generateEmail");
+      console.log(this.state);
       var email = this.state.email;
       var subject = "A Tutor is interested in your listing!"
       var body = "Hello, I'm interested! Please let me know if you'd like to connect."
       document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the student.' + '<' + '/a>');
-  }
+}
 
 
 render() {
@@ -125,7 +137,7 @@ render() {
                 <th><label>{availability}</label></th>
               </tr>
                <tr>
-              <th><Button onClick={this.applyButton}>Apply</Button></th>
+              <th><Button onClick={this.generateEmail}>Apply</Button></th>
              </tr>
             </tbody>
      </TableStyle>
@@ -145,7 +157,7 @@ render() {
                 <th><label>{availability}</label></th>
               </tr>
                <tr>
-              <th><Button onClick={this.applyButton}>Apply</Button></th>
+              <th><Button onClick={this.generateEmail}>Apply</Button></th>
              </tr>
             </tbody>
      </TableStyle>
@@ -165,7 +177,7 @@ render() {
                 <th><label>{availability}</label></th>
               </tr>
                <tr>
-              <th><Button onClick={this.applyButton}>Apply</Button></th>
+              <th><Button onClick={this.generateEmail}>Apply</Button></th>
              </tr>
             </tbody>
      </TableStyle>
