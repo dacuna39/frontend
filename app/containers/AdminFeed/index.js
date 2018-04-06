@@ -38,7 +38,7 @@ export default class AdminFeed extends React.Component { // eslint-disable-line 
     return (
     <article>
     <Helmet>
-    <title>Admin Inbox</title>
+    <title>Admin Feed</title>
     <meta name="description" content="Description of Admin Feed" />
     </Helmet>
 

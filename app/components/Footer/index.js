@@ -35,10 +35,10 @@ function Footer() {
 				<A href="/"> Home </A>
 			</ListItem>
 			<ListItem>
-				<A href="/features"> Features </A>
+				<A href="/studentProfile"> Student Profile </A>
 			</ListItem>
 			<ListItem>
-				<A href="/StudentProfile"> Profile </A>
+				<A href="/tutorProfile"> TutorProfile </A>
 			</ListItem>
 		  </List>
 		</section>

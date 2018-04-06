@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.footer`
+const Wrapper = styled.span`
   display: flex;
   justify-content: space-around;
   padding: 1em 0;

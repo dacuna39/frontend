@@ -12,6 +12,8 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
+import styled from 'styled-components';
+
 import CenteredSection from './CenteredSection';
 import Input from './Input';
 import Section from './Section';
@@ -30,7 +32,17 @@ import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
 import TableStyle from 'components/Table/TableStyle';
 import Button from 'components/Button';
 
+import HeaderSignedIn from 'components/HeaderSignedIn';
 import H1 from 'components/H1';
+
+const BodyWrapper = styled.div`
+  max-width: calc(1000px + 16px * 2);
+  margin: 0 auto;
+  display: flex;
+  min-height: 100%;
+  padding: 0 16px;
+  flex-direction: column;
+`;
 
 export default class TutorSendRequests extends React.Component { // eslint-disable-line react/prefer-stateless-function
   
@@ -48,8 +60,9 @@ export default class TutorSendRequests extends React.Component { // eslint-disab
     <meta name="description" content="Description of TutorSendRequests" />
     </Helmet>
 
+    <HeaderSignedIn />
 
-    <div>
+    <BodyWrapper>
     <Form onSubmit={this.handleSubmit}>
     
 
@@ -148,7 +161,7 @@ export default class TutorSendRequests extends React.Component { // eslint-disab
   </CenteredSection>
 
   </Form>
-  </div>
+  </BodyWrapper>
   </article>
   );
   }

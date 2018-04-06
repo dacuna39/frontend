@@ -6,16 +6,31 @@
 
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import styled from 'styled-components';
 
+import Header from 'components/Header';
 import H1 from 'components/H1';
 import messages from './messages';
+
+const BodyWrapper = styled.div`
+  max-width: calc(1000px + 16px * 2);
+  margin: 0 auto;
+  display: flex;
+  min-height: 100%;
+  padding: 0 16px;
+  flex-direction: column;
+`;
 
 export default function NotFound() {
   return (
     <article>
-      <H1>
-        <FormattedMessage {...messages.header} />
-      </H1>
+      <Header />
+      
+      <BodyWrapper>
+        <H1>
+          <FormattedMessage {...messages.header} />
+        </H1>
+      </BodyWrapper>
     </article>
   );
 }

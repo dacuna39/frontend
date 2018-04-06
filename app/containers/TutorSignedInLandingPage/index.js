@@ -12,6 +12,8 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
+import styled from 'styled-components';
+
 import CenteredSection from './CenteredSection';
 import Input from './Input';
 import Section from './Section';
@@ -28,8 +30,23 @@ import graduationcap from './images/graduation-cap.png';
 import TableStyle from 'components/Table/TableStyle';
 import Table from './Table';
 import Button from 'components/Button';
+<<<<<<< HEAD
 import H1 from 'components/H1';
 import SubjectFilter from './SubjectFilter';
+=======
+
+import HeaderSignedIn from 'components/HeaderSignedIn';
+import H1 from 'components/H1';
+
+const BodyWrapper = styled.div`
+  max-width: calc(1000px + 16px * 2);
+  margin: 0 auto;
+  display: flex;
+  min-height: 100%;
+  padding: 0 16px;
+  flex-direction: column;
+`;
+>>>>>>> af877c52746330a763beacf90458493aec55d7d6
 
 export default class TutorSignedInLandingPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -45,7 +62,9 @@ export default class TutorSignedInLandingPage extends React.Component { // eslin
     <meta name="description" content="Description of Tutor Landing Page" />
     </Helmet>
 
-    <div>
+    <HeaderSignedIn />
+
+    <BodyWrapper>
     <Form onSubmit={this.handleSubmit}>
 
    {/* Page */}
@@ -70,7 +89,7 @@ export default class TutorSignedInLandingPage extends React.Component { // eslin
 
 
   </Form>
-  </div>
+  </BodyWrapper>
   </article>
   );
 }

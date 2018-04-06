@@ -1,103 +1,73 @@
 import React, {Component} from 'react';
-import styled from 'styled-components';
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux'
 
 import SingleInput from '../FormComponents/SingleInput';
 
 import Button from 'components/Button';
 import CenteredSection from './CenteredSection';
+import SubmitInput from './SubmitInput';
 
-//button css
-const SubmitInput = styled.input`
-  display: inline-block;
-  box-sizing: border-box;
-  padding: 0.25em 2em;
-  text-decoration: none;
-  border-radius: 4px;
-  -webkit-font-smoothing: antialiased;
-  -webkit-touch-callout: none;
-  user-select: none;
-  cursor: pointer;
-  outline: 0;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-  
-  border: 2px solid #f5b01d;
-  background: #f5b01d;
-  color: #FFF;
-
-  &:active {
-    background: #002147;
-    color: #FFF;
-  }
-`;
-
-const Form = styled.form`
-  
-`;
+//actions
+import {actionProfile} from './actionProfile';
 
 class SignInForm extends Component {
 	constructor(props) {
 		super(props);
+		this.link = 'https://tutor-find.herokuapp.com';
+		
 		this.state = {
-			email: '',
-			password: ''			
+			userName: '',
+			password: '',	
 		};
 
-		this.handleEmailChange = this.handleEmailChange.bind(this);
+		this.handleUserNameChange = this.handleUserNameChange.bind(this);
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
-		this.validateForm = this.validateForm.bind(this);
 	}
 	
-	handleEmailChange(e) {
-		this.setState({ email: e.target.value }, () => console.log('email:', this.state.email));
+	handleUserNameChange(e) {
+		this.setState({ userName: e.target.value }, () => console.log('userName:', this.state.userName));
 	}
 	
 	handlePasswordChange(e) {
 		this.setState({ password: e.target.value }, () => console.log('password:', this.state.password));
-	}
-	
-	/* handle form */
-
-	validateForm(){
-		
 	}
 
 	handleFormSubmit(e) { //validates and submits the form to the server
 		e.preventDefault();
 
 		const formPayload = {
-			email: this.state.email,
-			password: this.state.password
+			userName: this.state.userName,
+			passhash: this.state.password
 		};
 
-		//console.log('Send this in a POST request:', formPayload);
-		fetch('https://tutor-find.herokuapp.com/users', {
-  			method: 'POST',
-  			headers: {
-    			'Accept': 'application/json',
-    			'Content-Type': 'application/json',
- 			 },
-  			body: JSON.stringify({
-				email: this.state.email,
-				password: this.state.password
-  			})
+		fetch(this.link + '/login', { 
+			method: 'post',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',	
+			},
+			body: JSON.stringify(formPayload)					
 		})
-		this.handleClearForm(e);
+		.then(response => console.log(response.json()))
+		.catch(error => console.log('parsing failed', error));
 	}
 
 	render() {
+		console.log("store first name", this.props.legalFirstName);
 		return (
 			<div>
-			<Form className="container" onSubmit={this.handleFormSubmit}>
+				<p onClick={() => this.props.actionProfile("Test")}> hello </p>
+			<form onSubmit={this.handleFormSubmit}>
 				<SingleInput
-					inputType={'email'}
+					inputType={'text'}
 					title={''}
-					name={'email'}
-					controlFunc={this.handleEmailChange}
-					content={this.state.email}
-					placeholder={'Email'} />
+					name={'userName'}
+					controlFunc={this.handleUserNameChange}
+					content={this.state.userName}
+					placeholder={'User Name'} />
 				<SingleInput
 					inputType={'password'}
 					title={''}
@@ -111,10 +81,40 @@ class SignInForm extends Component {
 					value="Sign In"
 					/>
 				</p>
-			</Form>
+			</form>
 			</div>
 		);
 	}
 }
 
-export default SignInForm;
+function mapStateToProps(state) {
+	return{
+		userId: state.userId,
+		userName: state.userName,
+		email: state.email,
+		password: state.password,
+		salt: state.salt,
+		userType: state.userType,
+
+		legalFirstName: state.legalFirstName,
+		legalLastName: state.legalLastName,
+		bio: state.bio,
+		img: state.img,
+		active: state.active,
+
+		major: state.major, //student props
+		minor: state.minor,
+		creationDate: state.creationDate,
+
+		degrees: state.degrees, //tutor props
+		links: state.links,
+		timestamp: state.timestamp,
+		ratings: state.ratings,
+	}
+}
+
+function matchDispatchToProps(dispatch) {
+	return bindActionCreators({actionProfile: actionProfile}, dispatch)
+}
+
+export default connect(mapStateToProps, matchDispatchToProps) (SignInForm);
