@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import styled from 'styled-components';
-//import request from "../../../node_modules/superagent/superagent"; uninstall this dependency!!!
 import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom';
+
+import styled from 'styled-components';
 
 import SingleInput from 'components/FormComponents/SingleInput';
 import Select from 'components/FormComponents/Select';
@@ -39,16 +39,6 @@ const SubmitInput = styled.input`
   }
 `;
 
-const SubmitButton = withRouter(({ history }) => (
-	<button
-	  type='button'
-	  onClick={() => { history.push('/studentProfile') }}
-	>
-		click me
-
-	</button>
-  ))
-
 class SignUpForm extends Component {
 	constructor(props) {
 		super(props);
@@ -84,31 +74,31 @@ class SignUpForm extends Component {
 	}
 
 	handleFirstNameChange(e) {
-		this.setState({ legalFirstName: e.target.value }, () => console.log('legalFirstName:', this.state.legalFirstName));
+		this.setState({ legalFirstName: e.target.value });
 	}
 
 	handleLastNameChange(e) {
-		this.setState({ legalLastName: e.target.value }, () => console.log('legalLastName:', this.state.legalLastName));
+		this.setState({ legalLastName: e.target.value });
 	}
 
 	handleUserNameChange(e) {
-		this.setState({ userName: e.target.value }, () => console.log('userName:', this.state.userName));
+		this.setState({ userName: e.target.value });
 	}
 
 	handleEmailChange(e) {
-		this.setState({ email: e.target.value }, () => console.log('email:', this.state.email));
+		this.setState({ email: e.target.value });
 	}
 	
 	handlePasswordChange(e) {
-		this.setState({ password: e.target.value }, () => console.log('password:', this.state.password));
+		this.setState({ password: e.target.value });
 	}
 
 	handleConfirmPasswordChange(e) {
-		this.setState({ confirmPassword: e.target.value }, () => console.log('confirmPassword:', this.state.confirmPassword));
+		this.setState({ confirmPassword: e.target.value });
 	}
 
 	handleAccountOptionSelect(e) {
-		this.setState({ accountSelection: e.target.value }, () => console.log('accountType:', this.state.accountSelection));
+		this.setState({ accountSelection: e.target.value });
 	}
 
 	validateForm(){
@@ -174,7 +164,7 @@ class SignUpForm extends Component {
 					creationDate: Math.floor(Date.now()/1000),						
 				};
 		
-				fetch('https://tutor-find.herokuapp.com/students', { //post entries to database :)
+				fetch(this.link + '/students', { //post entries to database :)
 					method: 'put',
 					headers: {
 					  'Accept': 'application/json',
@@ -213,7 +203,7 @@ class SignUpForm extends Component {
 					ratings: [],
 				};
 				
-				fetch('https://tutor-find.herokuapp.com/tutors', { //post entries to database :)
+				fetch(this.link + '/tutors', { //post entries to database :)
 					method: 'put',
 					headers: {
 					  'Accept': 'application/json',
@@ -231,7 +221,7 @@ class SignUpForm extends Component {
 
 	render() {
 		return (
-			<div>
+			<article>
 			<Form onSubmit={this.handleFormSubmit}>
 			<p> I am a: 
 				<Select
@@ -292,9 +282,8 @@ class SignUpForm extends Component {
 							/> 
 				{/* </Link> */}
 				</p>
-				<SubmitButton />
 			</Form>
-			</div>
+			</article>
 		);
 	}
 }

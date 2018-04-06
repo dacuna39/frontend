@@ -5,6 +5,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
+import { withRouter } from "react-router-dom";
+
 import styled from 'styled-components';
 
 import CenteredSection from './CenteredSection';
@@ -15,7 +17,7 @@ import SignUpForm from './SignUpForm';
 import Header from 'components/Header';
 import H1 from 'components/H1';
 
-const BodyWrapper = styled.div`
+const BodyWrapper = styled.span`
   max-width: calc(1000px + 16px * 2);
   margin: 0 auto;
   display: flex;
@@ -67,6 +69,7 @@ export default class HomePage extends React.Component { // eslint-disable-line r
 		      </CenteredSection>
 		      {/* end Sign up */}
 	  	  </Wrapper>	
+        
       </BodyWrapper>
       </article>
     );

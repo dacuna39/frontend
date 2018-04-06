@@ -27,7 +27,6 @@ class ProfileForm extends Component {
 	constructor(props) {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
-		this.linkUser = '/students/101'; 
 
 		this.state = {
 			userName: this.props.userName,
@@ -40,7 +39,7 @@ class ProfileForm extends Component {
             legalLastName: this.props.legalLastName,
             major: this.props.major,
             minor: this.props.minor,
-            img: profile,
+            img: this.props.img,
 			bio: this.props.bio,
 
 			subjects: ["English", "Math", "Science", "History", "Computer Science", "Business", "Psychology","Spanish"],
@@ -88,6 +87,7 @@ class ProfileForm extends Component {
 		});
 	}
 
+	/*
 	componentDidMount() {
 
         fetch(this.link + this.linkUser)
@@ -112,6 +112,7 @@ class ProfileForm extends Component {
        }))
 	   .catch(error => console.log('parsing failed', error));
 	}
+	*/
 
 	/* handle variable changes */
 
@@ -234,7 +235,7 @@ class ProfileForm extends Component {
 		  		creationDate: this.state.timestamp,
 			};
 
-			fetch(this.link + this.linkUser, { //post profile updates to database :)
+			fetch(this.link + this.props.userId, { //post profile updates to database :)
 				method: 'post',
 				headers: {
 					'Accept': 'application/json',
@@ -253,7 +254,7 @@ class ProfileForm extends Component {
 
 	deactivateAccount(){
 		this.setState({ 
-			bio: "being deleted",//because the form still validates before deleting the user, will change this
+			bio: "being deleted", //because the form still validates before deleting the user, will change this
 			major: "deleted",
 			selectedSubjects: ["deleted"],
 			active: false 
