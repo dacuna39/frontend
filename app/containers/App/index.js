@@ -53,14 +53,14 @@ export default function App() {
       <Helmet titleTemplate="" defaultTitle="TutorFind">
         <meta name="description" content="A web app to connect students and teachers for improved learning" />
       </Helmet>
-	  
+    
       <Switch>
         <Route exact path="/" component={HomePage} />
-		<Route path="/StudentProfile" component={StudentProfile} />
-		<Route path="/StudentFeed" component={StudentFeed} />
-		<Route path="/TutorProfile" component={TutorProfile} />
-		<Route path="/TutorFeed" component={TutorFeed} />
-		<Route path="/AdminFeed" component={AdminFeed} />
+    <Route path="/StudentProfile" component={StudentProfile} />
+    <Route path="/StudentFeed" component={StudentFeed} />
+    <Route path="/TutorProfile" component={TutorProfile} />
+    <Route path="/TutorFeed" component={TutorFeed} />
+    <Route path="/AdminFeed" component={AdminFeed} />
     <Route path="/TutorSendRequests" component={TutorSendRequests} />
     <Route path="/AdminPosts" component={AdminPosts} />
     <Route path="/StudentSignedInLandingPage" component={StudentSignedInLandingPage} />
@@ -72,7 +72,7 @@ export default function App() {
     <Route path="/LoggedOut" component={LoggedOut} />
         <Route path="" component={NotFoundPage} />
       </Switch>
-	  
+    
       <Footer />
     
     </AppWrapper>

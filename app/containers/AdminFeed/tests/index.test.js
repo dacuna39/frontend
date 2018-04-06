@@ -1,9 +1,9 @@
 // import React from 'react';
 // import { shallow } from 'enzyme';
 
-// import { AdminFeed } from '../index';
+// import { AdminInbox } from '../index';
 
-describe('<AdminFeed />', () => {
+describe('<AdminInbox />', () => {
   it('Expect to have unit tests specified', () => {
     expect(true).toEqual(false);
   });

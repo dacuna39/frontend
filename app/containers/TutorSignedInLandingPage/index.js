@@ -27,10 +27,13 @@ import Wrapper from './Wrapper';
 import Form from './Form';
 import Img from './Img';
 import graduationcap from './images/graduation-cap.png';
-// import Table from 'components/Table';
-import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
 import TableStyle from 'components/Table/TableStyle';
+import Table from './Table';
 import Button from 'components/Button';
+<<<<<<< HEAD
+import H1 from 'components/H1';
+import SubjectFilter from './SubjectFilter';
+=======
 
 import HeaderSignedIn from 'components/HeaderSignedIn';
 import H1 from 'components/H1';
@@ -43,27 +46,15 @@ const BodyWrapper = styled.div`
   padding: 0 16px;
   flex-direction: column;
 `;
+>>>>>>> af877c52746330a763beacf90458493aec55d7d6
 
 export default class TutorSignedInLandingPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  
-    constructor(props) {
-		super(props);
-		this.link = 'https://tutor-find.herokuapp.com';
-
-		this.state = {
-            rate: '',
-            unit: '',
-            acceptsGroupTutoring: false,
-            
-        };
-    }
 
  shouldComponentUpdate() {
     return false;
   }
 
   render() {
-
     return (
     <article>
     <Helmet>
@@ -86,73 +77,14 @@ export default class TutorSignedInLandingPage extends React.Component { // eslin
    </CenteredSection>
 
    <CenteredSection>
-
-        <CheckboxTableStyle>
-
-         <tr>
-            <th>
-                <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Subject 1</label>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Subject 2</label>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Subject 3</label>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Subject 4</label>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Subject 5</label>
-            </th>
-        </tr>
-        <tr>
-            <th><Button>Filter Subjects</Button></th>
-        </tr>
-
-        </CheckboxTableStyle>
-        
+      <SubjectFilter />        
    </CenteredSection>
 
   {/* end Page Title */}
 
   {/*For every request - we need another centered section*/}
   <CenteredSection>
-     <TableStyle>
-             <tbody>
-              <tr>
-                <th><center><label>Student Post Name</label></center></th>
-               </tr>
-               <tr> 
-                <th><center><label>Student Post Rate</label></center></th>
-              </tr>
-              <tr>
-                <th><label>Student Post Desired Subject</label></th>
-              </tr>
-              <tr>
-                <th><label>Student Post Description</label></th>
-              </tr>
-              <tr>
-                <th><label>Willing to tutor groups?</label></th>
-              </tr>
-               <tr>
-            <th><Button>Apply</Button></th>
-        </tr>
-            </tbody>
-     </TableStyle>
+     <Table />
   </CenteredSection>
 
 

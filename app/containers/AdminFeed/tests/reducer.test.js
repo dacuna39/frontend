@@ -1,9 +1,9 @@
 
 import { fromJS } from 'immutable';
-import adminFeedReducer from '../reducer';
+import adminInboxReducer from '../reducer';
 
-describe('adminFeedReducer', () => {
+describe('adminInboxReducer', () => {
   it('returns the initial state', () => {
-    expect(adminFeedReducer(undefined, {})).toEqual(fromJS({}));
+    expect(adminInboxReducer(undefined, {})).toEqual(fromJS({}));
   });
 });

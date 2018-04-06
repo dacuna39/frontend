@@ -1,6 +1,6 @@
 /*
  *
- * AdminFeed actions
+ * AdminInbox actions
  *
  */
 

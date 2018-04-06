@@ -1,13 +1,13 @@
 /*
- * AdminFeed Messages
+ * AdminInbox Messages
  *
- * This contains all the text for the AdminFeed component.
+ * This contains all the text for the AdminInbox component.
  */
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   header: {
-    id: 'app.containers.AdminFeed.header',
-    defaultMessage: 'This is AdminFeed container !',
+    id: 'app.containers.AdminInbox.header',
+    defaultMessage: 'This is AdminInbox container !',
   },
 });
