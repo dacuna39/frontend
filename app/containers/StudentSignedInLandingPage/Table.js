@@ -26,7 +26,8 @@ class Table extends Component {
       createdTs: '',
       acceptsGroupTutoring: '',
       email: '',
-      userName: ''
+      userName: '',
+      ownerId: 0,
     };
 
     // this.handleActiveChange = this.handleActiveChange.bind(this);
@@ -54,30 +55,36 @@ componentDidMount() { //loads user from heroku
           acceptsGroupTutoring: data.acceptsGroupTutoring,
           ownerId: data.ownerId
         });
+        console.log("got post");
       })
   }
 
 applyButton() { //loads user from heroku
-    fetch('https://tutor-find.herokuapp.com/tutors' + this.state.ownerId.toString())
-      .then(res => res.json())
+    
+    fetch('https://tutor-find.herokuapp.com/tutors/' + this.state.ownerId.toString())
+      .then(res => res.json()) //gets response (user) from server
       .then(data => {
-        this.setState({ //loads values from user to data
+        this.setState({ //loads values from user to state
           email: data.email,
           userName: data.userName
         });
+        return this.state.email; //returns email for the next .then()  This was the issue!!
       })
+      .then(email => { //receives the email parameter that we just returned
+        var email = this.state.email
+        var subject = "A Student is interested in your listing!"
+        var body = "Hello, I'm interested! Please let me know if you'd like to connect."
 
-      var email = this.state.email;
-      var subject = "A Student is interested in your listing!"
-      var body = "Hello, I'm interested! Please let me know if you'd like to connect."
-      document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the student.' + '<' + '/a>');
+        document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the student.' + '<' + '/a>');
+      })
+      .catch(error => console.log('parsing failed', error));
   }
 
 
 render() {
 
     const { subjectId, unit, rate, active, posterType, availability, createdTs, acceptsGroupTutoring, ownerId, email, userName } = this.state;
-    
+    console.log('https://tutor-find.herokuapp.com/tutors/' + this.state.ownerId.toString());
     return (
     <div>
      <TableStyle>
@@ -98,7 +105,7 @@ render() {
                 <th><label>Group tutoring?{acceptsGroupTutoring}</label></th>
               </tr>
                <tr>
-              <th><button onClick={this.applyButton}>Apply</button></th>
+              <th><h1 onClick={this.applyButton}>Apply</h1></th>
              </tr>
             </tbody>
      </TableStyle>
