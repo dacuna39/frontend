@@ -268,7 +268,7 @@ class ProfileForm extends Component {
           
           	<div>
           		<LeftAlignSection>
-
+					<p>First Name </p>
 					<SingleInput
 						inputType={'text'}
 						title={''}

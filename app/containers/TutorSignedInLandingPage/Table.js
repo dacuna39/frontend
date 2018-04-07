@@ -58,7 +58,6 @@ class Table extends Component {
     };
 
     this.applyButton = this.applyButton.bind(this);
-    this.generateEmail = this.generateEmail.bind(this);
   }
 
 componentDidMount() { //loads user from heroku
@@ -95,26 +94,23 @@ componentDidMount() { //loads user from heroku
 
 applyButton() { 
     fetch('https://tutor-find.herokuapp.com/students/' + this.state.ownerId.toString())
-      .then(res => res.json())
+      .then(res => res.json()) //gets response (user) from server
       .then(data => {
-        this.setState({ //loads values from user to data
+        this.setState({ //loads values from user to state
           email: data.email,
           userName: data.userName
         });
-        console.log("applyButton");
-        console.log(data.email); 
+        return this.state.email; //returns email for the next .then()  This was the issue!!
       })
+      .then(email => { //receives the email parameter that we just returned
+        var email = this.state.email
+        var subject = "A Student is interested in your listing!"
+        var body = "Hello, I'm interested! Please let me know if you'd like to connect."
+
+        document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the student.' + '<' + '/a>');
+      })
+      .catch(error => console.log('parsing failed', error));
   }
-
-generateEmail() {
-      console.log("generateEmail");
-      console.log(this.state);
-      var email = this.state.email;
-      var subject = "A Tutor is interested in your listing!"
-      var body = "Hello, I'm interested! Please let me know if you'd like to connect."
-      document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the student.' + '<' + '/a>');
-}
-
 
 render() {
 
