@@ -41,7 +41,7 @@ class Table extends Component {
   }
 
 componentDidMount() { //loads user from heroku
-    fetch('https://tutor-find.herokuapp.com/posts/2')
+    fetch('https://tutor-find.herokuapp.com/posts/3')
       .then(res => res.json())
       .then(data => {
         this.setState({ //loads values from user to data
