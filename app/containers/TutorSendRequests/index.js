@@ -32,7 +32,7 @@ import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
 import TableStyle from 'components/Table/TableStyle';
 import Button from 'components/Button';
 
-import HeaderSignedIn from 'components/HeaderSignedIn';
+import HeaderFeed from 'components/HeaderFeed';
 import H1 from 'components/H1';
 
 const BodyWrapper = styled.div`
@@ -60,7 +60,7 @@ export default class TutorSendRequests extends React.Component { // eslint-disab
     <meta name="description" content="Description of TutorSendRequests" />
     </Helmet>
 
-    <HeaderSignedIn />
+    <HeaderFeed />
 
     <BodyWrapper>
     <Form onSubmit={this.handleSubmit}>

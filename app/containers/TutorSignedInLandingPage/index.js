@@ -33,7 +33,7 @@ import Button from 'components/Button';
 import H1 from 'components/H1';
 import SubjectFilter from './SubjectFilter';
 
-import HeaderSignedIn from 'components/HeaderSignedIn';
+import HeaderFeed from 'components/HeaderFeed';
 
 const BodyWrapper = styled.div`
   max-width: calc(1000px + 16px * 2);
@@ -58,7 +58,7 @@ export default class TutorSignedInLandingPage extends React.Component { // eslin
     <meta name="description" content="Description of Tutor Landing Page" />
     </Helmet>
 
-    <HeaderSignedIn />
+    <HeaderFeed />
 
     <BodyWrapper>
     <Form onSubmit={this.handleSubmit}>

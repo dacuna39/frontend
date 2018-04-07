@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import CenteredSection from './CenteredSection';
 import ProfileForm from './ProfileForm';
 
-import HeaderSignedIn from 'components/HeaderSignedIn';
+import HeaderProfile from 'components/HeaderProfile';
 import H1 from 'components/H1';
 
 const BodyWrapper = styled.div`
@@ -38,7 +38,7 @@ export default class StudentProfile extends React.Component { // eslint-disable-
           <meta name="Tutorfind" content="A web app to connect students and teachers for improved learning" />
         </Helmet>
         
-        <HeaderSignedIn />
+        <HeaderProfile />
 
         <BodyWrapper>
           <CenteredSection>  

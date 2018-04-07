@@ -33,8 +33,6 @@ import LoggedOut from 'containers/LoggedOut/Loadable';
 
 /**import component*/
 import Footer from 'components/Footer';
-import Header from 'components/Header';
-import HeaderSignedIn from 'components/HeaderSignedIn';
 /**import component end*/
 
 import userReducer from './userReducer';
