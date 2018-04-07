@@ -30,13 +30,10 @@ import graduationcap from './images/graduation-cap.png';
 import TableStyle from 'components/Table/TableStyle';
 import Table from './Table';
 import Button from 'components/Button';
-<<<<<<< HEAD
 import H1 from 'components/H1';
 import SubjectFilter from './SubjectFilter';
-=======
 
 import HeaderSignedIn from 'components/HeaderSignedIn';
-import H1 from 'components/H1';
 
 const BodyWrapper = styled.div`
   max-width: calc(1000px + 16px * 2);
@@ -46,7 +43,6 @@ const BodyWrapper = styled.div`
   padding: 0 16px;
   flex-direction: column;
 `;
->>>>>>> af877c52746330a763beacf90458493aec55d7d6
 
 export default class TutorSignedInLandingPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
