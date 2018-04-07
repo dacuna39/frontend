@@ -33,7 +33,8 @@ import graduationcap from './images/graduation-cap.png';
 import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
 import TableStyle from 'components/Table/TableStyle';
 import H1 from 'components/H1';
-import HeaderSignedIn from 'components/HeaderSignedIn';
+
+import HeaderFeed from 'components/HeaderFeed';
 
 const BodyWrapper = styled.div`
   max-width: calc(1000px + 16px * 2);
@@ -53,7 +54,7 @@ export default class ArchivedPosts extends React.Component { // eslint-disable-l
     <meta name="description" content="Description of Admin Inbox" />
     </Helmet>
 
-    <HeaderSignedIn />
+    <HeaderFeed />
 
     <BodyWrapper>
     <Form onSubmit={this.handleSubmit}>

@@ -16,7 +16,8 @@ import CenteredSection from './CenteredSection';
 import Input from './Input';
 import Section from './Section';
 import styled from 'styled-components';
-import HeaderSignedIn from 'components/HeaderSignedIn';
+
+import HeaderFeed from 'components/HeaderFeed';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -56,7 +57,7 @@ export default class StudentSignedInLandingPage extends React.Component { // esl
     <meta name="description" content="Description of Student Landing Page" />
     </Helmet>
 
-    <HeaderSignedIn />
+    <HeaderFeed />
 
     <BodyWrapper>
     <Form onSubmit={this.handleSubmit}>
@@ -77,31 +78,31 @@ export default class StudentSignedInLandingPage extends React.Component { // esl
          <tr>
             <th>
                 <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Calculus </label>
+                <label htmlFor="classSubject">   Calculus </label>
             </th>
         </tr>
         <tr>
             <th>
                 <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Computer Science </label>
+                <label htmlFor="classSubject">   Computer Science </label>
             </th>
         </tr>
         <tr>
             <th>
                 <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   English </label>
+                <label htmlFor="classSubject">   English </label>
             </th>
         </tr>
         <tr>
             <th>
                 <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Algebra</label>
+                <label htmlFor="classSubject">   Algebra</label>
             </th>
         </tr>
         <tr>
             <th>
                 <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   History</label>
+                <label htmlFor="classSubject">   History</label>
             </th>
         </tr>
         <tr>

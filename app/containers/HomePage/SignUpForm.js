@@ -146,7 +146,7 @@ class SignUpForm extends Component {
 			if(this.state.accountSelection == 'Student'){
 
 				const studentPayload = {
-					userId: 51, //Note: for now you will have to change the userId every time
+					userId: 52, //Note: for now you will have to change the userId every time
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,
@@ -197,7 +197,7 @@ class SignUpForm extends Component {
 			//Tutor put
 			else if (this.state.accountSelection == 'Tutor'){
 				const tutorPayload = {
-					userId: 51, //Note: for now you will have to change the userId every time
+					userId: 53, //Note: for now you will have to change the userId every time
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,

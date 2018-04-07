@@ -34,7 +34,8 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
 		<Wrapper>
 			{/* Logo */}
 			<section>
-					<Img src={logo} onClick={this.props.history.push("/")} alt="Tutorfind - Logo" />
+					{/* <Img src={logo} onClick={this.props.history.push("/")} alt="Tutorfind - Logo" /> */}
+					<Img src={logo} alt="Tutorfind - Logo" />
 			</section>
 			
 			{/* Sign In Button */}
@@ -49,8 +50,6 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
 					onClose={this.toggleModal}>
 					<H1> Sign In </H1>
 					<SignInForm />
-
-					<button onClick={() => this.props.history.push("/forgotPassword")}> I forgot my password </button>
 			</Modal>
 		</CenteredSection>
       </div>
