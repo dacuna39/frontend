@@ -268,9 +268,7 @@ class ProfileForm extends Component {
           
           	<div>
           		<LeftAlignSection>
-					<p 
-					onClick={() => this.props.actionProfile(this.props.legalFirstName)}
-					> First Name </p>
+
 					<SingleInput
 						inputType={'text'}
 						title={''}
