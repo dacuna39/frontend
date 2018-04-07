@@ -38,7 +38,7 @@ export default function (state=
                 state.userId = action.payload.userId;
                 state.userName = action.payload.userName;
                 state.email = action.payload.email;
-                state.password = action.payload.password;
+                state.password = action.payload.passhash;
                 state.salt = action.payload.salt;
                 state.userType = action.payload.userType;
 
