@@ -59,7 +59,7 @@ class ForgotPasswordForm extends Component {
 		this.setState({ accountSelection: e.target.value }, () => console.log('accountType:', this.state.accountSelection));
 	}
 	handleEmailChange(e) {
-		this.setState({ email: e.target.value });
+		this.setState({ email: e.target.value }, console.log(this.state.email));
 	}
 	/*handleClearForm(e) {
 		e.preventDefault();
@@ -93,11 +93,10 @@ class ForgotPasswordForm extends Component {
 					//forgot password submit for student
 			if(this.state.accountSelection == 'Student'){
 
-					const studentPayload = {
-						email: this.state.email,
-						userType: "student",
-					};
-				fetch(this.link + '/forgotpassword/student/{email}/', { //Get true/false from database
+					
+
+					console.log(this.link + '/forgotpassword/student/' + this.state.email);
+					fetch(this.link + '/forgotpassword/student/' + this.state.email + '/', { //Get 200/404 response from endpoint
 					method: 'get',
 					headers: {
 					  //"Content-type": "application/x-www-form-urlencoded",
@@ -105,54 +104,48 @@ class ForgotPasswordForm extends Component {
 					  'Accept': 'application/json',
 					  'Content-Type': 'application/json',	
 					},
-					body: JSON.stringify(studentPayload)					
+									
 				}) // close fetch
 				.then(response => {
 				if (response.status == 200){ //email found, endpoint has already sent email with link
 					console.log("Password changed for student");
 					alert("Please check your email for further instructions.");
-					return response.json();
+					//return message successfull;
 				} else {
 					console.log("Password did not change");
 					alert("Invalid email"); //if no 200 response, alert invalid
 				}
-			})
+				})
 				.catch(error => console.log('parsing failed', error))
-
-				alert('studentPayload' + JSON.stringify(studentPayload));
-			}// end student forgot password
+							}// end student forgot password
 
 
 			//forgot password submit for tutor
 			else if (this.state.accountSelection == 'Tutor'){
-					const tutorPayload = {
-						email: this.state.email,
-						userType: "tutor",
-					};
+					
+
+					console.log(this.link + '/forgotpassword/tutor/' + this.state.email);
 				
-				fetch(this.link + '/forgotpassword/tutor/{email}/', { //get reset true/false from database 
+				fetch(this.link + '/forgotpassword/tutor/' + this.state.email + '/', { //get 200/404 response from endpoint
 					method: 'get',
 					headers: {
 					  //"Content-type": "application/x-www-form-urlencoded",
 					  //'Access-Control-Allow-Origin':'*',
 					  'Accept': 'application/json',
 					  'Content-Type': 'application/json',	
-					},
-					body: JSON.stringify(tutorPayload)					
+					},			
 				})
 				.then(response => {
 				if (response.status == 200){ //checks if email was found, if found, endpoint has already sent email with link
 					console.log("Password changed for tutor");
 					alert("Please check your email for further instructions.");
-					return response.json();
+					//return successfull message
 				} else {
 					console.log("Password did not change"); 
 					alert("Invalid email");  //if no email found, alert invalid
 				}
 			})
 				.catch(error => console.log('parsing failed', error))
-	
-				alert('tutorPayload' + JSON.stringify(tutorPayload));
 			}//end tutor forgot password
 		}// end if validateForm()
 	}//end handleformsubmit()
