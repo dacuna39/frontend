@@ -184,6 +184,7 @@ class ProfileForm extends Component {
 			if(this.validateForm()){
 
 			const formPayload = { //Json to be submitted
+				userId: this.props.userId,
 				userName: this.state.userName,
 				email: this.state.email,
 				salt: this.state.salt,
@@ -211,10 +212,18 @@ class ProfileForm extends Component {
 				},
 				body: JSON.stringify(formPayload)					
 			})
+			.then(response => { //checks if user was found
+				if (response.status == 200){
+					alert('formPayload: ' + JSON.stringify(formPayload));
+					this.props.loadProfile(formPayload); //update app state
+					alert("Saved!");
+					//return response.json();
+				} else {
+					alert("An error occurred, please try again later");
+					alert('formPayload: ' + JSON.stringify(formPayload));
+				}
+			})
 			.catch(error => console.log('parsing failed', error))
-
-			alert('formPayload: ' + JSON.stringify(formPayload));
-			alert("Saved!");
 
 		}// end if
 	}// end handleformsubmit
@@ -244,8 +253,7 @@ class ProfileForm extends Component {
 
         return(
         <div>
-            <p>  {legalFirstName} {legalLastName} {degrees} {links} {img} {bio} {selectedSubjects} </p> 
-			<p> {password} </p>
+			<br />
 			<Form id="form" onSubmit={this.handleFormSubmit}>
 			{/* Profile pic, first/last name, major/minor */}
             <Wrapper>

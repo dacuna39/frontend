@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import SingleInput from 'components/FormComponents/SingleInput';
 import Select from 'components/FormComponents/Select';
 import Button from 'components/Button';
+import Radio from 'components/FormComponents/CheckboxOrRadioGroup';
 
 import CenteredSection from './CenteredSection';
 import Form from './Form';
@@ -59,7 +60,7 @@ class SignUpForm extends Component {
 
 			confirmPassword: '',
 			accountOptions: ['Student','Tutor'],
-			accountSelection: ''
+			accountSelection: [],
 		};
 
 		this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -72,6 +73,7 @@ class SignUpForm extends Component {
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.validateForm = this.validateForm.bind(this);
 		
+		console.log("Props at signupform: ",this.props);
 	}
 
 	handleFirstNameChange(e) {
@@ -99,7 +101,7 @@ class SignUpForm extends Component {
 	}
 
 	handleAccountOptionSelect(e) {
-		this.setState({ accountSelection: e.target.value });
+		this.setState({ accountSelection: [e.target.value] });
 	}
 
 	validateForm(){
@@ -143,10 +145,10 @@ class SignUpForm extends Component {
 		if(this.validateForm()){
 
 			//student Put
-			if(this.state.accountSelection == 'Student'){
+			if(this.state.accountSelection[0] == 'Student'){
 
 				const studentPayload = {
-					userId: 52, //Note: for now you will have to change the userId every time
+					userId: 100, //Note: for now you will have to change the userId every time
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,
@@ -195,9 +197,9 @@ class SignUpForm extends Component {
 			}// end student put
 
 			//Tutor put
-			else if (this.state.accountSelection == 'Tutor'){
+			else if (this.state.accountSelection[0] == 'Tutor'){
 				const tutorPayload = {
-					userId: 53, //Note: for now you will have to change the userId every time
+					userId: 100, //Note: for now you will have to change the userId every time
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,
@@ -253,14 +255,16 @@ class SignUpForm extends Component {
 			<article>
 			<Form onSubmit={this.handleFormSubmit}>
 			<p> I am a: 
-				<Select
-					name={'accountSelection'}
-					placeholder={'------'}
-					controlFunc={this.handleAccountOptionSelect}
-					options={this.state.accountOptions}
-					selectedOption={this.state.accountSelection} />	
+			<Radio
+				title={''}
+				type={'radio'}
+				setName={'accountSelection'}
+				options={this.state.accountOptions}
+				selectedOptions={this.state.accountSelection}
+				controlFunc={this.handleAccountOptionSelect}
+				/>
 			</p>
-				
+			
 				<SingleInput
 					inputType={'text'}
 					title={''}
@@ -303,13 +307,12 @@ class SignUpForm extends Component {
 					controlFunc={this.handleConfirmPasswordChange}
 					content={this.state.confirmPassword}
 					placeholder={'Confirm Password'} />
+
 				<p>
-				{/* <Link to ="studentProfile"> */}
 					<SubmitInput
 							type="submit"
 							value="Sign Up"
 							/> 
-				{/* </Link> */}
 				</p>
 			</Form>
 			</article>

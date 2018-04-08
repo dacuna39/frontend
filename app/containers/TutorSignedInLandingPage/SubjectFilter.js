@@ -83,31 +83,31 @@ render() {
          <tr>
             <th>
                 <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Calculus </label>
+                <label htmlFor="classSubject">   Calculus </label>
             </th>
         </tr>
         <tr>
             <th>
                 <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Computer Science </label>
+                <label htmlFor="classSubject">   Computer Science </label>
             </th>
         </tr>
         <tr>
             <th>
                 <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   English </label>
+                <label htmlFor="classSubject">   English </label>
             </th>
         </tr>
         <tr>
             <th>
                 <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   Algebra</label>
+                <label htmlFor="classSubject">   Algebra</label>
             </th>
         </tr>
         <tr>
             <th>
                 <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">   History</label>
+                <label htmlFor="classSubject">   History</label>
             </th>
         </tr>
         <tr>

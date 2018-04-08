@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 
 import SingleInput from '../FormComponents/SingleInput';
 import Select from 'components/FormComponents/Select';
+import Radio from 'components/FormComponents/CheckboxOrRadioGroup';
 
 import Button from 'components/Button';
 import CenteredSection from './CenteredSection';
@@ -23,7 +24,7 @@ class SignInForm extends Component {
 			userName: '',
 			password: '',
 			accountOptions: ['Student','Tutor'],
-			accountSelection: '',
+			accountSelection: [],
 		};
 
 		this.handleUserNameChange = this.handleUserNameChange.bind(this);
@@ -42,7 +43,7 @@ class SignInForm extends Component {
 	}
 
 	handleAccountOptionSelect(e) {
-		this.setState({ accountSelection: e.target.value });
+		this.setState({ accountSelection: [e.target.value]});
 	}
 
 	handleFormSubmit(e) { //validates and submits the form to the server
@@ -54,7 +55,7 @@ class SignInForm extends Component {
 		};
 
 		//student post
-		if(this.state.accountSelection == 'Student'){
+		if(this.state.accountSelection[0] == 'Student'){
 		
 			fetch(this.link + '/students/login', { 
 				method: 'post',
@@ -87,7 +88,7 @@ class SignInForm extends Component {
 		}// end student post
 
 		//Tutor post
-		else if (this.state.accountSelection == 'Tutor'){
+		else if (this.state.accountSelection[0] == 'Tutor'){
 			fetch(this.link + '/tutors/login', { 
 				method: 'post',
 				headers: {
@@ -126,12 +127,13 @@ class SignInForm extends Component {
 			<form onSubmit={this.handleFormSubmit}>
 
 				<p> I am a: 
-				<Select
-					name={'accountSelection'}
-					placeholder={'------'}
-					controlFunc={this.handleAccountOptionSelect}
+				<Radio
+					title={''}
+					type={'radio'}
+					setName={'accountSelection'}
 					options={this.state.accountOptions}
-					selectedOption={this.state.accountSelection} />	
+					selectedOptions={this.state.accountSelection}
+					controlFunc={this.handleAccountOptionSelect} />
 				</p>
 
 				<SingleInput

@@ -28,7 +28,6 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
   }
 
   render() {
-		console.log("Props first name: ",this.props.legalFirstName)
     return (
       <div>
 		<Wrapper>

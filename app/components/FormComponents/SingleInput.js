@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 //Input css
 const Input = styled.input`
-   outline: none;
+  outline: none;
   border: 1px solid #666;
   padding: 0.25em;
   background: #ddd;

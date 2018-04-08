@@ -6,7 +6,7 @@ export default function (state=
 		email: "default@tutorfind.com",
 		password: "default",
 		salt: "",
-        userType: "",
+        userType: [],
         
         legalFirstName: "first",
         legalLastName: "last",
@@ -30,7 +30,7 @@ export default function (state=
         case "UPDATE_PROFILE":
 
             if (action.payload.userId == undefined){
-                alert("Invalid Login");
+                alert("payloadId is undefined");
                 console.log("state: ", state);
                 return state;
             }
@@ -58,7 +58,7 @@ export default function (state=
                 state.ratings = action.payload.ratings;
             }
 
-            console.log("state: ", state);
+            console.log("updated state: ", state);
             return state;
 
     }
