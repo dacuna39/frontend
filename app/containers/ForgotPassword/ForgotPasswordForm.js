@@ -44,41 +44,31 @@ class ForgotPasswordForm extends Component {
 
 		this.state = {
 			email: '',
-			password: '',
-
 			accountOptions: ['Student','Tutor'],
 			accountSelection: ''
 		};
 
-		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.handleAccountOptionSelect = this.handleAccountOptionSelect.bind(this);
+		this.handleEmailChange = this.handleEmailChange.bind(this);
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.validateForm = this.validateForm.bind(this);
 		
-	}
-	
-	handlePasswordChange(e) {
-		this.setState({ password: e.target.value }, () => console.log('password:', this.state.password));
 	}
 
 	handleAccountOptionSelect(e) {
 		this.setState({ accountSelection: e.target.value }, () => console.log('accountType:', this.state.accountSelection));
 	}
-	
-	handleClearForm(e) {
+	handleEmailChange(e) {
+		this.setState({ email: e.target.value }, console.log(this.state.email));
+	}
+	/*handleClearForm(e) {
 		e.preventDefault();
 		this.state = {
-			legalFirstName: '',
-			legalLastName: '',
-			userName: '',
 			email: '',
-			password: '',
-			confirmPassword: '',
-
 			accountOptions: ['Student','Tutor'],
 			accountSelection: ''
 		};
-	}
+	}*/
 
 	validateForm(){
 		if(this.state.accountSelection == ''){
@@ -100,64 +90,74 @@ class ForgotPasswordForm extends Component {
 
 		if(this.validateForm()){
 
-			//user Put
+					//forgot password submit for student
 			if(this.state.accountSelection == 'Student'){
 
-				const studentPayload = {
-					email: this.state.email,
-					passhash: this.state.password,
-					userType: "student",
-				};
-		
-				fetch('https://tutor-find.herokuapp.com/students', { //post entries to database :)
-					method: 'put',
+					
+
+					console.log(this.link + '/forgotpassword/student/' + this.state.email);
+					fetch(this.link + '/forgotpassword/student/' + this.state.email + '/', { //Get 200/404 response from endpoint
+					method: 'get',
 					headers: {
 					  //"Content-type": "application/x-www-form-urlencoded",
 					  //'Access-Control-Allow-Origin':'*',
 					  'Accept': 'application/json',
 					  'Content-Type': 'application/json',	
 					},
-					body: JSON.stringify(studentPayload)					
+									
+				}) // close fetch
+				.then(response => {
+				if (response.status == 200){ //email found, endpoint has already sent email with link
+					console.log("Password changed for student");
+					alert("Please check your email for further instructions.");
+					//return message successfull;
+				} else {
+					console.log("Password did not change");
+					alert("Invalid email"); //if no 200 response, alert invalid
+				}
 				})
 				.catch(error => console.log('parsing failed', error))
+							}// end student forgot password
 
-				alert('studentPayload' + JSON.stringify(studentPayload));
-			}// end user put
 
-			//Tutor put
+			//forgot password submit for tutor
 			else if (this.state.accountSelection == 'Tutor'){
-				const tutorPayload = {
-					email: this.state.email,
-					passhash: this.state.password,
-					userType: "tutor",
-				};
+					
+
+					console.log(this.link + '/forgotpassword/tutor/' + this.state.email);
 				
-				fetch('https://tutor-find.herokuapp.com/tutors', { //post entries to database :)
-					method: 'put',
+				fetch(this.link + '/forgotpassword/tutor/' + this.state.email + '/', { //get 200/404 response from endpoint
+					method: 'get',
 					headers: {
 					  //"Content-type": "application/x-www-form-urlencoded",
 					  //'Access-Control-Allow-Origin':'*',
 					  'Accept': 'application/json',
 					  'Content-Type': 'application/json',	
-					},
-					body: JSON.stringify(tutorPayload)					
+					},			
 				})
+				.then(response => {
+				if (response.status == 200){ //checks if email was found, if found, endpoint has already sent email with link
+					console.log("Password changed for tutor");
+					alert("Please check your email for further instructions.");
+					//return successfull message
+				} else {
+					console.log("Password did not change"); 
+					alert("Invalid email");  //if no email found, alert invalid
+				}
+			})
 				.catch(error => console.log('parsing failed', error))
-	
-				alert('tutorPayload' + JSON.stringify(tutorPayload));
-			}//end tutor put
-
+			}//end tutor forgot password
 		}// end if validateForm()
 	}//end handleformsubmit()
 
 	render() {
 		return (
 			<div>
-			<Form onSubmit={this.handleFormSubmit}>
+			<form onSubmit={this.handleFormSubmit}>
 			<p>I am a:</p>
 				<Select
 					name={'accountSelection'}
-					placeholder={'------'}
+					placeholder={''}
 					controlFunc={this.handleAccountOptionSelect}
 					options={this.state.accountOptions}
 					selectedOption={this.state.accountSelection} />	
@@ -173,7 +173,7 @@ class ForgotPasswordForm extends Component {
 					type="submit"
 					value="Forgot Password"
 					/>
-			</Form>
+			</form>
 			</div>
 		);
 	}
