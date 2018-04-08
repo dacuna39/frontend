@@ -188,6 +188,7 @@ class ProfileForm extends Component {
 		if(this.validateForm()){
 
 			const formPayload = { //Json to be submitted
+				userId: this.props.userId,
 				userName: this.state.userName,
 				email: this.state.email,
 				salt: this.state.salt,
@@ -214,10 +215,18 @@ class ProfileForm extends Component {
 				},
 				body: JSON.stringify(formPayload)					
 			})
-			.catch(error => console.log('parsing failed', error))
-
-			alert('formPayload: ' + JSON.stringify(formPayload));
-			alert("Saved!");
+			.then(response => { //checks if user was found
+				if (response.status == 200){
+					alert('formPayload: ' + JSON.stringify(formPayload));
+					this.props.loadProfile(formPayload);
+					alert("Saved!");
+					//return response.json();
+				} else {
+					alert("An error occurred, please try again later");
+					alert('formPayload: ' + JSON.stringify(formPayload));
+				}
+			})
+			.catch(error => console.log('parsing failed profile form', error))
 
 		}// end if validating form
 
@@ -244,14 +253,13 @@ class ProfileForm extends Component {
 
 	render() {
 
-		console.log("first: ", this.props.legalFirstName);
+		console.log("props at profileform: ", this.props);
 		const { legalFirstName, legalLastName, major, minor, img, bio, password, selectedSubjects } = this.state;
 
         return(
         <div>
-            <p> this.state. {legalFirstName} {legalLastName} {major} {minor} {img} {bio} {selectedSubjects} </p> 
-			<p> {password} </p>
-        <Form id="form" onSubmit={this.handleFormSubmit}>
+			<br />
+        	<Form id="form" onSubmit={this.handleFormSubmit}>
 			{/* Profile pic, first/last name, major/minor */}
             <Wrapper>
           	<CenteredSection>
@@ -349,7 +357,6 @@ class ProfileForm extends Component {
 					<SubmitInput 
 						type="submit"
 						value="Save Changes" />
-					<a href="/studentSignedInLandingPage"> <BlueButton form="" > Back </BlueButton> </a>
 				</CenteredSection>
 			</Wrapper>
 			
