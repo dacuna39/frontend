@@ -13,37 +13,12 @@ import Radio from 'components/FormComponents/CheckboxOrRadioGroup';
 
 import CenteredSection from './CenteredSection';
 import Form from './Form';
+import SubmitInput from './SubmitInput';
 
 //actions
 import {loadProfile} from './loadProfile';
 
 import profile from './default_profile_pic.jpg';
-
-//button css
-const SubmitInput = styled.input`
-  display: inline-block;
-  box-sizing: border-box;
-  padding: 0.25em 2em;
-  text-decoration: none;
-  border-radius: 4px;
-  -webkit-font-smoothing: antialiased;
-  -webkit-touch-callout: none;
-  user-select: none;
-  cursor: pointer;
-  outline: 0;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-  
-  border: 2px solid #f5b01d;
-  background: #f5b01d;
-  color: #FFF;
-
-  &:active {
-    background: #002147;
-    color: #FFF;
-  }
-`;
 
 class SignUpForm extends Component {
 	constructor(props) {
@@ -133,7 +108,7 @@ class SignUpForm extends Component {
 		else if (this.state.password != this.state.confirmPassword){
 			alert('Passwords do not match')
 			return false;
-		}		
+		}
 		else {
 			return true;
 		}
