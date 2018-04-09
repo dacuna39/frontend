@@ -88,9 +88,7 @@ export default class StudentSignedInLandingPage extends React.Component { // esl
    {/* Page */}
    <CenteredSection>
      <H1>Avaiable Tutors</H1>
-   </CenteredSection>
 
-   <CenteredSection>
      <Img src={graduationcap} alt="graduation-cap"/>
    </CenteredSection>
 
