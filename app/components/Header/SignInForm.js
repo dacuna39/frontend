@@ -131,9 +131,10 @@ class SignInForm extends Component {
 					title={''}
 					type={'radio'}
 					setName={'accountSelection'}
+					controlFunc={this.handleAccountOptionSelect}
 					options={this.state.accountOptions}
 					selectedOptions={this.state.accountSelection}
-					controlFunc={this.handleAccountOptionSelect} />
+					 />
 				</p>
 
 				<SingleInput

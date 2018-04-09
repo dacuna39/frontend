@@ -9,7 +9,7 @@ import Wrapper from './Wrapper';
 import Button from 'components/Button';
 import CenteredSection from './CenteredSection';
 import H1 from 'components/H1';
-import Modal from './Modal'
+import Modal from './Modal';
 import SignInForm from './SignInForm';
 
 import logo from './tutorfindlogo.png';
