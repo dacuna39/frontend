@@ -11,7 +11,7 @@ export default function (state=
         legalFirstName: "first",
         legalLastName: "last",
         bio: "",
-		img: "",
+		img: "https:d30y9cdsu7xlg0.cloudfront.net/png/1095867-200.png",
 		active: true,
 
 		major: "", //student props

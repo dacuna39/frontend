@@ -70,6 +70,7 @@ class SignUpForm extends Component {
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
 		this.handleAccountOptionSelect = this.handleAccountOptionSelect.bind(this);
+
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.validateForm = this.validateForm.bind(this);
 		
@@ -148,7 +149,7 @@ class SignUpForm extends Component {
 			if(this.state.accountSelection[0] == 'Student'){
 
 				const studentPayload = {
-					userId: 100, //Note: for now you will have to change the userId every time
+					userId: 100, //userId is automatically incremented
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,
@@ -199,7 +200,7 @@ class SignUpForm extends Component {
 			//Tutor put
 			else if (this.state.accountSelection[0] == 'Tutor'){
 				const tutorPayload = {
-					userId: 100, //Note: for now you will have to change the userId every time
+					userId: 100, //userId is automatically incremented
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,
@@ -252,16 +253,16 @@ class SignUpForm extends Component {
 
 	render() {
 		return (
-			<article>
 			<Form onSubmit={this.handleFormSubmit}>
 			<p> I am a: 
 			<Radio
 				title={''}
 				type={'radio'}
 				setName={'accountSelection'}
+				controlFunc={this.handleAccountOptionSelect}
 				options={this.state.accountOptions}
 				selectedOptions={this.state.accountSelection}
-				controlFunc={this.handleAccountOptionSelect}
+				
 				/>
 			</p>
 			
@@ -315,7 +316,6 @@ class SignUpForm extends Component {
 							/> 
 				</p>
 			</Form>
-			</article>
 		);
 	}
 }
