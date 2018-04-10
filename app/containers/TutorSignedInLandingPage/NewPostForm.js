@@ -14,7 +14,7 @@ class NewPostForm extends Component {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
 
-		this.state = { //student post
+		this.state = { //tutor post
 
             ownerId: 10, //need props to get ownerId
 
@@ -42,7 +42,7 @@ class NewPostForm extends Component {
         this.handleAvailabilityChange = this.handleAvailabilityChange.bind(this);
 
 		this.handleDaysSelect = this.handleDaysSelect.bind(this);
-		this.handleTimesSelect = this.handleTimesSelect.bind(this);
+		//this.handleTimesSelect = this.handleTimesSelect.bind(this);
 
 		this.createAvailabilityString = this.createAvailabilityString.bind(this);
 
@@ -104,12 +104,12 @@ class NewPostForm extends Component {
 	} */
     
     handleRateChange(e) {
-		this.setState({ rate: parseInt( e.target.value, 10) });
+		this.setState({ rate: e.target.value });
 
 		if (e.target.value == 0){
-			this.setState({acceptsPaid: false})
+			this.setState({acceptsPaid: false}, () => console.log("acceptsPaid:", this.state.acceptsPaid));
 		} else if (e.target.value > 0){
-			this.setState({acceptsPaid: true})
+			this.setState({acceptsPaid: true}, () => console.log("acceptsPaid:", this.state.acceptsPaid));
 		}
     }
     
@@ -117,9 +117,9 @@ class NewPostForm extends Component {
 		this.setState({ acceptsGroupTutoring: [e.target.value] });
 	
 		if (e.target.value == "Yes"){
-			this.setState({groups: true});
+			this.setState({groups: true}, () => console.log("groups: ", this.state.groups));
 		} else if (e.target.value == "No"){
-			this.setState({groups: false});
+			this.setState({groups: false}, () => console.log("groups: ", this.state.groups));
 		}
 	}
     
@@ -134,17 +134,13 @@ class NewPostForm extends Component {
           return false;
         }
         else if (this.state.availability == ""){
-          alert("Please enter you availability (e.g. Days and hours available)");
+          alert("Please select your availability");
           return false;
         }
         else if (this.state.rate == "" || this.state.rate < 0){
           	alert("Please enter a valid pay rate");
           	return false;
 		}
-		else if (this.state.daysSelect.length == 0){
-			alert("Please enter at least one day you are available");
-			return false;
-	  }
         else if (this.state.acceptsGroupTutoring == ""){
           alert("Please state if you will accept group tutoring");
           return false;
@@ -161,7 +157,7 @@ class NewPostForm extends Component {
 
          	const payload = {
             	postId: 100,
-	            posterType: "student",
+	            posterType: "tutor",
     	        ownerId: this.props.userId, //need props to get ownerId
 
 	            subject: this.state.subject.toUpperCase(),
@@ -178,8 +174,8 @@ class NewPostForm extends Component {
 				acceptsGroupTutoring: this.state.groups,
 				
 				createdTs: Math.floor(Date.now()/1000),
-				active: true,		
-				currentlySignedUp: 0,	
+				active: true,
+				currentlySignedUp: 0,
 			};
 
 			fetch(this.link + '/posts', { //post entries to database :)
@@ -197,7 +193,7 @@ class NewPostForm extends Component {
 				} else {
 					alert("Error submitting post");
 				}
-			})			
+			})
 			alert("payload: " + JSON.stringify(payload));
         }//end if validateForm
     }//end handleFormSubmit
@@ -240,14 +236,14 @@ class NewPostForm extends Component {
 				        options={this.state.days}
 				        selectedOptions={this.state.daysSelect} /> <hr />
 
-                <p> Enter your rate per hour in dollars (Enter 0 to request free tutoring) </p>
+                <p> Enter your rate per hour in dollars (Enter 0 to offer free tutoring) </p>
                 <SingleInput
 		          		inputType={'number'} // sets this.state.rate to "" if it's not a number, validate-able
 					    title={''}
           				name={'rate'}
 				        controlFunc={this.handleRateChange}
         				content={this.state.rate}
-				        placeholder={"20"} 
+				        placeholder={"20"}
 						/>
 
                 <p> Do you accept group tutoring? </p>
