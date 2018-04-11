@@ -226,7 +226,7 @@ class ProfileForm extends Component {
 					alert('formPayload: ' + JSON.stringify(formPayload));
 				}
 			})
-			.catch(error => console.log('parsing failed profile form', error))
+			.catch(error => alert('parsing failed profile form', error))
 
 		}// end if validating form
 
