@@ -11,7 +11,6 @@ import Form from './Form';
 import TableStyle from 'components/Table/TableStyle';
 import Button from 'components/Button';
 
-
 class Table extends Component {
   constructor(props) {
     super(props);
@@ -55,11 +54,11 @@ componentDidMount() { //loads user from heroku
           acceptsGroupTutoring: data.acceptsGroupTutoring,
           ownerId: data.ownerId
         });
-        console.log("got post");
       })
+      .catch(error => console.log('parsing failed', error));
   }
 
-applyButton() { //loads user from heroku
+applyButton() { //sends email to post applied to
     
     fetch('https://tutor-find.herokuapp.com/tutors/' + this.state.ownerId.toString())
       .then(res => res.json()) //gets response (user) from server
