@@ -218,15 +218,6 @@ class NewPostForm extends Component {
 				        controlFunc={this.handleLocationChange}
           				content={this.state.location}
 		                placeholder={'Location'} />
-                
-				{/*
-                <SingleInput
-		          		inputType={'text'}
-					    title={''}
-          				name={'availability'}
-				        controlFunc={this.handleAvailabilityChange}
-          				content={this.state.availability}
-						placeholder={'Availability'} /> */}
 				<p> Please enter your availability </p>
 				<Group
 			            title={''}
@@ -254,7 +245,6 @@ class NewPostForm extends Component {
                     	controlFunc={this.handleGroupTutoringChange}
 				        options={this.state.booleanOptions}
 				        selectedOptions={this.state.acceptsGroupTutoring} />
-				            
                 <p>
 		      	<SubmitInput
 	    	    	    type="submit"

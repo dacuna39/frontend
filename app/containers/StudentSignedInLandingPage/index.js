@@ -8,9 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
+import { withRouter } from "react-router-dom";
 
 import CenteredSection from './CenteredSection';
 import Input from './Input';
@@ -46,11 +44,14 @@ const BodyWrapper = styled.div`
   flex-direction: column;
 `;
 
-export default class StudentSignedInLandingPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class StudentSignedInLandingPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   
     constructor(props) {
         super(props);
-        this.state = { isOpen: false };  //whether the sign in modal is rendered
+        this.state = { 
+            isOpen: false,
+            isLoading: true,
+        };  //whether the sign in modal is rendered
     }
 
     toggleModal = () => { //opens and closes the sign in modal
@@ -59,12 +60,16 @@ export default class StudentSignedInLandingPage extends React.Component { // esl
         });
     }
 
+    componentDidMount(){
+        this.setState({ isLoading: false });
+    }
+
   render() {
     return (
     <article>
     <Helmet>
-    <title>Student Landing Page</title>
-    <meta name="description" content="Description of Student Landing Page" />
+        <title>Student Landing Page</title>
+        <meta name="description" content="Description of Student Landing Page" />
     </Helmet>
 
     <HeaderFeed />
@@ -80,8 +85,15 @@ export default class StudentSignedInLandingPage extends React.Component { // esl
             <H1> New Post </H1>
             <NewPostForm />
         </Modal>
-    </CenteredSection>
     {/* end make new post */}
+
+        <Button onClick={() => { // link to tutors's posts
+            if (this.state.isLoading == false){
+                this.props.history.push("/studentPosts");
+            }
+        }}> My Posts </Button>
+
+    </CenteredSection>
     
     <Form onSubmit={this.handleSubmit}>
 
@@ -148,3 +160,5 @@ export default class StudentSignedInLandingPage extends React.Component { // esl
   );
 }
 }
+
+export default withRouter(StudentSignedInLandingPage);

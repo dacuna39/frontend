@@ -8,9 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
+//import withRouter from "react-router-dom";
 
 import styled from 'styled-components';
 
@@ -46,17 +44,24 @@ const BodyWrapper = styled.div`
   flex-direction: column;
 `;
 
-export default class TutorSignedInLandingPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class TutorSignedInLandingPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   constructor(props) {
     super(props);
-    this.state = { isOpen: false };  //whether the sign in modal is rendered
+    this.state = { 
+      isOpen: false,
+      isLoading: true,
+  };  //whether the sign in modal is rendered
   }
 
   toggleModal = () => { //opens and closes the sign in modal
     this.setState({
       isOpen: !this.state.isOpen
     });
+  }
+
+  componentDidMount(){
+    this.setState({ isLoading: false });
   }
 
   render() {
@@ -80,8 +85,16 @@ export default class TutorSignedInLandingPage extends React.Component { // eslin
             <H1> New Post </H1>
             <NewPostForm />
         </Modal>
-    </CenteredSection>
     {/* end make new post */}
+
+        <Button onClick={() => { // link to student's posts
+            if (this.state.isLoading == false){
+                this.props.history.push("/tutorPosts");
+            }
+        }}> My Posts </Button>
+
+    </CenteredSection>
+
 
     <Form onSubmit={this.handleSubmit}>
 
@@ -112,3 +125,6 @@ export default class TutorSignedInLandingPage extends React.Component { // eslin
   );
 }
 }
+
+//export default withRouter(TutorSignedInLandingPage);
+export default TutorSignedInLandingPage;

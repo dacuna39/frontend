@@ -89,19 +89,6 @@ class NewPostForm extends Component {
 		string += "}"
 		this.setState({availability: string}, () => console.log("availability: " + this.state.availability));
 	}
-
-	/*
-	handleTimesSelect(e) {
-		const newSelection = e.target.value;
-		let newSelectionArray;
-		if(this.state.selectedSubjects.indexOf(newSelection) > -1) {
-			newSelectionArray = this.state.selectedSubjects.filter(s => s !== newSelection)
-		} else {
-			newSelectionArray = [...this.state.selectedSubjects, newSelection];
-		}
-		console.log("string: ", string);
-		this.setState({ selectedSubjects: newSelectionArray }, () => console.log('subject selection', this.state.selectedSubjects));
-	} */
     
     handleRateChange(e) {
 		this.setState({ rate: parseInt( e.target.value, 10) });
@@ -144,7 +131,7 @@ class NewPostForm extends Component {
 		else if (this.state.daysSelect.length == 0){
 			alert("Please enter at least one day you are available");
 			return false;
-	  }
+	  	}
         else if (this.state.acceptsGroupTutoring == ""){
           alert("Please state if you will accept group tutoring");
           return false;
@@ -222,15 +209,7 @@ class NewPostForm extends Component {
 				        controlFunc={this.handleLocationChange}
           				content={this.state.location}
 		                placeholder={'Location'} />
-                
-				{/*
-                <SingleInput
-		          		inputType={'text'}
-					    title={''}
-          				name={'availability'}
-				        controlFunc={this.handleAvailabilityChange}
-          				content={this.state.availability}
-						placeholder={'Availability'} /> */}
+						
 				<p> Please enter your availability </p>
 				<Group
 			            title={''}
