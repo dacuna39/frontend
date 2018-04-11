@@ -42,7 +42,7 @@ class NewPostForm extends Component {
         this.handleAvailabilityChange = this.handleAvailabilityChange.bind(this);
 
 		this.handleDaysSelect = this.handleDaysSelect.bind(this);
-		this.handleTimesSelect = this.handleTimesSelect.bind(this);
+		//this.handleTimesSelect = this.handleTimesSelect.bind(this);
 
 		this.createAvailabilityString = this.createAvailabilityString.bind(this);
 

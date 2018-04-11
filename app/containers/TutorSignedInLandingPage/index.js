@@ -76,26 +76,6 @@ class TutorSignedInLandingPage extends React.Component { // eslint-disable-line 
 
     <BodyWrapper>
 
-    {/* make a new post */}
-    <CenteredSection>
-        <Button onClick={this.toggleModal}> New Post </Button>
-
-        <Modal  show={this.state.isOpen}
-				onClose={this.toggleModal}>
-            <H1> New Post </H1>
-            <NewPostForm />
-        </Modal>
-    {/* end make new post */}
-
-        <Button onClick={() => { // link to student's posts
-            if (this.state.isLoading == false){
-                this.props.history.push("/tutorPosts");
-            }
-        }}> My Posts </Button>
-
-    </CenteredSection>
-
-
     <Form onSubmit={this.handleSubmit}>
 
    {/* Page */}
@@ -113,11 +93,31 @@ class TutorSignedInLandingPage extends React.Component { // eslint-disable-line 
 
   {/* end Page Title */}
 
+      <CenteredSection>
+
+        {/* make a new post */}
+        <Button onClick={this.toggleModal}> New Post </Button>
+
+        <Modal show={this.state.isOpen} onClose={this.toggleModal}>
+            <H1> New Post </H1>
+            <NewPostForm />
+        </Modal>
+        {/* end make new post */}
+      
+        {/* link to studentPost */}
+        <Button onClick={() => { // link to student's posts
+            if (this.state.isLoading == false){
+                this.props.history.push("/tutorPosts");
+            }
+        }}> My Posts </Button>
+        {/* end link to studentPost */}
+
+      </CenteredSection>
+
   {/*For every request - we need another centered section*/}
   <CenteredSection>
      <Table />
   </CenteredSection>
-
 
   </Form>
   </BodyWrapper>
