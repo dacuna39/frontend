@@ -75,14 +75,16 @@ class ProfileForm extends Component {
 
 	toggleChangePassModal = () => { //opens and closes the modal
 		this.setState({
-		  isChangePassOpen: !this.state.isChangePassOpen
+		  isChangePassOpen: !this.state.isChangePassOpen,
+		  isDeactivateOpen: false
 		});
 	  }
 
 	toggleDeactivateModal = () => { //opens and closes the modal
 		this.setState({
-		  isDeactivateOpen: !this.state.isDeactivateOpen
-		});
+			isDeactivateOpen: !this.state.isDeactivateOpen,
+			isChangePassOpen: false
+		  });
 	}
 
 	/* handle variable changes */
@@ -356,23 +358,20 @@ class ProfileForm extends Component {
 						controlFunc={this.handleBioChange}
 						content={this.state.bio}
 						placeholder={'Experience, details, and other juicy info goes here!'} />
-          		</CenteredSection>
-		    </Wrapper>
+					<br />
 
-	      	{/* save, cancel, change password, deactivate account */}
-    	  	<Wrapper>
-        	  	<CenteredSection>
 					<SubmitInput 
 						type="submit"
-						value="Save Changes" />
+						value="Save Changes" />					
 				</CenteredSection>
 			</Wrapper>
 			
+			{/* change pass and deactivate buttons */}
 			<Wrapper>
 				<CenteredSection>
 					 <BlueButton form="" onClick={this.toggleChangePassModal}> Change Password </BlueButton>
+
 					 <BlueButton form="" onClick={this.toggleDeactivateModal}> Deactivate Account </BlueButton>
-        	    	  
 		        </CenteredSection>
       		</Wrapper>
 	  	</Form>

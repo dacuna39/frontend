@@ -42,15 +42,12 @@ class NewPostForm extends Component {
         this.handleSubjectChange = this.handleSubjectChange.bind(this);
         this.handleLocationChange = this.handleLocationChange.bind(this);
         this.handleAvailabilityChange = this.handleAvailabilityChange.bind(this);
-
 		this.handleDaysSelect = this.handleDaysSelect.bind(this);
-		//this.handleTimesSelect = this.handleTimesSelect.bind(this);
-
-		this.createAvailabilityString = this.createAvailabilityString.bind(this);
-
-        this.handleRateChange = this.handleRateChange.bind(this);
+		this.handleRateChange = this.handleRateChange.bind(this);
         this.handleGroupTutoringChange = this.handleGroupTutoringChange.bind(this);
 
+		this.createAvailabilityString = this.createAvailabilityString.bind(this);
+		this.clearForm = this.clearForm.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.validateForm = this.validateForm.bind(this);
     };
@@ -91,19 +88,6 @@ class NewPostForm extends Component {
 		string += "}"
 		this.setState({availability: string}, () => console.log("availability: " + this.state.availability));
 	}
-
-	/*
-	handleTimesSelect(e) {
-		const newSelection = e.target.value;
-		let newSelectionArray;
-		if(this.state.selectedSubjects.indexOf(newSelection) > -1) {
-			newSelectionArray = this.state.selectedSubjects.filter(s => s !== newSelection)
-		} else {
-			newSelectionArray = [...this.state.selectedSubjects, newSelection];
-		}
-		console.log("string: ", string);
-		this.setState({ selectedSubjects: newSelectionArray }, () => console.log('subject selection', this.state.selectedSubjects));
-	} */
     
     handleRateChange(e) {
 		this.setState({ rate: e.target.value });
@@ -123,6 +107,21 @@ class NewPostForm extends Component {
 		} else if (e.target.value == "No"){
 			this.setState({groups: false}, () => console.log("groups: ", this.state.groups));
 		}
+	}
+
+	clearForm(){
+		this.setState({ //student post
+			subject: [],
+            location: "",
+            availability: "",
+            acceptsPaid: true,
+            rate: 20,
+			//unit: "dollars/hour",
+			daysSelect: [],
+			timesSelect: [],
+			acceptsGroupTutoring: [],
+			groups: false,
+        });
 	}
     
     validateForm() {
@@ -191,7 +190,7 @@ class NewPostForm extends Component {
 			.then(response => {
 				if (response.status == 200){ //checks for ok response
 					alert("Success");
-					return true;
+					this.clearForm();
 				} else {
 					alert("Error submitting post");
 				}
