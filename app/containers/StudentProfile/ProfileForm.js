@@ -40,7 +40,7 @@ class ProfileForm extends Component {
             img: this.props.img,
 			bio: this.props.bio,
 
-			subjects: ["English", "Math", "Science", "History", "Computer Science", "Business", "Psychology","Spanish"],
+			subjects: ["English", "Math", "Biology", "Chemistry", "Physics", "Kinesiology", "History", "Computer Science", "Business", "Psychology","Accounting"],
 			selectedSubjects: [],
 			
 			active: this.props.active,
@@ -272,11 +272,13 @@ class ProfileForm extends Component {
 						controlFunc={this.handlePictureChange}
 						content={img}
 						placeholder={'No Image Selected'} />          							
-          		</CenteredSection>
+          	</CenteredSection>
           
-          	<div>
+          	<table>
+			<tr>
+				<td>
           		<LeftAlignSection>
-					<p>First Name</p>
+            		<p>First Name</p>
 					<SingleInput
 						inputType={'text'}
 						title={''}
@@ -285,21 +287,9 @@ class ProfileForm extends Component {
 						content={legalFirstName}
 						placeholder={"First Name"}/>	
           		</LeftAlignSection>
-
-            	<LeftAlignSection>
-            		<p>Major</p>
-            		<SingleInput
-						inputType={'text'}
-						title={''}
-						name={'major'}
-						controlFunc={this.handleMajorChange}
-						content={major}
-						placeholder={'Major'} />	
-          		</LeftAlignSection> 
-         	</div>
-
-          	<div>
-          		<LeftAlignSection>
+				</td>
+				<td>
+				<LeftAlignSection>
             		<p>Last Name</p>
             		<SingleInput
 						inputType={'text'}
@@ -309,7 +299,22 @@ class ProfileForm extends Component {
 						content={legalLastName}
 						placeholder={'Last Name'} />	
          		</LeftAlignSection>
-
+				</td>
+			</tr>
+          	<tr>
+				<td>
+				<LeftAlignSection>
+            		<p>Major</p>
+            		<SingleInput
+						inputType={'text'}
+						title={''}
+						name={'major'}
+						controlFunc={this.handleMajorChange}
+						content={major}
+						placeholder={'Major'} />	
+          		</LeftAlignSection> 
+				</td>
+				<td>
             	<LeftAlignSection>
              		<p>Minor</p>
             		<SingleInput
@@ -320,7 +325,10 @@ class ProfileForm extends Component {
 						content={minor}
 						placeholder={'Minor'} />
 				</LeftAlignSection>
-          	</div>
+				</td>
+          	</tr>
+			</table>
+
     	    </Wrapper>
 
 			{/* Subject Options */}

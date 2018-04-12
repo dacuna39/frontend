@@ -106,8 +106,8 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 			if (this.state.userPosts.length != 0){
 				return this.state.userPosts.map((post) => {	
 					return (
-						<div>
-							<Post key={post.postId}>
+						<div key={post.postId}>
+							<Post>
 								<p> {post.subject} </p>
 								<p> {post.location} </p>
 								<p> {post.availability} </p>
@@ -128,7 +128,6 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 					</div>
 				);
 			}
-			
 		}//end check if state is null
 	}
 	
@@ -147,7 +146,7 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 					<H1> Your Posts </H1>
 
 					{this.createPostsTable()}
-
+					
 				</CenteredSection>
 			</BodyWrapper>
       	</div>
