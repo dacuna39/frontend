@@ -6,7 +6,7 @@ const Label = styled.label`
 `;
 
 const Div = styled.div `
-	padding: .3em 3em;
+	padding: 0em .1em;
 `;
 
 const CheckboxOrRadioGroup = (props) => (

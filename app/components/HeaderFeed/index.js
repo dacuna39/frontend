@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
+import styled from "styled-components";
 
 import { BindActionCreators } from 'redux';
 import { connect } from 'react-redux'
@@ -9,6 +10,10 @@ import Wrapper from './Wrapper';
 import Button from 'components/Button';
 
 import logo from './tutorfindlogo.png';
+
+const TD = styled.td`
+		padding: 0 .5em;
+`;
 
 class HeaderFeed extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -35,10 +40,14 @@ class HeaderFeed extends React.Component { // eslint-disable-line react/prefer-s
 					<Img src={logo} alt="Tutorfind - Logo"/>
 			</section>
 			
-			<section>
+			<table>
+				<TD>
 				<Button onClick={this.redirectToProfile}> Edit Profile </Button>
+				</TD>
+				<TD>
 				<Button href="/loggedOut"> Sign Out </Button>
-			</section>
+				</TD>
+			</table>
 		</Wrapper> 
       </div>
     );

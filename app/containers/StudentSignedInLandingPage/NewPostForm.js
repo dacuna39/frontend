@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+//import withRouter from 'react-router-dom';
 
 import SingleInput from 'components/FormComponents/SingleInput';
 import Group from 'components/FormComponents/CheckboxOrRadioGroup';
@@ -42,15 +43,12 @@ class NewPostForm extends Component {
 		this.handleSubjectChange = this.handleSubjectChange.bind(this);
         this.handleLocationChange = this.handleLocationChange.bind(this);
         this.handleAvailabilityChange = this.handleAvailabilityChange.bind(this);
-
 		this.handleDaysSelect = this.handleDaysSelect.bind(this);
-		//this.handleTimesSelect = this.handleTimesSelect.bind(this);
-
-		this.createAvailabilityString = this.createAvailabilityString.bind(this);
-
-        this.handleRateChange = this.handleRateChange.bind(this);
+		this.handleRateChange = this.handleRateChange.bind(this);
         this.handleGroupTutoringChange = this.handleGroupTutoringChange.bind(this);
 
+		this.createAvailabilityString = this.createAvailabilityString.bind(this);
+		this.clearForm = this.clearForm.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.validateForm = this.validateForm.bind(this);
     };
@@ -111,7 +109,22 @@ class NewPostForm extends Component {
 			this.setState({groups: false});
 		}
 	}
-    
+	
+	clearForm(){
+		this.setState({ //student post
+			subject: [],
+            location: "",
+            availability: "",
+            acceptsPaid: true,
+            rate: 20,
+			//unit: "dollars/hour",
+			daysSelect: [],
+			timesSelect: [],
+			acceptsGroupTutoring: [],
+			groups: false,
+        });
+	}
+
     validateForm() {
 
         if ( this.state.subject[0] == ""){
@@ -181,8 +194,8 @@ class NewPostForm extends Component {
 			})
 			.then(response => {
 				if (response.status == 200){ //checks for ok response
-					alert("Success");
-					return true;
+					alert("Success");		
+					this.clearForm();			
 				} else {
 					alert("Error submitting post");
 				}

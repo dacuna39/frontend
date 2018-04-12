@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { withRouter } from "react-router-dom";
 
 import styled from 'styled-components';
 import HeaderFeed from 'components/HeaderFeed';
@@ -46,11 +47,11 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 		});
 
 		this.componentDidMount = this.componentDidMount.bind(this);	
+		this.getPosts = this.getPosts.bind(this);
 		this.createPostsTable = this.createPostsTable.bind(this);
 	}
 
-	componentDidMount(){
-
+	getPosts(){
 		var onlyUsers = [];
 
 		fetch(this.link, {
@@ -72,7 +73,10 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 			this.setState({ userPosts: onlyUsers }, () => console.log("user's posts: ", this.state.userPosts));
 		})
 		.catch(error => console.log('parsing failed', error));
+	}
 
+	componentDidMount(){
+		this.getPosts();
 	}
 
 	deletePost(post){
@@ -91,6 +95,7 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 			if (response.status == 200){
 				alert('post: ' + JSON.stringify(post));
 				alert("Deleted!");
+				this.getPosts();
 			} else {
 				alert("An error occurred, please try again later");
 				alert('formPayload: ' + JSON.stringify(formPayload));
@@ -143,10 +148,12 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 
 			<BodyWrapper>
 				<CenteredSection>
+					<br />
 					<H1> Your Posts </H1>
-
+					<br />
 					{this.createPostsTable()}
 					
+					<Button onClick={() => this.props.history.goBack()}> Back </Button>
 				</CenteredSection>
 			</BodyWrapper>
       	</div>
@@ -160,4 +167,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps)(StudentPosts);
+export default withRouter( connect(mapStateToProps)(StudentPosts) );
