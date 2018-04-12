@@ -39,7 +39,7 @@ class ProfileForm extends Component {
             img: this.props.img,
 			bio: this.props.bio,
 
-			subjects: ["English", "Math", "Science", "History", "Computer Science", "Business", "Psychology","Spanish"],
+			subjects: ["English", "Math", "Biology", "Chemistry", "Physics", "Kinesiology", "History", "Computer Science", "Business", "Psychology","Accounting"],
 			selectedSubjects: [],
 
 			active: this.props.active,
@@ -267,9 +267,11 @@ class ProfileForm extends Component {
 						controlFunc={this.handlePictureChange}
 						content={img}
 						placeholder={'No File Selected'} />
-          		</CenteredSection>
+          	</CenteredSection>
           
-          	<div>
+          	<table>
+			<tr>
+				<td>
           		<LeftAlignSection>
             		<p>First Name</p>
 					<SingleInput
@@ -280,21 +282,9 @@ class ProfileForm extends Component {
 						content={legalFirstName}
 						placeholder={"First Name"}/>	
           		</LeftAlignSection>
-
-            	<LeftAlignSection>
-            		<p>Degrees</p>
-            		<SingleInput
-						inputType={'text'}
-						title={''}
-						name={'degrees'}
-						controlFunc={this.handleDegreesChange}
-						content={degrees}
-						placeholder={'Degrees'} />	
-          		</LeftAlignSection> 
-         	</div>
-
-          	<div>
-          		<LeftAlignSection>
+				</td>
+				<td>
+				<LeftAlignSection>
             		<p>Last Name</p>
             		<SingleInput
 						inputType={'text'}
@@ -304,7 +294,23 @@ class ProfileForm extends Component {
 						content={legalLastName}
 						placeholder={'Last Name'} />	
          		</LeftAlignSection>
+				</td>
+			</tr>
 
+          	<tr>
+				<td>
+				<LeftAlignSection>
+            		<p>Degrees</p>
+            		<SingleInput
+						inputType={'text'}
+						title={''}
+						name={'degrees'}
+						controlFunc={this.handleDegreesChange}
+						content={degrees}
+						placeholder={'Degrees'} />	
+          		</LeftAlignSection> 
+				</td>
+				<td>
             	<LeftAlignSection>
              		<p>Links</p>
             		<SingleInput
@@ -315,7 +321,9 @@ class ProfileForm extends Component {
 						content={links}
 						placeholder={'Links'} />
 				</LeftAlignSection>
-          	</div>
+				</td>
+          	</tr>
+			</table>
     	    </Wrapper>
 
 			{/* Subject Options */}

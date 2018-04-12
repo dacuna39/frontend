@@ -105,8 +105,8 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 			if (this.state.userPosts.length != 0){
 				return this.state.userPosts.map((post) => {	
 					return (
-						<div>
-							<Post key={post.postId}>
+						<div key={post.postId}>
+							<Post>
 								<p> {post.subject} </p>
 								<p> {post.location} </p>
 								<p> {post.availability} </p>

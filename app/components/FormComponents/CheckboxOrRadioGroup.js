@@ -2,15 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Label = styled.label`
-  outline: none;
+  padding: 0 0.5em;
+`;
 
-  padding: 0.25em;
+const Div = styled.div `
+	padding: .3em 3em;
 `;
 
 const CheckboxOrRadioGroup = (props) => (
 	<div>
-		<label className="form-label">{props.title}</label>
-		<div className="checkbox-group">
+		<p className="form-label">{props.title}</p>
+		<Div className="checkbox-group">
 			{props.options.map(option => {
 				return (
 					<Label key={option} className="form-label capitalize">
@@ -24,7 +26,7 @@ const CheckboxOrRadioGroup = (props) => (
 					</Label>
 				);
 			})}
-		</div>
+		</Div>
 	</div>
 );
 

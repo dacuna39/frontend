@@ -18,7 +18,9 @@ class NewPostForm extends Component {
 
             ownerId: 10, //need props to get ownerId
 
-            subject: "",
+			subject: [],
+			subjects: ["English", "Math", "Biology", "Chemistry", "Physics", "Kinesiology", "History", "Computer Science", "Business", "Psychology","Accounting"],
+
             location: "",
             availability: "",
             acceptsPaid: true,
@@ -37,7 +39,7 @@ class NewPostForm extends Component {
             booleanOptions: ['Yes', 'No'],
         };
 
-        this.handleSubjectChange = this.handleSubjectChange.bind(this);
+		this.handleSubjectChange = this.handleSubjectChange.bind(this);
         this.handleLocationChange = this.handleLocationChange.bind(this);
         this.handleAvailabilityChange = this.handleAvailabilityChange.bind(this);
 
@@ -54,8 +56,8 @@ class NewPostForm extends Component {
     };
 
     handleSubjectChange(e) {
-		  this.setState({ subject: e.target.value });
-    }
+		  this.setState({ subject: [e.target.value] }, () => console.log(this.state.subject));
+	}
     
     handleLocationChange(e) {
 		  this.setState({ location: e.target.value });
@@ -112,8 +114,8 @@ class NewPostForm extends Component {
     
     validateForm() {
 
-        if ( this.state.subject == ""){
-          alert("Please enter a subject");
+        if ( this.state.subject[0] == ""){
+          alert("Please select a subject");
           return false;
         }
         else if (this.state.location == ""){
@@ -151,7 +153,7 @@ class NewPostForm extends Component {
 	            posterType: "student",
     	        ownerId: this.props.userId, //need props to get ownerId
 
-	            subject: this.state.subject.toUpperCase(),
+	            subject: this.state.subject[0].toUpperCase(),
     	        location: this.state.location,
 				availability: this.state.availability,
 				// availability requires a format like this:
@@ -190,27 +192,30 @@ class NewPostForm extends Component {
     }//end handleFormSubmit
 
     render() {
-		//console.log("acceptsPaid: ", this.state.acceptsPaid);
         //console.log("state: ", this.state);
         return(         
             <Form onSubmit={this.handleFormSubmit}>
-                <SingleInput
-		          		inputType={'text'}
-					    title={''}
-          				name={'subject'}
-			            controlFunc={this.handleSubjectChange}
-        				content={this.state.subject}
-    			        placeholder={'Subject'} />
 
+				<h4> Subject </h4>
+				<Group
+					title={''}
+					type={'radio'}
+					setName={'subject'}
+					controlFunc={this.handleSubjectChange}
+					options={this.state.subjects}
+					selectedOptions={this.state.subject}
+					 />
+
+				<h4> Location </h4>
                 <SingleInput
 		          		inputType={'text'}
 					    title={''}
           				name={'location'}
 				        controlFunc={this.handleLocationChange}
           				content={this.state.location}
-		                placeholder={'Location'} />
+		                placeholder={''} />
 						
-				<p> Please enter your availability </p>
+				<h4> Please enter your availability </h4>
 				<Group
 			            title={''}
             			type={'checkbox'}
