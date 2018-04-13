@@ -123,18 +123,18 @@ class SignUpForm extends Component {
 			//student Put
 			if(this.state.accountSelection[0] == 'Student'){
 
-				const studentPayload = {
-					userId: 100, //userId is automatically incremented
+				const studentPayload = { //userId is automatically incremented
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,
 					salt: "",
 					userType: "student",
+					subjects: [],
 
 					legalFirstName: this.state.legalFirstName,
 					legalLastName: this.state.legalLastName,
 					bio: "",
-					img: "No Image Selected",
+					img: "https:d30y9cdsu7xlg0.cloudfront.net/png/1095867-200.png",
 
 					major: "",
 					minor: "",
@@ -175,17 +175,17 @@ class SignUpForm extends Component {
 			//Tutor put
 			else if (this.state.accountSelection[0] == 'Tutor'){
 				const tutorPayload = {
-					userId: 100, //userId is automatically incremented
 					userName: this.state.userName,
 					email: this.state.email,
 					passhash: this.state.password,
 					salt: "",
 					userType: "tutor",
+					subjects: [],
 
 					legalFirstName: this.state.legalFirstName,
 					legalLastName: this.state.legalLastName,
 					bio: "",
-					img: "No Image Selected",
+					img: "https:d30y9cdsu7xlg0.cloudfront.net/png/1095867-200.png",
 
 					degrees: "",
 					links: "",

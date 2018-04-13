@@ -196,6 +196,7 @@ class ProfileForm extends Component {
 				salt: this.state.salt,
 				passhash: this.state.password,
 				userType: this.state.userType,
+				subjects: this.state.selectedSubjects,
 
 				legalFirstName: this.state.legalFirstName,
 				legalLastName: this.state.legalLastName,

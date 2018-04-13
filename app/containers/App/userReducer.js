@@ -29,7 +29,7 @@ export default function (state=
         
         case "UPDATE_PROFILE":
 
-            if (action.payload.userId == undefined){
+            if (action.payload.legalFirstName == ""){
                 alert("payloadId is undefined");
                 console.log("state: ", state);
                 return state;
