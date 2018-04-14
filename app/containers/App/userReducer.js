@@ -31,7 +31,7 @@ export default function (state=
         case "UPDATE_PROFILE":
 
             if (action.payload.legalFirstName == ""){
-                alert("payloadId is undefined");
+                console.log("payloadId is undefined");
                 console.log("state: ", state);
                 return state;
             }
