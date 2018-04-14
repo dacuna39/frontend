@@ -112,8 +112,7 @@ class SignInForm extends Component {
 			.then(doneLoading => { //once job is finished, go to profile page
 				if(doneLoading == true){
 					this.props.history.push("/tutorProfile");					
-				}
-				
+				}				
 			})
 			.catch(error => console.log('parsing failed', error));
 		}

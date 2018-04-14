@@ -21,10 +21,12 @@ class HeaderFeed extends React.Component { // eslint-disable-line react/prefer-s
 		super(props);
 
 		this.redirectToProfile = this.redirectToProfile.bind(this);
+	}
 
+	componentDidMount(){
 		if (this.props.userId == 0 || this.props.userId == undefined){
 			alert("You must be signed in to view this page!");
-			//this.props.history.push("/");
+			this.props.history.push("/");
 		}
 	}
 
@@ -68,4 +70,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default withRouter( connect(mapStateToProps)(HeaderFeed));
+export default withRouter( connect(mapStateToProps)(HeaderFeed) );

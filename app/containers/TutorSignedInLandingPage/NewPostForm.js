@@ -178,6 +178,7 @@ class NewPostForm extends Component {
 				active: true,
 				currentlySignedUp: 0,
 			};
+			console.log("payload: " + JSON.stringify(payload));
 
 			fetch(this.link + '/posts', { //post entries to database :)
 				method: 'put',
@@ -195,7 +196,6 @@ class NewPostForm extends Component {
 					alert("Error submitting post");
 				}
 			})
-			alert("payload: " + JSON.stringify(payload));
         }//end if validateForm
     }//end handleFormSubmit
 

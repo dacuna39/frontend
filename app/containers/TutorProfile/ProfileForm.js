@@ -207,7 +207,7 @@ class ProfileForm extends Component {
 		  		ratings: this.state.ratings,
 			};
 
-			fetch(this.link + this.props.userId, { //post profile updates to database :)
+			fetch(this.link + this.props.userId.toString(), { //post profile updates to database :)
 				method: 'post',
 				headers: {
 					'Accept': 'application/json',
@@ -217,13 +217,13 @@ class ProfileForm extends Component {
 			})
 			.then(response => { //checks if user was found
 				if (response.status == 200){
-					alert('formPayload: ' + JSON.stringify(formPayload));
+					console.log('formPayload: ', JSON.stringify(formPayload));
 					this.props.loadProfile(formPayload); //update app state
 					alert("Saved!");
 					//return response.json();
 				} else {
 					alert("An error occurred, please try again later");
-					alert('formPayload: ' + JSON.stringify(formPayload));
+					console.log('formPayload: ', JSON.stringify(formPayload));
 				}
 			})
 			.catch(error => console.log('parsing failed', error))
@@ -252,6 +252,7 @@ class ProfileForm extends Component {
 
 	render() {
 
+		console.log("props at profileform: ", this.props);
         const { legalFirstName, legalLastName, degrees, links, img, bio, password, selectedSubjects } = this.state;
 
         return(

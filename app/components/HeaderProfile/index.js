@@ -21,10 +21,12 @@ class HeaderProfile extends React.Component { // eslint-disable-line react/prefe
 		super(props);
 
 		this.redirectToFeed = this.redirectToFeed.bind(this);
+	}
 
-		if (this.props.userId == 0 || this.props.userId == undefined){
+	componentDidMount(){
+		if (this.props.userId == 0){ //on first sign up, userId will be undefined
 			alert("You must be signed in to view this page!");
-			//this.props.history.push("/");
+			this.props.history.push("/");
 		}
 	}
 
@@ -61,6 +63,7 @@ class HeaderProfile extends React.Component { // eslint-disable-line react/prefe
 
 function mapStateToProps(state) {
 	return{
+		userId: state.userId,
 		userType: state.userType,
 	}
 }
