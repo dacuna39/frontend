@@ -46,7 +46,7 @@ function Footer() {
 	      <H2> Contact Us </H2>
 		  <List>
 			<ListItem>
-				<A href="mailto:info@tutorfind.com">info@tutorfind.com</A>
+				<A href="mailto:info@tutorfind.com">tutorfindapp@gmail.com</A>
 			</ListItem>
 			<ListItem>
 				<p> (408) 123-2018 </p>

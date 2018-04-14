@@ -247,6 +247,9 @@ class ProfileForm extends Component {
 
 	changePassword(){
 
+		// /changepassword/{id}/oldpassword
+		// payload: userId and new password
+
 		if (this.validatePassChange()){
 
 			this.setState({ password: this.state.enterPassword });
