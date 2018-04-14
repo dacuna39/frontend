@@ -40,7 +40,7 @@ class ProfileForm extends Component {
             img: this.props.img,
 			bio: this.props.bio,
 
-			subjects: ["English", "Math", "Biology", "Chemistry", "Physics", "Kinesiology", "History", "Computer Science", "Business", "Psychology","Accounting"],
+			subjects: ["Accounting", "Biology", "Business", "Chemistry", "Computer Science", "English", "History", "Kinesiology", "Math", "Physics", "Psychology"],
 			selectedSubjects: this.props.subjects,
 			//subjects: [],
 			
