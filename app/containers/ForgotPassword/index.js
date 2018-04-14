@@ -45,6 +45,8 @@ export default class ForgotPassword extends React.Component { // eslint-disable-
               <FormattedMessage {...messages.aboutMessage} />
             </p>
             <ForgotPasswordForm />
+            <br />
+            <p> <a href="/"> Click here </a> to return Home </p>
           </CenteredSection>
 		      {/* end ForgotPassword */}
 	  	  </Wrapper>	

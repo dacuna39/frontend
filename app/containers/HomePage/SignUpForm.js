@@ -120,6 +120,11 @@ class SignUpForm extends Component {
 
 		if(this.validateForm()){
 
+			const loginPayload = { //for "login" after making a new user to get the userId made in the database
+				userName: this.state.userName,
+				passhash: this.state.password
+			};
+
 			//student Put
 			if(this.state.accountSelection[0] == 'Student'){
 
@@ -134,7 +139,7 @@ class SignUpForm extends Component {
 					legalFirstName: this.state.legalFirstName,
 					legalLastName: this.state.legalLastName,
 					bio: "",
-					img: "https:d30y9cdsu7xlg0.cloudfront.net/png/1095867-200.png",
+					img: "https://d30y9cdsu7xlg0.cloudfront.net/png/1095867-200.png",
 
 					major: "",
 					minor: "",
@@ -142,6 +147,9 @@ class SignUpForm extends Component {
 					active: true,
 					creationDate: Math.floor(Date.now()/1000),						
 				};
+				console.log('studentPayload' + JSON.stringify(studentPayload));
+
+				/* start the put method */
 		
 				fetch(this.link + '/students', { //post entries to database :)
 					method: 'put',
@@ -156,21 +164,60 @@ class SignUpForm extends Component {
 						console.log("success");
 						this.props.loadProfile(studentPayload);
 						return true;
-					} else {
-						alert("Error signing Up");
+					} else if (response.status == 400){
+						console.log("fail, username/email taken");
+						alert("That email/username is already taken, please try another");
+						return false;
+					} 
+					else {
+						console.log("non status 400 fail");
+						alert("Error signing Up, please try again later or contact us for help");
+						return false;
 					}
 				})
-				.then(doneLoading => { //once job is finished, go to profile page
-					if(doneLoading == true){
-						this.props.history.push("/studentProfile");					
-					}
-					
-				})
-				.catch(error => console.log('parsing failed', error))
+				.catch(error => console.log('parsing failed at making new user', error))
+				/* end post new student, now we must do a "login" to retrieve the userId created in the database
+			  	   otherwise nothing will work on first user session! */
 
-				alert('studentPayload' + JSON.stringify(studentPayload));
+				.then( success => {
+						if (success == true){
+							fetch(this.link + '/students/login', { 
+								method: 'post',
+								headers: {
+									'Accept': 'application/json',
+									'Content-Type': 'application/json',	
+								},
+								body: JSON.stringify(loginPayload)					
+							})
+							.then(response => {
+								if (response.status == 200){ //checks if user was found
+									console.log("user found, this should always work");
+									return response.json();
+								} else {
+									alert("Invalid login after posting new user");
+								}
+							})
+							.then(data => { // loads data into store/props
+								this.props.loadProfile(data);			
+								return true;
+							})
+							.then(doneLoading => { //once job is finished, go to profile page
+								if(doneLoading == true){
+									this.props.history.push("/studentProfile");					
+								}								
+							})
+
+						}// end if put student was success
+					}
+				)// end .then() after putting student
+
 
 			}// end student put
+
+			/* 
+			 *	 And now for tutors 
+			 *
+			 */
 
 			//Tutor put
 			else if (this.state.accountSelection[0] == 'Tutor'){
@@ -185,7 +232,7 @@ class SignUpForm extends Component {
 					legalFirstName: this.state.legalFirstName,
 					legalLastName: this.state.legalLastName,
 					bio: "",
-					img: "https:d30y9cdsu7xlg0.cloudfront.net/png/1095867-200.png",
+					img: "https://d30y9cdsu7xlg0.cloudfront.net/png/1095867-200.png",
 
 					degrees: "",
 					links: "",
@@ -194,7 +241,10 @@ class SignUpForm extends Component {
 					timestamp: Math.floor(Date.now()/1000),
 					ratings: [],
 				};
+				console.log('tutorPayload' + JSON.stringify(tutorPayload));
 				
+				/* start the put method */
+
 				fetch(this.link + '/tutors', { //post entries to database :)
 					method: 'put',
 					headers: {
@@ -208,19 +258,52 @@ class SignUpForm extends Component {
 						console.log("success");
 						this.props.loadProfile(tutorPayload);
 						return true;
-					} else {
-						alert("Error signing Up");
+					} else if (response.status == 400){
+						console.log("fail, username/email taken");
+						alert("That email/username is already taken, please try another");
+						return false;
+					} 
+					else {
+						console.log("non status 400 fail");
+						alert("Error signing Up, please try again later or contact us for help");
+						return false;
 					}
 				})
-				.then(doneLoading => { //once job is finished, go to profile page
-					if(doneLoading == true){
-						this.props.history.push("/tutorProfile");					
-					}
-					
-				})
-				.catch(error => console.log('parsing failed', error))
-	
-				alert('tutorPayload' + JSON.stringify(tutorPayload));
+				.catch(error => console.log('parsing failed at making new user', error))
+				/* end post new tutor, now we must do a "login" to retrieve the userId created in the database
+				   otherwise nothing will work on first user session! */
+					 
+				   .then( success => {
+					if (success == true){
+						fetch(this.link + '/tutors/login', { 
+							method: 'post',
+							headers: {
+								'Accept': 'application/json',
+								'Content-Type': 'application/json',	
+							},
+							body: JSON.stringify(loginPayload)					
+						})
+						.then(response => {
+							if (response.status == 200){ //checks if user was found
+								console.log("user found, this should always work");
+								return response.json();
+							} else {
+								alert("Invalid login after posting new user");
+							}
+						})
+						.then(data => { // loads data into store/props
+							this.props.loadProfile(data);			
+							return true;
+						})
+						.then(doneLoading => { //once job is finished, go to profile page
+							if(doneLoading == true){
+								this.props.history.push("/tutorProfile");					
+							}								
+						})
+
+					}// end if put tutor was success
+				}
+			)// end .then() after putting tutor
 			}//end tutor put
 
 		}// end if validateForm()
@@ -236,11 +319,9 @@ class SignUpForm extends Component {
 				setName={'accountSelection'}
 				controlFunc={this.handleAccountOptionSelect}
 				options={this.state.accountOptions}
-				selectedOptions={this.state.accountSelection}
-				
+				selectedOptions={this.state.accountSelection}				
 				/>
-			</p>
-			
+			</p>		
 				<SingleInput
 					inputType={'text'}
 					title={''}
@@ -283,7 +364,6 @@ class SignUpForm extends Component {
 					controlFunc={this.handleConfirmPasswordChange}
 					content={this.state.confirmPassword}
 					placeholder={'Confirm Password'} />
-
 				<p>
 					<SubmitInput
 							type="submit"

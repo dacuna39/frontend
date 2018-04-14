@@ -83,7 +83,7 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 		
 		post.active = false;
 
-		fetch(this.link + post.postId, { //post profile updates to database :)
+		fetch(this.link + post.postId.toString(), { //post profile updates to database :)
 			method: 'post',
 			headers: {
 				'Accept': 'application/json',

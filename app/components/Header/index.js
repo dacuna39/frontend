@@ -19,7 +19,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
 	constructor(props) {
     super(props);
     this.state = { isOpen: false };  //whether the sign in modal is rendered
-  }
+	}
 
 	toggleModal = () => { //opens and closes the sign in modal
     this.setState({

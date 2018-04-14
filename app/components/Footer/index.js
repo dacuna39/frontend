@@ -28,20 +28,7 @@ function Footer() {
 		  <H2> About Us </H2>
 		  <p>We are fantastic and our project is awesome!</p>
 		</section>
-		<section>
-		  <H2> Navigation </H2>
-		  <List>
-			<ListItem>
-				<A href="/"> Home </A>
-			</ListItem>
-			<ListItem>
-				<A href="/studentProfile"> Student Profile </A>
-			</ListItem>
-			<ListItem>
-				<A href="/tutorProfile"> TutorProfile </A>
-			</ListItem>
-		  </List>
-		</section>
+
 		<section>
 	      <H2> Contact Us </H2>
 		  <List>

@@ -210,7 +210,7 @@ class ProfileForm extends Component {
 		  		creationDate: this.state.timestamp,
 			};
 
-			fetch(this.link + this.props.userId, { //post profile updates to database :)
+			fetch(this.link + this.props.userId.toString(), { //post profile updates to database :)
 				method: 'post',
 				headers: {
 					'Accept': 'application/json',
@@ -220,13 +220,13 @@ class ProfileForm extends Component {
 			})
 			.then(response => { //checks if user was found
 				if (response.status == 200){
-					alert('formPayload: ' + JSON.stringify(formPayload));
+					console.log('formPayload: ', JSON.stringify(formPayload));
 					this.props.loadProfile(formPayload);
 					alert("Saved!");
 					//return response.json();
 				} else {
 					alert("An error occurred, please try again later");
-					alert('formPayload: ' + JSON.stringify(formPayload));
+					console.log('formPayload: ', JSON.stringify(formPayload));
 				}
 			})
 			.catch(error => alert('parsing failed profile form', error))
