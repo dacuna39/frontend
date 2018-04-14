@@ -30,6 +30,7 @@ export default function NotFound() {
         <H1>
           <FormattedMessage {...messages.header} />
         </H1>
+        <p> <a href="/"> Click here </a> to return Home </p>
       </BodyWrapper>
     </article>
   );
