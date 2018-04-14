@@ -21,6 +21,11 @@ class HeaderFeed extends React.Component { // eslint-disable-line react/prefer-s
 		super(props);
 
 		this.redirectToProfile = this.redirectToProfile.bind(this);
+
+		if (this.props.userId == 0 || this.props.userId == undefined){
+			alert("You must be signed in to view this page!");
+			//this.props.history.push("/");
+		}
 	}
 
 	redirectToProfile() {
@@ -41,12 +46,14 @@ class HeaderFeed extends React.Component { // eslint-disable-line react/prefer-s
 			</section>
 			
 			<table>
+			<tbody>
 				<TD>
 				<Button onClick={this.redirectToProfile}> Edit Profile </Button>
 				</TD>
 				<TD>
 				<Button href="/loggedOut"> Sign Out </Button>
 				</TD>
+			</tbody>
 			</table>
 		</Wrapper> 
       </div>
@@ -56,6 +63,7 @@ class HeaderFeed extends React.Component { // eslint-disable-line react/prefer-s
 
 function mapStateToProps(state) {
 	return{
+		userId: state.userId,
 		userType: state.userType,
 	}
 }

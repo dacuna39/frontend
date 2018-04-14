@@ -21,6 +21,11 @@ class HeaderProfile extends React.Component { // eslint-disable-line react/prefe
 		super(props);
 
 		this.redirectToFeed = this.redirectToFeed.bind(this);
+
+		if (this.props.userId == 0 || this.props.userId == undefined){
+			alert("You must be signed in to view this page!");
+			//this.props.history.push("/");
+		}
 	}
 
 	redirectToFeed() {

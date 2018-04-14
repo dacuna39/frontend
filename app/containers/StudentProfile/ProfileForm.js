@@ -41,7 +41,8 @@ class ProfileForm extends Component {
 			bio: this.props.bio,
 
 			subjects: ["English", "Math", "Biology", "Chemistry", "Physics", "Kinesiology", "History", "Computer Science", "Business", "Psychology","Accounting"],
-			selectedSubjects: [],
+			selectedSubjects: this.props.subjects,
+			//subjects: [],
 			
 			active: this.props.active,
 			timestamp: this.props.timestamp,
@@ -203,8 +204,7 @@ class ProfileForm extends Component {
 				img: this.state.img,
 				major: this.state.major,
 				minor: this.state.minor,
-				bio: this.state.bio,
-				//selectedSubjects: this.state.subjects,				
+				bio: this.state.bio,				
 
 				active: this.state.active,
 		  		creationDate: this.state.timestamp,
@@ -278,6 +278,7 @@ class ProfileForm extends Component {
           	</CenteredSection>
           
           	<table>
+			<tbody>
 			<tr>
 				<td>
           		<LeftAlignSection>
@@ -330,6 +331,7 @@ class ProfileForm extends Component {
 				</LeftAlignSection>
 				</td>
           	</tr>
+			</tbody>
 			</table>
 
     	    </Wrapper>
@@ -436,6 +438,7 @@ function mapStateToProps(state) {
 		password: state.password,
 		salt: state.salt,
 		userType: state.userType,
+		subjects: state.subjects,
 
 		legalFirstName: state.legalFirstName,
 		legalLastName: state.legalLastName,

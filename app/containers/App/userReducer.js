@@ -7,6 +7,7 @@ export default function (state=
 		password: "default",
 		salt: "",
         userType: [],
+        subjects: [],
         
         legalFirstName: "first",
         legalLastName: "last",
@@ -41,6 +42,7 @@ export default function (state=
                 state.password = action.payload.passhash;
                 state.salt = action.payload.salt;
                 state.userType = action.payload.userType;
+                state.subjects = action.payload.subjects;
 
                 state.legalFirstName = action.payload.legalFirstName;
                 state.legalLastName = action.payload.legalLastName;

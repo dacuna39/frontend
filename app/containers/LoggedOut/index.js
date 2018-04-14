@@ -44,6 +44,7 @@ export default class LoggedOut extends React.Component { // eslint-disable-line 
             <p>
               <FormattedMessage {...messages.aboutMessage} />
             </p>
+            <p> <a href="/"> Click here </a> to return Home </p>
           </CenteredSection>
 		      {/* end Logged out */}
 	  	  </Wrapper>	

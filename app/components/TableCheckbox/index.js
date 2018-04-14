@@ -13,6 +13,7 @@ function TableCheckbox() {
     return (
         <CheckboxTableStyle>
         <table>
+        <tbody>
         <tr>
             <th>
                 <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
@@ -28,6 +29,7 @@ function TableCheckbox() {
         <tr>
             <th><button type="submit">Filter</button></th>
         </tr>
+        </tbody>
         </table>
         </CheckboxTableStyle>
     );
