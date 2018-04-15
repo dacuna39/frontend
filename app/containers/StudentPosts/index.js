@@ -40,7 +40,7 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 
 	constructor(props) {
 		super(props);
-		this.link = 'https://tutor-find.herokuapp.com/posts/';
+		this.link = 'https://tutor-find.herokuapp.com';
 
 		this.setState({
 			userPosts : [],
@@ -54,7 +54,7 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 	getPosts(){
 		var onlyUsers = [];
 
-		fetch(this.link, {
+		fetch(this.link + '/posts?type=student', {
 			method: 'get',
 			headers: {
 				'Accept': 'application/json',

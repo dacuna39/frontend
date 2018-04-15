@@ -271,6 +271,7 @@ class ProfileForm extends Component {
           	<CenteredSection>
           		<p> Profile Picture </p>
             	<Img src={img} alt="Profile Picture" />
+				<label>Paste an image url here </label>
 					<SingleInput
 						inputType={'text'}
 						title={''}

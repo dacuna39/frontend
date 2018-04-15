@@ -264,6 +264,7 @@ class ProfileForm extends Component {
           	<CenteredSection>
           		<p> Profile Picture </p>
             	<Img src={img} alt="Profile Picture" />
+				<label>Paste an image url here </label>
 					<SingleInput
 						inputType={'text'}
 						title={''}
@@ -305,7 +306,7 @@ class ProfileForm extends Component {
           	<tr>
 				<td>
 				<LeftAlignSection>
-            		<p>Degrees</p>
+            		<p>Highest Degree</p>
             		<SingleInput
 						inputType={'text'}
 						title={''}
@@ -313,11 +314,11 @@ class ProfileForm extends Component {
 						controlFunc={this.handleDegreesChange}
 						content={degrees}
 						placeholder={'Degrees'} />	
-          		</LeftAlignSection> 
+          		</LeftAlignSection>
 				</td>
 				<td>
             	<LeftAlignSection>
-             		<p>Links</p>
+             		<p>LinkedIn link</p>
             		<SingleInput
 						inputType={'text'}
 						title={''}
