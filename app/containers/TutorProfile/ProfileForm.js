@@ -340,7 +340,7 @@ class ProfileForm extends Component {
 			{/* Subject Options */}
 			<Wrapper>
 				<CheckboxOrRadioGroup
-						title={'Select the subjects you need help with'}
+						title={'Select the subjects you are offering tutoring on'}
 						setName={'subjects'}
 						type={'checkbox'}
 						controlFunc={this.handleSubjectSelection}
