@@ -20,6 +20,10 @@ import { loadProfile } from './loadProfile';
 
 import profile from './default_profile_pic.jpg';
 
+import jsonSubjects from 'components/subjects.json';
+
+let arraySubjects = eval(jsonSubjects.arraySubjects);
+
 class ProfileForm extends Component {
 	constructor(props) {
 		super(props);
@@ -39,7 +43,7 @@ class ProfileForm extends Component {
             img: this.props.img,
 			bio: this.props.bio,
 
-			subjects: ["Accounting", "Biology", "Business", "Chemistry", "Computer Science", "English", "History", "Kinesiology", "Math", "Physics", "Psychology"],
+			subjects: arraySubjects,
 			selectedSubjects: this.props.subjects,
 			//selectedSubject: [],
 
