@@ -36,16 +36,12 @@ const Button = styled.button`
   }
 `;
 
-// const firstPromise = new Promise((resolve, reject) => {
-//   setTimeout(funtion(){
-//      resolve(email); 
-//   })
-// }
 class Table extends Component {
   constructor(props) {
     super(props);
     
     this.state = {
+      ownerId: 0,
       active: false,
       posterType: '',
       subjectId: '',
@@ -53,8 +49,12 @@ class Table extends Component {
       rate: 0.0,
       unit: '',
       createdTs: '',
+      acceptsGroupTutoring: '',
+
+      //post owner info
       email: '',
-      userName: ''
+      legalFirstName: '',
+      bio: '',
     };
 
     this.applyButton = this.applyButton.bind(this);
@@ -73,7 +73,8 @@ componentDidMount() { //loads user from heroku
           unit: data.unit,
           createdTs: data.createdTs,
           ownerId: data.ownerId
-        });
+        })
+        .catch(error => console.log('parsing failed', error));
         console.log("componentDidMount");
         console.log(this.state);
       })
@@ -98,14 +99,19 @@ applyButton() {
       .then(data => {
         this.setState({ //loads values from user to state
           email: data.email,
-          userName: data.userName
+          legalFirstName: data.legalFirstName,
+          major: data.major,
+          minor: data.minor,
+          bio: data.bio,
         });
         return this.state.email; //returns email for the next .then()  This was the issue!!
       })
       .then(email => { //receives the email parameter that we just returned
         var email = this.state.email
         var subject = "A Student is interested in your listing!"
-        var body = "Hello, I'm interested! Please let me know if you'd like to connect."
+        var body = "Hello, I'm interested! Please let me know if you'd like to connect.\n"
+                 + this.state.legalFirstName +"\n"+ this.state.major +" "+ this.state.minor +
+                 "\n"+ this.state.bio
 
         document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the student.' + '<' + '/a>');
       })

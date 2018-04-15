@@ -1,63 +1,64 @@
-import React, {Component} from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import SingleInput from 'components/FormComponents/SingleInput';
-import TextArea from 'components/FormComponents/TextArea';
 //import Button from 'components/Button';
 
 import CenteredSection from './CenteredSection';
-import Form from './Form';
+
 //import Input from './Input'; delete the file!
 import TableStyle from 'components/Table/TableStyle';
 import Button from 'components/Button';
 
-class Table extends Component {
+class Table extends React.Component {
   constructor(props) {
-    super(props);
+	super(props);
+	this.link = 'https://tutor-find.herokuapp.com';
     
     this.state = {
-      active: '',
-      posterType: '',
-      subjectId: '',
-      availability: '',
-      rate: '',
-      unit: '',
-      createdTs: '',
-      acceptsGroupTutoring: '',
-      email: '',
-      userName: '',
-      ownerId: 0,
+      posts: [],
+
+	  //logged in user's info
+      userId: state.userId,
+      email: state.email,
+      legalFirstName: state.legalFirstName,
+      legalLastName: state.legalLastName,
+      bio: state.bio,
+      major: state.major, //student props
+	  minor: state.minor,
+	  
+	  //post owner's info
+	  ownerId: 0,
     };
 
-    // this.handleActiveChange = this.handleActiveChange.bind(this);
-    // this.handlePosterTypeChange = this.handlePosterTypeChange.bind(this);
-    // this.handleSubjectIdChange = this.handleSubjectIdChange.bind(this);
-    // this.handleAvailabilityChange = this.handleAvailabilityChange.bind(this);
-    // this.handleRateChange = this.handleRateChange.bind(this);
-    // this.handleUnitChange = this.handleUnitChange.bind(this);
-    // this.handleCreatedTsChange = this.handleCreatedTsChange.bind(this);
+	this.componentDidMount = this.componentDidMount.bind(this);
+	this.createPostsTable = this.createPostsTable.bind(this);
     this.applyButton = this.applyButton.bind(this);
   }
 
 componentDidMount() { //loads user from heroku
-    fetch('https://tutor-find.herokuapp.com/posts/3')
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ //loads values from user to data
-          active: data.active,
-          posterType: data.posterType,
-          subjectId: data.subjectId,
-          availability: data.availability,
-          rate: data.rate,
-          unit: data.unit,
-          createdTs: data.createdTs,
-          acceptsGroupTutoring: data.acceptsGroupTutoring,
-          ownerId: data.ownerId
-        });
-      })
-      .catch(error => console.log('parsing failed', error));
+     var allPosts = [];
+
+    fetch(this.link + '/posts?type=student', {
+       method: 'get',
+       headers: {
+       'Accept': 'application/json',
+       'Content-Type': 'application/json',	
+       }
+    })
+    .then(response => response.json())
+    .then(posts => {
+        for (var i =0; i < posts.length; i++){
+            if (allPosts.length <= 30){ //limit to show 30 most recent posts
+                allPosts.push(posts[i]);
+            }
+        }
+        this.setState({ posts: allPosts }, () => console.log("user's posts: ", this.state.posts));
+    })
+    .catch(error => console.log('parsing failed', error));
   }
 
+  /*
 applyButton() { //sends email to post applied to
     
     fetch('https://tutor-find.herokuapp.com/tutors/' + this.state.ownerId.toString())
@@ -65,7 +66,10 @@ applyButton() { //sends email to post applied to
       .then(data => {
         this.setState({ //loads values from user to state
           email: data.email,
-          userName: data.userName
+          legalFirstName: data.legalFirstName,
+          major: data.major,
+          minor: data.minor,
+          bio: data.bio,
         });
         return this.state.email; //returns email for the next .then()  This was the issue!!
       })
@@ -73,19 +77,59 @@ applyButton() { //sends email to post applied to
         var email = this.state.email
         var subject = "A Student is interested in your listing!"
         var body = "Hello, I'm interested! Please let me know if you'd like to connect."
+        body +=   "    Name: " + this.state.legalFirstName + "    Major: "+ this.state.major +
+                  "    Bio: "+ this.state.bio;
+        
+        var win = window.open("", "emailLink", "width=300,height=100");
+        win.document.close();
+        win.document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the tutor.' + '<' + '/a>');
+        win.focus();
+        
 
-        document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the student.' + '<' + '/a>');
+        //document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the tutor.' + '<' + '/a>');
       })
       .catch(error => console.log('parsing failed', error));
   }
+*/
 
+createPostsTable(){
+	if (this.state != null){
+		
+		if (this.state.posts.length != 0){
+			return this.state.posts.map((post) => {	
+				return (
+					<div key={post.postId}>
+						<Post>
+							<p> {post.subject} </p>
+							<p> {post.location} </p>
+							<p> {post.availability} </p>
+							<p> {post.rate} {post.unit} </p>
+							<Button onClick={() => console.log("applied")}> Apply </Button>
+						</Post>							
+						<br />
+					</div>
+				);
+			});
+		}
+		else {
+			return(
+				<div>
+					<br />
+					<h3> Unable to load any posts! </h3>
+					<br />
+				</div>
+			);
+		}
+	}//end check if state is null
+}
 
 render() {
-
-    const { subjectId, unit, rate, active, posterType, availability, createdTs, acceptsGroupTutoring, ownerId, email, userName } = this.state;
-    console.log('https://tutor-find.herokuapp.com/tutors/' + this.state.ownerId.toString());
     return (
     <div>
+
+		{this.createPostsTable()};
+
+	{/*
      <TableStyle>
              <tbody>
               <tr>
@@ -107,13 +151,28 @@ render() {
               <th><h1 onClick={this.applyButton}>Apply</h1></th>
              </tr>
             </tbody>
-     </TableStyle>
+	 </TableStyle>
+	*/}
     </div>
     
     );
   }
 }
 
-export default Table;
+function mapStateToProps(state) {
+	return{
+		userId: state.userId,
+		email: state.email,
+
+		legalFirstName: state.legalFirstName,
+		legalLastName: state.legalLastName,
+		bio: state.bio,
+
+		major: state.major, //student props
+		minor: state.minor,
+	}
+}
+
+export default connect(mapStateToProps)(Table);
 
 

@@ -11,7 +11,6 @@ import { Helmet } from 'react-helmet';
 import { withRouter } from "react-router-dom";
 
 import CenteredSection from './CenteredSection';
-import Input from './Input';
 import Section from './Section';
 import styled from 'styled-components';
 
@@ -75,8 +74,6 @@ class StudentSignedInLandingPage extends React.Component { // eslint-disable-lin
     <HeaderFeed />
 
     <BodyWrapper>
-    
-    <Form onSubmit={this.handleSubmit}>
 
    {/* Page */}
    <CenteredSection>
@@ -88,7 +85,6 @@ class StudentSignedInLandingPage extends React.Component { // eslint-disable-lin
    <CenteredSection>
 
         <CheckboxTableStyle>
-
          <tr>
             <th>
                 <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
@@ -127,7 +123,7 @@ class StudentSignedInLandingPage extends React.Component { // eslint-disable-lin
         
    </CenteredSection>
 
-  {/* end Page Title */}
+  {/* end Page, filter table */}
 
     <CenteredSection>
 
@@ -155,7 +151,6 @@ class StudentSignedInLandingPage extends React.Component { // eslint-disable-lin
      <Table />
   </CenteredSection>
 
-  </Form>
   </BodyWrapper>
   </article>
   );

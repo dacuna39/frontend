@@ -83,7 +83,7 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 		
 		post.active = false;
 
-		fetch(this.link + post.postId.toString(), { //post profile updates to database :)
+		fetch(this.link + "/posts/" + post.postId.toString(), { //post profile updates to database :)
 			method: 'post',
 			headers: {
 				'Accept': 'application/json',
@@ -93,15 +93,15 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 		})
 		.then(response => { //checks if post was successful
 			if (response.status == 200){
-				alert('post: ' + JSON.stringify(post));
+				console.log('post: ' + JSON.stringify(post));
 				alert("Deleted!");
 				this.getPosts();
 			} else {
 				alert("An error occurred, please try again later");
-				alert('formPayload: ' + JSON.stringify(formPayload));
+				console.log('formPayload: ' + JSON.stringify(formPayload));
 			}
 		})
-		.catch(error => alert('parsing failed profile form', error))
+		.catch(error => alert('parsing failed', error))
 	}
 
 	createPostsTable(){

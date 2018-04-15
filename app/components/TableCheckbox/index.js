@@ -12,7 +12,6 @@ const CheckboxTableStyle = styled.CheckboxTableStyle`
 function TableCheckbox() {
     return (
         <CheckboxTableStyle>
-        <table>
         <tbody>
         <tr>
             <th>
@@ -30,7 +29,6 @@ function TableCheckbox() {
             <th><button type="submit">Filter</button></th>
         </tr>
         </tbody>
-        </table>
         </CheckboxTableStyle>
     );
 }
