@@ -220,7 +220,7 @@ class NewPostForm extends Component {
 					selectedOptions={this.state.subject}
 					 />
 
-				<h4> Location </h4>
+				<h4> Preferred Meeting Location </h4>
                 <SingleInput
 		          		inputType={'text'}
 					    title={''}

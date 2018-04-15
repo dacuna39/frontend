@@ -16,12 +16,9 @@ import { Provider } from 'react-redux';
 /**import containers*/
 import HomePage from 'containers/HomePage/Loadable';
 import StudentProfile from 'containers/StudentProfile/Loadable';
-import StudentFeed from 'containers/StudentFeed/Loadable';
 import TutorProfile from 'containers/TutorProfile/Loadable';
-import TutorFeed from 'containers/TutorFeed/Loadable';
 import AdminFeed from 'containers/AdminFeed/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import TutorSendRequests from 'containers/TutorSendRequests/Loadable';
 import AdminPosts from 'containers/AdminPosts/Loadable';
 import StudentSignedInLandingPage from 'containers/StudentSignedInLandingPage/Loadable';
 import ArchivedPosts from 'containers/ArchivedPosts/Loadable';
@@ -57,11 +54,8 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
     <Route path="/StudentProfile" component={StudentProfile} />
-    <Route path="/StudentFeed" component={StudentFeed} />
     <Route path="/TutorProfile" component={TutorProfile} />
-    <Route path="/TutorFeed" component={TutorFeed} />
     <Route path="/AdminFeed" component={AdminFeed} />
-    <Route path="/TutorSendRequests" component={TutorSendRequests} />
     <Route path="/AdminPosts" component={AdminPosts} />
     <Route path="/StudentSignedInLandingPage" component={StudentSignedInLandingPage} />
     <Route path="/ArchivedPosts" component={ArchivedPosts} />

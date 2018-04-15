@@ -40,7 +40,7 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 
 	constructor(props) {
 		super(props);
-		this.link = 'https://tutor-find.herokuapp.com/posts/';
+		this.link = 'https://tutor-find.herokuapp.com';
 
 		this.setState({
 			userPosts : [],
@@ -54,7 +54,7 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 	getPosts(){
 		var onlyUsers = [];
 
-		fetch(this.link, {
+		fetch(this.link + '/posts?type=tutor', {
 			method: 'get',
 			headers: {
 				'Accept': 'application/json',
