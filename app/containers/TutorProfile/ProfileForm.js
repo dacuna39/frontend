@@ -15,9 +15,6 @@ import Wrapper from './Wrapper';
 import Img from './Img';
 import Modal from './Modal';
 
-import Dropzone from 'react-dropzone';
-import request from 'superagent';
-
 //actions
 import { loadProfile } from './loadProfile';
 
@@ -27,18 +24,12 @@ import jsonSubjects from 'components/subjects.json';
 
 let arraySubjects = eval(jsonSubjects.arraySubjects);
 
-const CLOUDINARY_UPLOAD_PRESET = 'tlkwqrn9';
-const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/tutorfind/image/upload';
-
 class ProfileForm extends Component {
 	constructor(props) {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com/tutors/';
 
-		
 		this.state = {
-			
-			uploadedFileCloudinaryUrl: '',
 			userName: this.props.userName,
 			email: this.props.email,
 			salt: this.props.salt,
@@ -87,40 +78,12 @@ class ProfileForm extends Component {
 		this.changePassword = this.changePassword.bind(this);
 	}
 
-	onImageDrop(files) {
-		this.setState({
-		  uploadedFile: files[0]
-		}, () => { this.handleImageUpload(files[0]) } );
-		
-	  }
-
-	  handleImageUpload(file) {
-		let upload = request.post(CLOUDINARY_UPLOAD_URL)
-							.field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-							.field('file', file);
-	
-		upload.end((err, response) => {
-		  if (err) {
-			console.error(err);
-		  }
-	
-		  if (response.body.secure_url != '') {
-			this.setState({
-			  uploadedFileCloudinaryUrl: response.body.secure_url,
-			  img: response.body.secure_url,
-			});
-		  }
-		});
-	  }
-
 	toggleChangePassModal = () => { //opens and closes the modal
 		this.setState({
 		  isChangePassOpen: !this.state.isChangePassOpen,
 		  isDeactivateOpen: false
 		});
 	  }
-
-	
 
 	toggleDeactivateModal = () => { //opens and closes the modal
 		this.setState({
@@ -140,7 +103,7 @@ class ProfileForm extends Component {
 	}
 
 	handlePictureChange(e) {
-		this.setState({ img: e.target.value }, () => alert("save"));
+		this.setState({ img: e.target.value });
 	}
 
 	handleDegreesChange(e) {
@@ -290,9 +253,12 @@ class ProfileForm extends Component {
 			this.handleFormSubmit();
 		}
 	}
+
 	render() {
+
 		console.log("props at profileform: ", this.props);
         const { legalFirstName, legalLastName, degrees, links, img, bio, password, selectedSubjects } = this.state;
+
         return(
         <div>
 			<br />
@@ -301,20 +267,15 @@ class ProfileForm extends Component {
             <Wrapper>
           	<CenteredSection>
           		<p> Profile Picture </p>
-				  
-            	<Img src={img} alt="Profile Picture"> </Img>
-				
-						<Dropzone style="height:10px"
-						multiple={false}
-						accept="image/*"
-						onDrop={this.onImageDrop.bind(this)}>
-	
-						<BlueButton form="" onClick={() => {
-								 this.setState({ img: this.state.uploadedFileCloudinaryUrl})
-							 }}> Change Picture </BlueButton>
-						
-	  				</Dropzone>
-					  
+            	<Img src={img} alt="Profile Picture" />
+				<label>Paste an image url here </label>
+					<SingleInput
+						inputType={'text'}
+						title={''}
+						name={'img'}
+						controlFunc={this.handlePictureChange}
+						content={img}
+						placeholder={'No File Selected'} />
           	</CenteredSection>
           
           	<table>
@@ -416,7 +377,6 @@ class ProfileForm extends Component {
         	    	  
 		        </CenteredSection>
       		</Wrapper>
-		
 	  	</Form>
 
 		{/* Change Password Modal */}

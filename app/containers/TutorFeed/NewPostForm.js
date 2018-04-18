@@ -8,6 +8,7 @@ import Group from 'components/FormComponents/CheckboxOrRadioGroup';
 import CenteredSection from './CenteredSection';
 import Form from './Form';
 import SubmitInput from './SubmitInput';
+import Modal from './Modal';
 
 import jsonSubjects from 'components/subjects.json';
 
@@ -25,7 +26,6 @@ class NewPostForm extends Component {
 			subjects: arraySubjects,
 	
             location: "",
-            availability: "",
             acceptsPaid: true,
             rate: 20,
 			//unit: "dollars/hour",
@@ -34,7 +34,22 @@ class NewPostForm extends Component {
 			daysSelect: [],
 			
 			times: ["Morning","Afternoon","Night"],
-			timesSelect: [],
+			timeSelect: [],
+
+			monday: [],
+			mondayShow: false,
+			tuesday: [],
+			tuesdayShow: false,
+			wednesday: [],
+			wednesdayShow: false,
+			thursday: [],
+			thursdayShow: false,
+			friday: [],
+			fridayShow: false,
+			saturday: [],
+			saturdayShow: false,
+			sunday: [],
+			sundayShow: false,
             
 			acceptsGroupTutoring: [],
 			groups: false,
@@ -47,7 +62,15 @@ class NewPostForm extends Component {
         this.handleAvailabilityChange = this.handleAvailabilityChange.bind(this);
 		this.handleDaysSelect = this.handleDaysSelect.bind(this);
 		this.handleRateChange = this.handleRateChange.bind(this);
-        this.handleGroupTutoringChange = this.handleGroupTutoringChange.bind(this);
+		this.handleGroupTutoringChange = this.handleGroupTutoringChange.bind(this);
+		
+		this.handleMondayChange = this.handleMondayChange.bind(this);
+		this.handleTuesdayChange = this.handleTuesdayChange.bind(this);
+		this.handleWednesdayChange = this.handleWednesdayChange.bind(this);
+		this.handleThursdayChange = this.handleThursdayChange.bind(this);
+		this.handleFridayChange = this.handleFridayChange.bind(this);
+		this.handleSaturdayChange = this.handleSaturdayChange.bind(this);
+		this.handleSundayChange = this.handleSundayChange.bind(this);
 
 		this.createAvailabilityString = this.createAvailabilityString.bind(this);
 		this.clearForm = this.clearForm.bind(this);
@@ -56,7 +79,7 @@ class NewPostForm extends Component {
     };
 
     handleSubjectChange(e) {
-		  this.setState({ subject: [e.target.value] }, () => console.log(this.state.subject));
+		  this.setState({ subject: [e.target.value] });
 	}
     
     handleLocationChange(e) {
@@ -66,30 +89,105 @@ class NewPostForm extends Component {
     handleAvailabilityChange(e) {
 		  this.setState({ availability: e.target.value });
 	}
+
+	handleMondayChange(e) {
+		this.setState({ monday: [e.target.value]});
+	}
+	handleTuesdayChange(e) {
+		this.setState({ tuesday: [e.target.value]});
+	} 
+	handleWednesdayChange(e) {
+		this.setState({ wednesday: [e.target.value]});
+	} 
+	handleThursdayChange(e) {
+		this.setState({ thursday: [e.target.value] });
+	} 
+	  handleFridayChange(e) {
+		this.setState({ friday: [e.target.value] });
+	}
+	handleSaturdayChange(e) {
+		this.setState({ saturday: [e.target.value] });
+	}
+	handleSundayChange(e) {
+		this.setState({ sunday: [e.target.value] });
+  	}
 	
 	handleDaysSelect(e) {
 		const newSelection = e.target.value;
 		let newSelectionArray;
-		if(this.state.daysSelect.indexOf(newSelection) > -1) {
+		if(this.state.daysSelect.indexOf(newSelection) > -1) { //remove
 			newSelectionArray = this.state.daysSelect.filter(s => s !== newSelection)
-		} else {
+		} else {//add
 			newSelectionArray = [...this.state.daysSelect, newSelection];
 		}
-		this.setState({ daysSelect: newSelectionArray }, () => this.createAvailabilityString()); 		
-		//need this to show setState properly!: , () => console.log...
-		//because setState is an async function!
+		
+		switch (e.target.value){
+				case "Monday":
+					this.setState({ mondayShow: !this.state.mondayShow, daysSelect: newSelectionArray});
+					break;
+				case "Tuesday":
+					this.setState({ tuesdayShow: !this.state.tuesdayShow, daysSelect: newSelectionArray});
+					break;
+				case "Wednesday":
+					this.setState({ wednesdayShow: !this.state.wednesdayShow, daysSelect: newSelectionArray});
+					break;
+				case "Thursday":
+					this.setState({ thursdayShow: !this.state.thursdayShow, daysSelect: newSelectionArray});
+					break;
+				case "Friday":
+					this.setState({ fridayShow: !this.state.fridayShow, daysSelect: newSelectionArray});
+					break;
+				case "Saturday":
+					this.setState({ saturdayShow: !this.state.saturdayShow, daysSelect: newSelectionArray});
+					break;
+				case "Sunday":
+					this.setState({ sundayShow: !this.state.sundayShow, daysSelect: newSelectionArray});
+					break;					
+		} 
+		//this.setState({ daysSelect: newSelectionArray }); 		
 	}
 
 	createAvailabilityString() {
+		var t = [];
+
+		for (var j=0; j < this.state.daysSelect.length; j++){ //gets the appropriate time for each day selected
+			if(this.state.daysSelect[j] == "Monday" && this.state.monday.length != 0){
+				t.push(this.state.monday);
+			}
+			else if(this.state.daysSelect[j] == "Tuesday" && this.state.tuesday.length != 0){
+				t.push(this.state.tuesday);
+			}
+			else if(this.state.daysSelect[j] == "Wednesday" && this.state.wednesday.length != 0){
+				t.push(this.state.wednesday);
+			}
+			else if(this.state.daysSelect[j] == "Thursday" && this.state.thursday.length != 0){
+				t.push(this.state.thursday);
+			}
+			else if(this.state.daysSelect[j] == "Friday" && this.state.friday.length != 0){
+				t.push(this.state.friday);
+			}
+			else if(this.state.daysSelect[j] == "Saturday" && this.state.saturday.length != 0){
+				t.push(this.state.saturday);
+			}
+			else if(this.state.daysSelect[j] == "Sunday" && this.state.sunday.length != 0){
+				t.push(this.state.sunday);
+			}
+		}
+
 		var string = "{"
 		for (var i =0; i < this.state.daysSelect.length; i++){
-			string += "\"" + this.state.daysSelect[i] + "\":\"" + "Afternoon\"";
-			if (this.state.daysSelect[i+1] != undefined){
-				string += ",";
+			if (t[i] != undefined){
+
+				string += "\"" + this.state.daysSelect[i] + "\":\"" + t[i] + "\"";
+				if (this.state.daysSelect[i+1] != undefined && t[i+1] != undefined){
+					string += ",";
+				}
 			}
 		}
 		string += "}"
-		this.setState({availability: string});
+		
+		console.log("string: ", string);
+		return string;
 	}
     
     handleRateChange(e) {
@@ -113,21 +211,42 @@ class NewPostForm extends Component {
 	}
 	
 	clearForm(){
-		this.setState({ //student post
+		this.setState({
 			subject: [],
+			subjects: arraySubjects,
+	
             location: "",
-            availability: "",
             acceptsPaid: true,
             rate: 20,
 			//unit: "dollars/hour",
+			
+			days: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
 			daysSelect: [],
-			timesSelect: [],
+			
+			times: ["Morning","Afternoon","Night"],
+			timeSelect: [],
+
+			monday: [],
+			mondayShow: false,
+			tuesday: [],
+			tuesdayShow: false,
+			wednesday: [],
+			wednesdayShow: false,
+			thursday: [],
+			thursdayShow: false,
+			friday: [],
+			fridayShow: false,
+			saturday: [],
+			saturdayShow: false,
+			sunday: [],
+			sundayShow: false,
+            
 			acceptsGroupTutoring: [],
 			groups: false,
-        });
+		})
 	}
 
-    validateForm() {
+    validateForm(availability) {
 
         if ( this.state.subject[0] == ""){
           alert("Please select a subject");
@@ -137,7 +256,7 @@ class NewPostForm extends Component {
           alert("Please enter a location (or state on-line tutoring");
           return false;
         }
-        else if (this.state.availability == ""){
+        else if (availability == ""){
           alert("Please enter you availability (e.g. Days and hours available)");
           return false;
         }
@@ -160,8 +279,9 @@ class NewPostForm extends Component {
 
     handleFormSubmit(e) {
 		e.preventDefault();
+		var availability = this.createAvailabilityString();
 
-        if (this.validateForm()) {
+        if (this.validateForm(availability)) {
 
          	const payload = {
             	postId: 100,
@@ -170,7 +290,7 @@ class NewPostForm extends Component {
 
 	            subject: this.state.subject[0].toUpperCase(),
     	        location: this.state.location,
-				availability: this.state.availability,
+				availability: availability,
 				// availability requires a format like this:
 				// {"Monday":"Night","Tuesday":"Morning","Friday":"Afternoon"}
 				
@@ -203,7 +323,7 @@ class NewPostForm extends Component {
 					alert("Error submitting post");
 				}
 			})			
-        }//end if validateForm
+		}//end if validateForm
     }//end handleFormSubmit
 
     render() {
@@ -230,6 +350,7 @@ class NewPostForm extends Component {
           				content={this.state.location}
 		                placeholder={''} />
 						
+				{/* Availiability */}
 				<h4> Please enter your availability </h4>
 				<Group
 			            title={''}
@@ -237,7 +358,12 @@ class NewPostForm extends Component {
                     	setName={'days'}
                     	controlFunc={this.handleDaysSelect}
 				        options={this.state.days}
-				        selectedOptions={this.state.daysSelect} /> <hr />
+				        selectedOptions={this.state.daysSelect} />
+				<hr />
+
+				{this.renderTimeOptions()}
+
+				{/* end Availiability */}
 
                 <p> Enter your rate per hour in dollars (Enter 0 to request free tutoring) </p>
                 <SingleInput
@@ -265,7 +391,133 @@ class NewPostForm extends Component {
 			    </p>
             </Form>
         )
-    }
+	}
+	
+	renderTimeOptions() {
+		var options = [];
+		var i = 0;
+
+			if (this.state.mondayShow){
+				options[i] = (
+					<td key={i}>
+					<label> Monday Time </label>
+					<Group
+						title={''}
+						type={'radio'}
+						setName={'monday'}
+						controlFunc={this.handleMondayChange}
+						options={this.state.times}
+						selectedOptions={this.state.monday}
+						disabled={!this.state.mondayShow}
+						 />
+					</td>
+				);
+				i++;
+			};
+			if (this.state.tuesdayShow){
+				options[i] = (
+					<td key={i}>
+					<label> Tuesday Time </label>
+					<Group
+						title={''}
+						type={'radio'}
+						setName={'tuesday'}
+						controlFunc={this.handleTuesdayChange}
+						options={this.state.times}
+						selectedOptions={this.state.tuesday}
+						disabled={!this.state.tuesdayShow}
+						 />
+					</td>
+				);
+				i++;
+			};
+			if (this.state.wednesdayShow){
+				options[i] =  (
+					<td key={i}>
+					<label> Wednesday Time </label>
+					<Group
+						title={''}
+						type={'radio'}
+						setName={'wednesday'}
+						controlFunc={this.handleWednesdayChange}
+						options={this.state.times}
+						selectedOptions={this.state.wednesday}
+						disabled={!this.state.wednesdayShow}
+						 />
+					</td>
+				);
+				i++;
+			};
+			if (this.state.thursdayShow){
+				options[i] = (
+					<td key={i}>
+					<label> Thursday Time </label>
+					<Group
+						title={''}
+						type={'radio'}
+						setName={'thursday'}
+						controlFunc={this.handleThursdayChange}
+						options={this.state.times}
+						selectedOptions={this.state.thursday}
+						disabled={!this.state.thursdayShow}
+						 />
+					</td>
+				);
+				i++;
+			};
+			if (this.state.fridayShow){
+				options[i] = (
+					<td key={i}>
+					<label> Friday Time </label>
+					<Group
+						title={''}
+						type={'radio'}
+						setName={'friday'}
+						controlFunc={this.handleFridayChange}
+						options={this.state.times}
+						selectedOptions={this.state.friday}
+						disabled={!this.state.fridayShow}
+						 />
+					</td>
+				);
+				i++;
+			};
+			if (this.state.saturdayShow){
+				options[i] = (
+					<td key={i}>
+					<label> Saturday Time </label>
+					<Group
+						title={''}
+						type={'radio'}
+						setName={'saturday'}
+						controlFunc={this.handleSaturdayChange}
+						options={this.state.times}
+						selectedOptions={this.state.saturday}
+						disabled={!this.state.saturdayShow}
+						 />
+					</td>
+				);
+				i++;
+			};
+			if (this.state.sundayShow){
+				options[i] = (
+					<td key={i}>
+					<label> Sunday Time </label>
+					<Group
+						title={''}
+						type={'radio'}
+						setName={'sunday'}
+						controlFunc={this.handleSundayChange}
+						options={this.state.times}
+						selectedOptions={this.state.sunday}
+						disabled={!this.state.sundayShow}
+						 />
+					</td>
+				);
+				i++;
+			};
+			return options;
+	}
 }
 
 function mapStateToProps(state) {
