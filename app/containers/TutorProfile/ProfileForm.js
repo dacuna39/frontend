@@ -45,7 +45,6 @@ class ProfileForm extends Component {
 
 			subjects: arraySubjects,
 			selectedSubjects: this.props.subjects,
-			//selectedSubject: [],
 
 			active: this.props.active,
 			timestamp: this.props.timestamp,
@@ -151,10 +150,6 @@ class ProfileForm extends Component {
 		}
 		else if(this.state.legalLastName == ''){
 			alert('Please enter your last name');
-			return false;
-		}
-		else if(this.state.bio == ''){
-			alert('Please write a bio. Express yourself!');
 			return false;
 		}
 		else if(this.state.selectedSubjects.length == 0){
@@ -293,7 +288,6 @@ class ProfileForm extends Component {
 
 	render() {
 
-		console.log("props at profileform: ", this.props);
         const { legalFirstName, legalLastName, degrees, links, img, bio, password, selectedSubjects } = this.state;
 
         return(
@@ -320,7 +314,7 @@ class ProfileForm extends Component {
 			<tr>
 				<td>
           		<LeftAlignSection>
-            		<p>First Name</p>
+            		<p>First Name *</p>
 					<SingleInput
 						inputType={'text'}
 						title={''}
@@ -332,7 +326,7 @@ class ProfileForm extends Component {
 				</td>
 				<td>
 				<LeftAlignSection>
-            		<p>Last Name</p>
+            		<p>Last Name *</p>
             		<SingleInput
 						inputType={'text'}
 						title={''}
@@ -347,7 +341,7 @@ class ProfileForm extends Component {
           	<tr>
 				<td>
 				<LeftAlignSection>
-            		<p>Highest Degree</p>
+            		<p>Highest Degree *</p>
             		<SingleInput
 						inputType={'text'}
 						title={''}

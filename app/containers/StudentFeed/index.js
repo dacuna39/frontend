@@ -53,7 +53,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 			posts : [],
 
 			isOpen: false, //whether the sign in modal is rendered
-            isLoading: true,    
+            isLoading: true, //waits till component is finished loading so that buttons dont auto redirect
 		});
 
 		this.componentDidMount = this.componentDidMount.bind(this);	
