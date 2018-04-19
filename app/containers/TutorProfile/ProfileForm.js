@@ -27,7 +27,7 @@ let arraySubjects = eval(jsonSubjects.arraySubjects);
 class ProfileForm extends Component {
 	constructor(props) {
 		super(props);
-		this.link = 'https://tutor-find.herokuapp.com/tutors/';
+		this.link = 'https://tutor-find.herokuapp.com';
 
 		this.state = {
 			userName: this.props.userName,
@@ -168,17 +168,20 @@ class ProfileForm extends Component {
 
 	validatePassChange() {
 
-		if (this.state.enterPassword != this.state.password){
-			alert('Your current password is incorrect');
+		if (this.state.enterPassword.length < 6){
+			alert('Current password must be at least 6 characters long');
 			return false;
 		}
 		else if (this.state.newPassword.length < 6){
-			alert('Password must be at least 6 characters long');
+			alert('New password must be at least 6 characters long');
 			return false;
 		}
 		else if (this.state.newPassword != this.state.reenterPassword){
 			alert('New passwords do not match');
 			return false;
+		}
+		else {
+			return true;
 		}
 	}
 
@@ -211,7 +214,7 @@ class ProfileForm extends Component {
 		  		ratings: this.state.ratings,
 			};
 
-			fetch(this.link + this.props.userId.toString(), { //post profile updates to database :)
+			fetch(this.link + "/tutors/" + this.props.userId.toString(), { //post profile updates to database :)
 				method: 'post',
 				headers: {
 					'Accept': 'application/json',
@@ -230,7 +233,7 @@ class ProfileForm extends Component {
 					console.log('formPayload: ', JSON.stringify(formPayload));
 				}
 			})
-			.catch(error => console.log('parsing failed', error))
+			.catch(error => console.log('parsing failed', error));
 
 		}// end if
 	}// end handleformsubmit
@@ -245,13 +248,47 @@ class ProfileForm extends Component {
 		this.handleFormSubmit();
 	}
 
-	changePassword(){
+	changePassword(e){
+		e.preventDefault();
 
 		if (this.validatePassChange()){
+			const payload = {
+				userId: this.props.userId,
+				passhash: this.state.newPassword,
+			}
 
-			this.setState({ password: this.state.enterPassword });
-			this.handleFormSubmit();
-		}
+			fetch(this.link + "/" + this.props.userId.toString() + "/" + this.state.enterPassword), { //post to change password
+				method: 'post',
+				headers: {
+					'Accept': 'application/json',
+				  	'Content-Type': 'application/json',	
+				},
+				body: JSON.stringify(payload)					
+			}
+			.then(response => {
+				if (response.status == 200){
+					console.log('formPayload: ', JSON.stringify(formPayload));
+					alert("Password Changed!");
+					//return response.json();
+				} 
+				else if (response.status == 404) {
+					console.log('formPayload: ', JSON.stringify(formPayload));
+					alert("Incorrect password, please try again");
+				}
+				else {
+					alert("An error occurred, please try again later");
+					console.log('formPayload: ', JSON.stringify(formPayload));
+				}
+			})
+			.then( //clear change pass form
+				this.setstate({
+					enterPassword: "",
+					newPassword: "",
+					reenterPassword: "",
+				})
+			)
+			.catch(error => alert('parsing failed at change password', error));
+		}// end validate form
 	}
 
 	render() {
