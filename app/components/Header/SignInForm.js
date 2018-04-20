@@ -23,7 +23,7 @@ class SignInForm extends Component {
 		this.state = {
 			userName: '',
 			password: '',
-			accountOptions: ['Student','Tutor','Admin'],
+			accountOptions: ['Student','Tutor'],
 			accountSelection: [],
 		};
 
@@ -111,34 +111,6 @@ class SignInForm extends Component {
 			.then(doneLoading => { //once job is finished, go to profile page
 				if(doneLoading == true){
 					this.props.history.push("/tutorProfile");					
-				}				
-			})
-			.catch(error => console.log('parsing failed', error));
-		}
-		else if (this.state.accountSelection[0] == 'Admin'){
-			fetch(this.link + '/admin/login', { 
-				method: 'post',
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json',	
-				},
-				body: JSON.stringify(formPayload)					
-			})
-			.then(response => { //checks if user was found
-				if (response.status == 200){
-					console.log("Loggin in");
-					return response.json();
-				} else {
-					alert("Invalid login");
-				}
-			})
-			.then(data => { // loads data into store/props
-				this.props.loadProfile(data);			
-				return true;
-			})
-			.then(doneLoading => { //once job is finished, go to profile page
-				if(doneLoading == true){
-					this.props.history.push("/AdminPosts");					
 				}				
 			})
 			.catch(error => console.log('parsing failed', error));
