@@ -1,6 +1,6 @@
 /**
  *
- * AdminPosts
+ * Admin Posts
  *
  */
 
@@ -8,34 +8,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-
+import { withRouter } from "react-router-dom";
 import styled from 'styled-components';
 
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
-import makeSelectAdminPosts from './selectors';
-import reducer from './reducer';
-import saga from './saga';
-import messages from './messages';
+import HeaderAdminLoggedIn from 'components/HeaderAdminLoggedIn';
+import Button from 'components/Button';
+import H1 from 'components/H1';
+import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
+//import TableStyle from 'components/Table/TableStyle';
 
 import CenteredSection from './CenteredSection';
-import Input from './Input';
-import Section from './Section';
-import makeSelectTutorSendRequests from './selectors';
-import Wrapper from './Wrapper';
-import Form from './Form';
 import Img from './Img';
-import graduationcap from './images/graduation-cap.png';
-// import Table from 'components/Table';
-import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
-import TableStyle from 'components/Table/TableStyle';
-import H1 from 'components/H1';
-import Button from 'components/Button';
 
-import HeaderFeed from 'components/HeaderFeed';
 
 const BodyWrapper = styled.div`
   max-width: calc(1000px + 16px * 2);
@@ -46,98 +30,191 @@ const BodyWrapper = styled.div`
   flex-direction: column;
 `;
 
-export default class AdminPosts extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  render() {
-    return (
-    <article>
-    <Helmet>
-    <title>Admin Posts</title>
-    <meta name="description" content="Description of Admin Posts" />
-    </Helmet>
+const Post = styled.div`
+  border: 2px solid;
+  border-color: FFB71C;
+  width: 100%;
+  height: 100%;
+  background: #EEECE9;
+  text-align: center;
+  padding: 2em;
+`;
 
-    <HeaderFeed />
+export class AdminPosts extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
-    <BodyWrapper>
-    <Form onSubmit={this.handleSubmit}>
+  constructor(props) {
+    super(props);
+    this.link = 'https://tutor-find.herokuapp.com';
+
+
+
+    this.componentDidMount = this.componentDidMount.bind(this); 
+    this.createPostsTable = this.createPostsTable.bind(this);
+  }
+
+  componentDidMount(){
+
+    var allPosts = [];
+
+    fetch(this.link + '/posts', {
+      method: 'get',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json', 
+      }
+    })
+    .then(response => response.json())
+    .then(posts => {
+
+      for (var i =0; i < posts.length; i++){
+        if (posts.length <= 60){// loads the 30 most recent posts
+          allPosts.push(posts[i]);
+        }
+      }
+
+      this.setState({ posts: allPosts });
+    })
+    .catch(error => console.log('parsing failed', error));
+
+    this.setState({ isLoading: false });
+  }
+
+  deletePost(post){
     
+    post.active = false;
 
-   {/* Page */}
-   <CenteredSection>
-     <H1>All Active Posts</H1>
-   </CenteredSection>
+    fetch(this.link + "/posts/" + post.postId, { //post profile updates to database :)
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json', 
+      },
+      body: JSON.stringify(post)          
+    })
+    .then(response => { //checks if post was successful
+      if (response.status == 200){
+        console.log('post: ' + JSON.stringify(post));
+        alert("Deleted!");
+        this.getPosts();
+      } else {
+        alert("An error occurred, please try again later");
+        console.log('formPayload: ' + JSON.stringify(formPayload));
+      }
+    })
+    .catch(error => console.log('parsing failed', error))
+  }
 
-   <CenteredSection>
-     <Img src={graduationcap} alt="graduation-cap"/>
-   </CenteredSection>
+  createPostsTable(){
 
-   <CenteredSection>
+    if (this.state != null){
+      
+      if (this.state.posts.length != 0){
+        return this.state.posts.map((post) => { 
 
-        <CheckboxTableStyle>
+          //ensures that no glitcy posts crash the app :)
+          if(post.postId != null && post.posterType != null && post.subject != null && post.location != null && post.availability != null
+            && post.rate != null && post.unit != null) {
+              //print out availiability neatly without special characters
+              var avail = "";
+              for (var i =0; i < post.availability.length; i++){
+                if (post.availability.charAt(i).match(/[a-zA-Z]/)){
+                  avail += post.availability.charAt(i);
+                } else if (post.availability.charAt(i).match(/[,]/)){
+                  avail += " | ";
+                } else {
+                  avail += " ";
+                }
+              }
 
-         <tr>
-            <th>
-                <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">  Mathematics</label>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">  English</label>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">  Computer Science</label>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
-                <label for="classSubject">  Chemistry</label>
-            </th>
-        </tr>
-        <tr>
-            <th><Button>Filter Subjects</Button></th>
-        </tr>
+              return (
+                <div key={post.postId}>
+                  <Post>
+                    <p> User Type: {post.posterType} &nbsp;&nbsp; Post Id: {post.postId} </p>
+                    <p> {post.subject} </p>
+                    <p> {post.location} </p>
+                    <p> {avail} </p>
+                    <p> {post.rate} {post.unit} </p>
+                    <Button type="submit" onClick={() => {this.deletePost(post)}}> Delete </Button>
+                  </Post>             
+                  <br />
+                </div>
+              );
+          }
+        }); //end posts.map
+      }
+      else {
+        return(
+          <div>
+            <br />
+            <h3> Could not load any posts! </h3>
+            <br />
+          </div>
+        );
+      }
+    }//end check if state is null
+  }
+  
+    render() {
+    
+    if (this.state != null){
+      return (
+      <div>
+          <Helmet>
+            <title> Admin Feed </title>
+            <meta name="description" content="Description of Admin Feed" />
+          </Helmet>
+    
+      <HeaderAdminLoggedIn />
 
-        </CheckboxTableStyle>
-        
-   </CenteredSection>
+      <BodyWrapper>
+        <CenteredSection>
 
-  {/* end Page Title */}
+          {/* link to user list */}
+          <Button onClick={() => { // link to admin user feed
+            if (this.state.isLoading == false){
+              this.props.history.push("/adminFeed");
+            }
+          }}> User Lists </Button>
+          {/* end link to user list */}
 
-  {/*For every request - we need another centered section*/}
-  <CenteredSection>
-     <TableStyle>
-             <tbody>
-              <tr>
-                <th><center><label>Student Post Name</label></center></th>
-               </tr>
-               <tr> 
-                <th><center><label>Student Post Rate</label></center></th>
-              </tr>
-              <tr>
-                <th><label>Student Post Desired Subject</label></th>
-              </tr>
-              <tr>
-                <th><label>Student Post Description</label></th>
-              </tr>
-              <tr>
-                <th><label>Willing to tutor groups?</label></th>
-              </tr>
-              <tr>
-            <th><Button>Manage Post</Button></th>
-        </tr>
-            </tbody>
-     </TableStyle>
-  </CenteredSection>
+          
+          <H1> All Posts </H1>
+          <br /><br />
 
+          {/* Load posts */}
+          {this.createPostsTable()}
+          
+          <Button onClick={() => this.props.history.goBack()}> Back </Button>
+        </CenteredSection>
+      </BodyWrapper>
+        </div>
+      );
+    }
+    else {
+    return (
+      <div>
+            <Helmet>
+              <title> Admin Feed </title>
+                <meta name="description" content="Description of Admin Feed" />
+            </Helmet>
+    
+        <HeaderAdminLoggedIn />
+        <CenteredSection>
+          <br /> <H1> Loading... </H1> <br />
+        </CenteredSection>
+      </div>
+    );
+    }}
+}
 
-  </Form>
-  </BodyWrapper>
-  </article>
-  );
+function mapStateToProps(state) {
+
+  return{
+    legalFirstName: state.legalFirstName,
+    legalLastName: state.legalLastName,
+    bio: state.bio,
+    major: state.major,
   }
 }
+
+export default withRouter( connect(mapStateToProps)(AdminPosts) );

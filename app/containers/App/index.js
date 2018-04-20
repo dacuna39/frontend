@@ -28,9 +28,7 @@ import TutorSignedInLandingPage from 'containers/TutorSignedInLandingPage/Loadab
 
 import AdminFeed from 'containers/AdminFeed/Loadable';
 import AdminPosts from 'containers/AdminPosts/Loadable';
-
-import ArchivedPosts from 'containers/ArchivedPosts/Loadable';
-import AdminInbox from 'containers/AdminInbox/Loadable';
+import AdminLogin from 'containers/AdminLogin/Loadable';
 
 import ForgotPassword from 'containers/ForgotPassword/Loadable';
 import LoggedOut from 'containers/LoggedOut/Loadable';
@@ -71,12 +69,9 @@ export default function App() {
     	<Route path="/TutorFeed" component={TutorFeed} />
     	<Route path="/TutorPosts" component={TutorPosts} />
     	<Route path="/TutorSignedInLandingPage" component={TutorSignedInLandingPage} />
-
+      <Route path="/AdminLogin" component={AdminLogin} />
 	    <Route path="/AdminFeed" component={AdminFeed} />
 	    <Route path="/AdminPosts" component={AdminPosts} />
-
-	    <Route path="/ArchivedPosts" component={ArchivedPosts} />
-	    <Route path="/AdminInbox" component={AdminInbox} />
     
 	    <Route path="/ForgotPassword" component={ForgotPassword} />
 	    <Route path="/LoggedOut" component={LoggedOut} />
