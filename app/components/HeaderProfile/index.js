@@ -31,6 +31,9 @@ class HeaderProfile extends React.Component { // eslint-disable-line react/prefe
 	}
 
 	redirectToFeed() {
+			if (this.props.userType == "admin") {
+					this.props.history.push("/AdminPosts");
+			}
 			if (this.props.userType == "student"){
 					this.props.history.push("/StudentFeed");	
 			} 
