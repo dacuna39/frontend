@@ -1,6 +1,14 @@
 /**
  *
- * StudentPosts
+ * StudentFeed
+ * 
+ * HOW PRINTING POSTS WORKS:
+ * On componentdidmount (once page loads), it retrieves all student posts and sets it to this.state.posts
+ * When that is done, it calls createpostsTable, where it creates the html to display each posts
+ * createPostsTable saves the posts html in this.state.printPosts and makes this.state.postsReady to true
+ * 
+ * in the render method is printPosts, which is a method that waits until postsReady is set to true to render
+ * the posts
  *
  */
 
@@ -16,6 +24,7 @@ import Button from 'components/Button';
 import H1 from 'components/H1';
 import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
 //import TableStyle from 'components/Table/TableStyle';
+import Group from 'components/FormComponents/CheckboxOrRadioGroup';
 
 import CenteredSection from './CenteredSection';
 import Modal from './Modal';
@@ -51,6 +60,9 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 
 		this.setState({
 			posts : [],
+			printPosts: [],
+
+			filter: "mySubjects",
 
 			isOpen: false, //whether the sign in modal is rendered
             isLoading: true, //waits till component is finished loading so that buttons dont auto redirect
@@ -58,6 +70,8 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 
 		this.componentDidMount = this.componentDidMount.bind(this);	
 		this.createPostsTable = this.createPostsTable.bind(this);
+		this.printPosts = this.printPosts.bind(this);
+		this.filterPosts = this.filterPosts.bind(this);
 	}
 
 	toggleModal = () => { //opens and closes the sign in modal
@@ -69,6 +83,8 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 	componentDidMount(){
 
 		var allPosts = [];
+		var userInfo = [];
+		var postsReady = false;
 
 		fetch(this.link + '/posts?type=tutor', {
 			method: 'get',
@@ -81,16 +97,21 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		.then(posts => {
 
 			for (var i =0; i < posts.length; i++){
-				if (posts.length <= 30){// loads the 30 most recent posts
+				if (i <= 25){// loads the 25 most recent posts
 					allPosts.push(posts[i]);
 				}
+				else{
+					break;
+				}
 			}
-
-			this.setState({ posts: allPosts });
+			this.setState({ posts: allPosts, isLoading: false }, () => this.createPostsTable());
 		})
 		.catch(error => console.log('parsing failed', error));
 
-		this.setState({ isLoading: false });
+	}
+
+	filterPosts(e){
+
 	}
 
 	apply(post){
@@ -115,52 +136,93 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 	}
 
 	createPostsTable(){
+		var returnPosts =[];
 
-		if (this.state != null){
+		if (this.state != null && this.state.isLoading == false){
 			
 			if (this.state.posts.length != 0){
-				return this.state.posts.map((post) => {	
-
+				return this.state.posts.map((post) => {	//for each post...
+					
 					//ensures that no glitcy posts crash the app :)
 					if(post.subject != null && post.location != null && post.availability != null
 						&& post.rate != null && post.unit != null) {
-							//print out availiability neatly without special characters
-							var avail = "";
-							for (var i =0; i < post.availability.length; i++){
-								if (post.availability.charAt(i).match(/[a-zA-Z]/)){
-									avail += post.availability.charAt(i);
-								} else if (post.availability.charAt(i).match(/[,]/)){
-									avail += " | ";
-								} else {
-									avail += " ";
-								}
-							}
 
-							return (
-								<div key={post.postId}>
-									<Post>
-										<p> {post.subject} </p>
-										<p> {post.location} </p>
-										<p> {avail} </p>
-										<p> {post.rate} {post.unit} </p>
-										<Button onClick={() => this.apply(post)}> Apply </Button>
-									</Post>							
-									<br />
-								</div>
-							);
-					}
-				}); //end posts.map
+							//fetch the post owner's info
+							fetch(this.link + '/tutors/' + post.ownerId, {
+								method: 'get',
+								headers: {
+									'Accept': 'application/json',
+									'Content-Type': 'application/json',	
+								}
+							})
+							.then(response => {
+								if (response.status == 200){ //checks if user was found
+									return response.json();
+								} else {
+									return null;
+								}
+							})
+							.then( tutor => {
+								//console.log(post.postId);
+								console.log(tutor);
+								if (tutor != null && tutor != undefined){
+									//print out availiability neatly without special characters
+									var avail = "";
+									for (var i =0; i < post.availability.length; i++){
+										if (post.availability.charAt(i).match(/[a-zA-Z]/)){
+											avail += post.availability.charAt(i);
+										} else if (post.availability.charAt(i).match(/[,]/)){
+											avail += " | ";
+										} else {
+											avail += " ";
+										}
+									}
+									console.log("avail", avail);
+
+									returnPosts.push (
+										<div key={post.postId}>
+											<Post>
+												<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
+												<img src={tutor.img} width="150px" height="150px"/>
+												<p> Highest Degree: {tutor.degrees} </p> <hr />
+												<p> {post.subject} </p>
+												<p> Preferred Meeting Location: {post.location} </p>
+												<p> {avail} </p>
+												<p> {post.rate} {post.unit} </p>
+												<Button onClick={() => this.apply(post)}> Apply </Button>
+											</Post>							
+											<br />
+										</div>
+									);
+									this.setState({printPosts: returnPosts}, () => console.log("printposts", this.state.printPosts));
+								}//end if tutor != null
+								else {
+									console.log("null tutor");
+								}
+							})// end then				
+
+							this.setState({postsReady: true});
+					}//end check bad posts
+				});
 			}
 			else {
-				return(
-					<div>
-						<br />
-						<h3> Could not load any posts! </h3>
-						<br />
-					</div>
-				);
+				//return false;
 			}
 		}//end check if state is null
+	}
+
+	printPosts(){
+		if (this.state.postsReady == true){
+			return this.state.printPosts;
+		} else {
+			return(
+				<div>
+					<br />
+					<h3> Could not load any posts! </h3>
+					<br />
+				</div>
+			);
+		}
 	}
 	
   	render() {
@@ -176,21 +238,39 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 			<HeaderFeed />
 
 			<CheckboxTableStyle>
+
+				
          		<tr>
             		<th>
-            		    <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
+						<input type="radio" id="classSubject" name="subject" value="subject" 
+						onChange={() => { this.setState({filter: "mySubjects"}, () => console.log(this.state.filter)) }} />
+
                 		<label htmlFor="classSubject">   My subjects </label>
             		</th>
         		</tr>
         		<tr>
             		<th>
-                		<input type="checkbox" id="classSubject" name="subject" value="subject"></input>
+						<input type="radio" id="classSubject" name="subject" value="subject"
+						onChange={() => { this.setState({filter: "allSubjects"}, () => console.log(this.state.filter)) }} />
                 		<label htmlFor="classSubject">   All subjects </label>
             		</th>
         		</tr>
         		<tr>
             		<th><Button>Filter Subjects</Button></th>
-        		</tr>
+				</tr>
+				
+				{/*
+				<Group
+					title={''}
+					type={'radio'}
+					setName={'filter'}
+					controlFunc={(e) => { this.setState({filter: [e.target.value]}, () => console.log(this.state.filter)) }}
+					options={["mySubjects","allSubjects"]}
+					selectedOptions={[this.state.filter]}
+					 />
+				*/}
+
+				<Button>Filter Subjects</Button>
         	</CheckboxTableStyle>
 
 			<BodyWrapper>
@@ -219,7 +299,9 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 					<br /><br />
 
 					{/* Load tutor posts */}
-					{this.createPostsTable()}
+					<table>
+						{this.printPosts()}
+					</table>
 					
 					<Button onClick={() => this.props.history.goBack()}> Back </Button>
 				</CenteredSection>

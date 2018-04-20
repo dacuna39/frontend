@@ -1,7 +1,15 @@
 /**
  *
- * StudentPosts
+ * TutorFeed
  *
+ * HOW PRINTING POSTS WORKS:
+ * On componentdidmount (once page loads), it retrieves all student posts and sets it to this.state.posts
+ * When that is done, it calls createpostsTable, where it creates the html to display each posts
+ * createPostsTable saves the posts html in this.state.printPosts and makes this.state.postsReady to true
+ * 
+ * in the render method is printPosts, which is a method that waits until postsReady is set to true to render
+ * the posts
+ * 
  */
 
 import React from 'react';
@@ -51,6 +59,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 
 		this.setState({
 			posts : [],
+			printPosts: [],
 
 			isOpen: false, //whether the sign in modal is rendered
             isLoading: true,    
@@ -58,6 +67,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 
 		this.componentDidMount = this.componentDidMount.bind(this);	
 		this.createPostsTable = this.createPostsTable.bind(this);
+		this.printPosts = this.printPosts.bind(this);
 	}
 
 	toggleModal = () => { //opens and closes the sign in modal
@@ -69,6 +79,8 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 	componentDidMount(){
 
 		var allPosts = [];
+		var userInfo = [];
+		var postsReady = false;
 
 		fetch(this.link + '/posts?type=student', {
 			method: 'get',
@@ -81,16 +93,18 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 		.then(posts => {
 
 			for (var i =0; i < posts.length; i++){
-				if (posts.length <= 30){// loads the 30 most recent posts
+				if (i <= 25){// loads the 25 most recent posts
 					allPosts.push(posts[i]);
+				}
+				else{
+					break;
 				}
 			}
 
-			this.setState({ posts: allPosts });
+			this.setState({ posts: allPosts, isLoading: false }, () => this.createPostsTable());
 		})
 		.catch(error => console.log('parsing failed', error));
 
-		this.setState({ isLoading: false });
 	}
 
 	apply(post){
@@ -115,52 +129,93 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 	}
 
 	createPostsTable(){
+		var returnPosts =[];
 
-		if (this.state != null){
+		if (this.state != null && this.state.isLoading == false){
 			
 			if (this.state.posts.length != 0){
-				return this.state.posts.map((post) => {	
+				return this.state.posts.map((post) => {	//for each post...
 					
 					//ensures that no glitcy posts crash the app :)
 					if(post.subject != null && post.location != null && post.availability != null
 						&& post.rate != null && post.unit != null) {
-							//print out availiability neatly without special characters
-							var avail = "";
-							for (var i =0; i < post.availability.length; i++){
-								if (post.availability.charAt(i).match(/[a-zA-Z]/)){
-									avail += post.availability.charAt(i);
-								} else if (post.availability.charAt(i).match(/[,]/)){
-									avail += " | ";
-								} else {
-									avail += " ";
-								}
-							}
 
-							return (
-								<div key={post.postId}>
-									<Post>
-										<p> {post.subject} </p>
-										<p> {post.location} </p>
-										<p> {avail} </p>
-										<p> {post.rate} {post.unit} </p>
-										<Button onClick={() => this.apply(post)}> Apply </Button>
-									</Post>							
-									<br />
-								</div>
-							);
-					}
+							//fetch the post owner's info
+							fetch(this.link + '/students/' + post.ownerId, {
+								method: 'get',
+								headers: {
+									'Accept': 'application/json',
+									'Content-Type': 'application/json',	
+								}
+							})
+							.then(response => {
+								if (response.status == 200){ //checks if user was found
+									return response.json();
+								} else {
+									return null;
+								}
+							})
+							.then( student => {
+								//console.log(post.postId);
+								console.log(student);
+								if (student != null && student != undefined){
+									//print out availiability neatly without special characters
+									var avail = "";
+									for (var i =0; i < post.availability.length; i++){
+										if (post.availability.charAt(i).match(/[a-zA-Z]/)){
+											avail += post.availability.charAt(i);
+										} else if (post.availability.charAt(i).match(/[,]/)){
+											avail += " | ";
+										} else {
+											avail += " ";
+										}
+									}
+									console.log("avail", avail);
+
+									returnPosts.push (
+										<div key={post.postId}>
+											<Post>
+												<h3> {student.legalFirstName} {student.legalLastName} </h3>
+												<img src={student.img} width="150px" height="150px"/>
+												<p> Major: {student.major} </p> <hr />
+												<p> {post.subject} </p>
+												<p> Preferred Meeting Location: {post.location} </p>
+												<p> {avail} </p>
+												<p> {post.rate} {post.unit} </p>
+												<Button onClick={() => this.apply(post)}> Apply </Button>
+											</Post>							
+											<br />
+										</div>
+									);
+									this.setState({printPosts: returnPosts}, () => console.log("printposts", this.state.printPosts));
+								}//end if student != null
+								else {
+									console.log("null student");
+								}
+							})// end then				
+
+							this.setState({postsReady: true});
+					}//end check bad posts
 				});
 			}
 			else {
-				return(
-					<div>
-						<br />
-						<h3> Could not load any posts! </h3>
-						<br />
-					</div>
-				);
+				//return false;
 			}
 		}//end check if state is null
+	}
+
+	printPosts(){
+		if (this.state.postsReady == true){
+			return this.state.printPosts;
+		} else {
+			return(
+				<div>
+					<br />
+					<h3> Could not load any posts! </h3>
+					<br />
+				</div>
+			);
+		}
 	}
 	
   	render() {
@@ -219,7 +274,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 
 					{/* Load tutor posts */}
 					<table>
-						{this.createPostsTable()}
+						{this.printPosts()}
 					</table>
 					
 					<Button onClick={() => this.props.history.goBack()}> Back </Button>
