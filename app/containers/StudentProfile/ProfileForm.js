@@ -15,9 +15,6 @@ import Wrapper from './Wrapper';
 import Img from './Img';
 import Modal from './Modal'
 
-import Dropzone from 'react-dropzone';
-import request from 'superagent';
-
 //actions
 import { loadProfile } from './loadProfile';
 
@@ -27,17 +24,18 @@ import jsonSubjects from 'components/subjects.json';
 
 let arraySubjects = eval(jsonSubjects.arraySubjects);
 
-const CLOUDINARY_UPLOAD_PRESET = 'tlkwqrn9';
-const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/tutorfind/image/upload';
-
 class ProfileForm extends Component {
 
 	constructor(props) {
 		super(props);
+<<<<<<< HEAD
 		this.link = 'https://tutor-find.herokuapp.com/students/';
 		//var textStyles = Object.assign({height:10})
+=======
+		this.link = 'https://tutor-find.herokuapp.com';
+
+>>>>>>> e0cec2318133433a4bac7687fe36862261164b4f
 		this.state = {
-			uploadedFileCloudinaryUrl: '',
 			userName: this.props.userName,
 			email: this.props.email,
 			salt: this.props.salt,
@@ -53,7 +51,6 @@ class ProfileForm extends Component {
 
 			subjects: arraySubjects,
 			selectedSubjects: this.props.subjects,
-			//subjects: [],
 			
 			active: this.props.active,
 			timestamp: this.props.timestamp,
@@ -84,33 +81,6 @@ class ProfileForm extends Component {
 		this.deactivateAccount = this.deactivateAccount.bind(this);
 		this.changePassword = this.changePassword.bind(this);
 	}
-
-	onImageDrop(files) {
-		this.setState({
-		  uploadedFile: files[0]
-		}, () => { this.handleImageUpload(files[0]) } );
-		
-	  }
-
-	  handleImageUpload(file) {
-		let upload = request.post(CLOUDINARY_UPLOAD_URL)
-							.field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-							.field('file', file);
-	
-		upload.end((err, response) => {
-		  if (err) {
-			console.error(err);
-		  }
-	
-		  if (response.body.secure_url != '') {
-			this.setState({
-			  uploadedFileCloudinaryUrl: response.body.secure_url,
-			  img: response.body.secure_url,
-			});
-		  }
-		});
-	  }
-
 
 	toggleChangePassModal = () => { //opens and closes the modal
 		this.setState({
@@ -190,11 +160,7 @@ class ProfileForm extends Component {
 		else if(this.state.major == ''){
 			alert('Please enter a major');
 			return false;
-		}
-		else if(this.state.bio == ''){
-			alert('Please write a bio. Express yourself!');
-			return false;
-		}		
+		}	
 		else if(this.state.selectedSubjects.length == 0){
 			alert('Please select at least one subject you need help with');
 			return false;
@@ -206,17 +172,20 @@ class ProfileForm extends Component {
 
 	validatePassChange() {
 
-		if (this.state.enterPassword != this.state.password){
-			alert('Your current password is incorrect');
+		if (this.state.enterPassword.length < 6){
+			alert('Current password must be at least 6 characters long');
 			return false;
 		}
 		else if (this.state.newPassword.length < 6){
-			alert('Password must be at least 6 characters long');
+			alert('New password must be at least 6 characters long');
 			return false;
 		}
 		else if (this.state.newPassword != this.state.reenterPassword){
 			alert('New passwords do not match');
 			return false;
+		}
+		else {
+			return true;
 		}
 	}
 
@@ -248,7 +217,7 @@ class ProfileForm extends Component {
 		  		creationDate: this.state.timestamp,
 			};
 
-			fetch(this.link + this.props.userId.toString(), { //post profile updates to database :)
+			fetch(this.link + "/students/" + this.props.userId.toString(), { //post profile updates to database :)
 				method: 'post',
 				headers: {
 					'Accept': 'application/json',
@@ -267,7 +236,7 @@ class ProfileForm extends Component {
 					console.log('formPayload: ', JSON.stringify(formPayload));
 				}
 			})
-			.catch(error => alert('parsing failed profile form', error))
+			.catch(error => alert('parsing failed profile form', error));
 
 		}// end if validating form
 
@@ -283,21 +252,51 @@ class ProfileForm extends Component {
 		this.handleFormSubmit();
 	}
 
-	changePassword(){
-
-		// /changepassword/{id}/oldpassword
-		// payload: userId and new password
+	changePassword(e){
+		e.preventDefault();
 
 		if (this.validatePassChange()){
+			const payload = {
+				userId: this.props.userId,
+				passhash: this.state.newPassword,
+			}
 
-			this.setState({ password: this.state.enterPassword });
-			this.handleFormSubmit();
-		}
+			fetch(this.link + "/" + this.props.userId.toString() + "/" + this.state.enterPassword), { //post to change password
+				method: 'post',
+				headers: {
+					'Accept': 'application/json',
+				  	'Content-Type': 'application/json',	
+				},
+				body: JSON.stringify(payload)					
+			}
+			.then(response => {
+				if (response.status == 200){
+					console.log('formPayload: ', JSON.stringify(formPayload));
+					alert("Password Changed!");
+					//return response.json();
+				} 
+				else if (response.status == 404) {
+					console.log('formPayload: ', JSON.stringify(formPayload));
+					alert("Incorrect password, please try again");
+				}
+				else {
+					alert("An error occurred, please try again later");
+					console.log('formPayload: ', JSON.stringify(formPayload));
+				}
+			})
+			.then( //clear change pass form
+				this.setstate({
+					enterPassword: "",
+					newPassword: "",
+					reenterPassword: "",
+				})
+			)
+			.catch(error => alert('parsing failed at change password', error));
+		}// end validate form
 	}
 
 	render() {
 
-		console.log("props at profileform: ", this.props);
 		const { legalFirstName, legalLastName, major, minor, img, bio, password, selectedSubjects } = this.state;
 
         return(
@@ -307,6 +306,7 @@ class ProfileForm extends Component {
 			{/* Profile pic, first/last name, major/minor */}
             <Wrapper>
           	<CenteredSection>
+<<<<<<< HEAD
 			  <p> Profile Picture </p>
 				  
 				  <Img src={img} alt="Profile Picture"> </Img>
@@ -324,13 +324,26 @@ class ProfileForm extends Component {
 						</Dropzone>
 						
 				</CenteredSection>
+=======
+          		<p> Profile Picture </p>
+            	<Img src={img} alt="Profile Picture" />
+				<label>Paste an image url here </label>
+					<SingleInput
+						inputType={'text'}
+						title={''}
+						name={'img'}
+						controlFunc={this.handlePictureChange}
+						content={img}
+						placeholder={'No Image Selected'} />          							
+          	</CenteredSection>
+>>>>>>> e0cec2318133433a4bac7687fe36862261164b4f
           
           	<table>
 			<tbody>
 			<tr>
 				<td>
           		<LeftAlignSection>
-            		<p>First Name</p>
+            		<p>First Name *</p>
 					<SingleInput
 						inputType={'text'}
 						title={''}
@@ -342,7 +355,7 @@ class ProfileForm extends Component {
 				</td>
 				<td>
 				<LeftAlignSection>
-            		<p>Last Name</p>
+            		<p>Last Name *</p>
             		<SingleInput
 						inputType={'text'}
 						title={''}
@@ -356,7 +369,7 @@ class ProfileForm extends Component {
           	<tr>
 				<td>
 				<LeftAlignSection>
-            		<p>Major</p>
+            		<p>Major *</p>
             		<SingleInput
 						inputType={'text'}
 						title={''}
@@ -426,7 +439,6 @@ class ProfileForm extends Component {
 		        </CenteredSection>
       		</Wrapper>
 	  	</Form>
-
 
 		{/* Change Password Modal */}
 		<Modal show={this.state.isChangePassOpen}
