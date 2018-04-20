@@ -1,7 +1,7 @@
 /*
- * HomePage Messages
+ * Admin Messages
  *
- * This contains all the text for the HomePage component.
+ * This contains all the text for the Admin component.
  */
 import { defineMessages } from 'react-intl';
 
