@@ -189,21 +189,40 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 									}
 									console.log("avail", avail);
 
-									returnPosts.push (
-										<div key={post.postId}>
-											<Post>
-												<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
-												<img src={tutor.img} width="150px" height="150px"/>
-												<p> Highest Degree: {tutor.degrees} </p> <hr />
-												<p> {post.subject} </p>
-												<p> Preferred Meeting Location: {post.location} </p>
-												<p> {avail} </p>
-												<p> {post.rate} {post.unit} </p>
-												<Button onClick={() => this.apply(post)}> Apply </Button>
-											</Post>							
-											<br />
-										</div>
-									);
+									if (post.acceptsPaid){
+
+										returnPosts.push (
+											<div key={post.postId}>
+												<Post>
+													<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
+													<img src={tutor.img} width="150px" height="150px"/>
+													<p> Highest Degree: {tutor.degrees} </p> <hr />
+													<p> {post.subject} </p>
+													<p> Preferred Meeting Location: {post.location} </p>
+													<p> {avail} </p>
+													<p> {post.rate} {post.unit} </p>
+													<Button onClick={() => this.apply(post)}> Apply </Button>
+												</Post>							
+												<br />
+											</div>
+										);
+									} else {
+										returnPosts.push (
+											<div key={post.postId}>
+												<Post>
+													<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
+													<img src={tutor.img} width="150px" height="150px"/>
+													<p> Highest Degree: {tutor.degrees} </p> <hr />
+													<p> {post.subject} </p>
+													<p> Preferred Meeting Location: {post.location} </p>
+													<p> {avail} </p>
+													<p> Offering Free Tutoring </p>
+													<Button onClick={() => this.apply(post)}> Apply </Button>
+												</Post>							
+												<br />
+											</div>
+										);
+									}									
 									this.setState({printPosts: returnPosts}, () => console.log("printposts", this.state.printPosts));
 								}//end if tutor != null
 								else {
@@ -305,7 +324,6 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 					}}> My Posts </Button>
 					{/* end link to studentPost */}
 
-					
 					<H1> Available Tutors </H1>
 					<Img src={graduationcap} alt="graduation-cap"/>
 					<br /><br />
