@@ -58,20 +58,25 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
 
+		if (this.refs.myRef) {
 		this.setState({
 			posts : [],
 			printPosts: [],
 
-			filter: "mySubjects",
+			filterOptions: ["mySubjects","allSubjects"],
+			filter: ["mySubjects"],
 
 			isOpen: false, //whether the sign in modal is rendered
             isLoading: true, //waits till component is finished loading so that buttons dont auto redirect
 		});
 
-		this.componentDidMount = this.componentDidMount.bind(this);	
+		this.handleFilterSelect = this.handleFilterSelect.bind(this);
+
+		//this.componentDidMount = this.componentDidMount.bind(this);	
 		this.createPostsTable = this.createPostsTable.bind(this);
 		this.printPosts = this.printPosts.bind(this);
-		this.filterPosts = this.filterPosts.bind(this);
+		this.fetchPosts = this.fetchPosts.bind(this);
+		}
 	}
 
 	toggleModal = () => { //opens and closes the sign in modal
@@ -80,7 +85,15 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		});
 	}
 
+	handleFilterSelect(e) {
+		this.setState({filter: [e.target.value]}, () => console.log(this.state.filter));
+	}
+
 	componentDidMount(){
+			this.fetchPosts();
+	}
+
+	fetchPosts() {
 
 		var allPosts = [];
 		var userInfo = [];
@@ -110,10 +123,6 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 
 	}
 
-	filterPosts(e){
-
-	}
-
 	apply(post){
 		console.log("applying");
 		
@@ -132,7 +141,8 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
         	win.document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the tutor.' + '<' + '/a>');
         	win.focus();
         })
-      	.catch(error => console.log('parsing failed', error));
+		  .catch(error => console.log('parsing failed', error));
+	
 	}
 
 	createPostsTable(){
@@ -229,7 +239,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		
 		if (this.state != null){
     	return (
-    	<div>
+    	<div ref="myRef">
         	<Helmet>
         	  <title> StudentFeed </title>
         	  <meta name="description" content="Description of StudentFeed" />
@@ -237,40 +247,42 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		
 			<HeaderFeed />
 
-			<CheckboxTableStyle>
-
-				
+			<CheckboxTableStyle>		
          		<tr>
             		<th>
-						<input type="radio" id="classSubject" name="subject" value="subject" 
-						onChange={() => { this.setState({filter: "mySubjects"}, () => console.log(this.state.filter)) }} />
+						<input type="radio" id="classSubject" name="subject" value="mySubjects" 
+						onClick={() => { this.setState({filter: "mySubjects"}, () => console.log("filter", this.state.filter))}} />
 
                 		<label htmlFor="classSubject">   My subjects </label>
             		</th>
         		</tr>
         		<tr>
             		<th>
-						<input type="radio" id="classSubject" name="subject" value="subject"
-						onChange={() => { this.setState({filter: "allSubjects"}, () => console.log(this.state.filter)) }} />
+						<input type="radio" id="classSubject" name="subject" value="allSubjects" checked="true"
+						onClick={() => 
+							this.setState({filter: "allSubjects"}, () => {console.log("filter", this.state.filter)}) } />
+
                 		<label htmlFor="classSubject">   All subjects </label>
             		</th>
         		</tr>
         		<tr>
             		<th><Button>Filter Subjects</Button></th>
 				</tr>
+				<tr>
+					<td> <Button onClick={() => this.props.history.goBack()}> Back </Button> </td>
+				</tr>
 				
-				{/*
+						{/*
 				<Group
 					title={''}
 					type={'radio'}
 					setName={'filter'}
-					controlFunc={(e) => { this.setState({filter: [e.target.value]}, () => console.log(this.state.filter)) }}
-					options={["mySubjects","allSubjects"]}
-					selectedOptions={[this.state.filter]}
+					controlFunc={this.handleFilterSelect}
+					options={this.state.filterOptions}
+					selectedOptions={this.state.filter}
 					 />
-				*/}
-
 				<Button>Filter Subjects</Button>
+				*/}
         	</CheckboxTableStyle>
 
 			<BodyWrapper>
@@ -303,7 +315,6 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 						{this.printPosts()}
 					</table>
 					
-					<Button onClick={() => this.props.history.goBack()}> Back </Button>
 				</CenteredSection>
 			</BodyWrapper>
       	</div>

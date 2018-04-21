@@ -230,22 +230,42 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 		
 			<HeaderFeed />
 
-			<CheckboxTableStyle>
+			<CheckboxTableStyle>		
          		<tr>
             		<th>
-            		    <input type="checkbox" id="classSubject" name="subject" value="subject"></input>
+						<input type="radio" id="classSubject" name="subject" value="mySubjects" 
+						onClick={() => { this.setState({filter: "mySubjects"}, () => console.log("filter", this.state.filter))}} />
+
                 		<label htmlFor="classSubject">   My subjects </label>
             		</th>
         		</tr>
         		<tr>
             		<th>
-                		<input type="checkbox" id="classSubject" name="subject" value="subject"></input>
+						<input type="radio" id="classSubject" name="subject" value="allSubjects" checked="true"
+						onClick={() => 
+							this.setState({filter: "allSubjects"}, () => {console.log("filter", this.state.filter)}) } />
+
                 		<label htmlFor="classSubject">   All subjects </label>
             		</th>
         		</tr>
         		<tr>
             		<th><Button>Filter Subjects</Button></th>
-        		</tr>
+				</tr>
+				<tr>
+					<td> <Button onClick={() => this.props.history.goBack()}> Back </Button> </td>
+				</tr>
+				
+						{/*
+				<Group
+					title={''}
+					type={'radio'}
+					setName={'filter'}
+					controlFunc={this.handleFilterSelect}
+					options={this.state.filterOptions}
+					selectedOptions={this.state.filter}
+					 />
+				<Button>Filter Subjects</Button>
+				*/}
         	</CheckboxTableStyle>
 
 			<BodyWrapper>
