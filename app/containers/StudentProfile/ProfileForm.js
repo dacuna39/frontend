@@ -36,6 +36,8 @@ class ProfileForm extends Component {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
 
+		console.log("props at profileform: ", this.props);
+
 		this.state = {
 			uploadedFileCloudinaryUrl: '',
 			userName: this.props.userName,
@@ -324,8 +326,6 @@ class ProfileForm extends Component {
 }	
 
 	render() {
-
-		console.log("props at profileform: ", this.props);
 		const { legalFirstName, legalLastName, major, minor, img, bio, password, selectedSubjects } = this.state;
 
         return(
@@ -339,10 +339,11 @@ class ProfileForm extends Component {
 				  
 				  <Img src={img} alt="Profile Picture"> </Img>
 				 
-						  <Dropzone height="10"
+						  <Dropzone
 						  multiple={false}
 						  accept="image/*"
-						  onDrop={this.onImageDrop.bind(this)}>
+						  onDrop={this.onImageDrop.bind(this)}
+						  style={{"width" : "100%", "height" : "5%", "border" : "0px solid black"}}>
 	  
 						  <BlueButton form="" onClick={() => {
 								   this.setState({ img: this.state.uploadedFileCloudinaryUrl})

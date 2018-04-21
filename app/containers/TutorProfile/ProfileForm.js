@@ -35,7 +35,8 @@ class ProfileForm extends Component {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com/tutors/';
 
-		
+		console.log("props at profileform: ", this.props);
+
 		this.state = {
 			
 			uploadedFileCloudinaryUrl: '',
@@ -328,9 +329,9 @@ class ProfileForm extends Component {
 	}
 
 	render() {
-		console.log("props at profileform: ", this.props);
         const { legalFirstName, legalLastName, degrees, links, img, bio, password, selectedSubjects } = this.state;
-        return(
+		
+		return(
         <div>
 			<br />
 			<Form id="form" onSubmit={this.handleFormSubmit}>

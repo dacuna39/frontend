@@ -149,7 +149,8 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		var returnPosts =[];
 
 		if (this.state != null && this.state.isLoading == false){
-			
+			console.log("createPostsTable:", this.state.posts);
+
 			if (this.state.posts.length != 0){
 				return this.state.posts.map((post) => {	//for each post...
 					
@@ -240,7 +241,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		}//end check if state is null
 	}
 
-	printPosts(){
+	printPosts() {
 		if (this.state.postsReady == true){
 			return this.state.printPosts;
 		} else {
@@ -277,7 +278,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
         		</tr>
         		<tr>
             		<th>
-						<input type="radio" id="classSubject" name="subject" value="allSubjects" checked="true"
+						<input type="radio" id="classSubject" name="subject" value="allSubjects" //checked="true"
 						onClick={() => 
 							this.setState({filter: "allSubjects"}, () => {console.log("filter", this.state.filter)}) } />
 
