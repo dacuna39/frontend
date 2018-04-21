@@ -205,10 +205,10 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
                   <Post>
                     <h3> {}</h3>
                     <p> User Type: {post.posterType} &nbsp;&nbsp; Post Id: {post.postId} </p>
-                    <p> {post.subject} </p>
-                    <p> {post.location} </p>
-                    <p> {avail} </p>
-                    <p> {post.rate} {post.unit} </p>
+                    <p> Subject(s): {post.subject} </p>
+                    <p> Location: {post.location} </p>
+                    <p> Times available: {avail} </p>
+                    <p> Rate: {post.rate} {post.unit} </p>
                     <Button type="submit" onClick={() => {this.deletePost(post)}}> Delete </Button>
                   </Post>             
                   <br />
