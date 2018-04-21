@@ -206,7 +206,11 @@ class ProfileForm extends Component {
 
 	validatePassChange() {
 
-		if (this.state.newPassword.length < 6){
+		if (this.state.enterPassword != this.state.password){
+			alert('Your current password is incorrect');
+			return false;
+		}
+		else if (this.state.newPassword.length < 6){
 			alert('Password must be at least 6 characters long');
 			return false;
 		}
@@ -259,7 +263,7 @@ class ProfileForm extends Component {
 					alert("Saved!");
 					//return response.json();
 				} else {
-				}					alert("An error occurred, please try again later");
+					alert("An error occurred, please try again later");
 					console.log('formPayload: ', JSON.stringify(formPayload));
 				}
 			})
@@ -270,89 +274,74 @@ class ProfileForm extends Component {
 	}// end handleformsubmit
 
 	deactivateAccount(){
-		if(window.confirm("Deleting your account cannot be undone. Are you sure?")){
-			this.setState({ 
-				bio: "being deleted", //because the form still validates before deleting the user, will change this
-				major: "deleted",
-				selectedSubjects: [""],
-				active: false 
-			}, () => this.handleFormSubmit());			
-		}
-		else{
-
-		}
+		this.setState({ 
+			bio: "being deleted", //because the form still validates before deleting the user, will change this
+			major: "deleted",
+			selectedSubjects: ["deleted"],
+			active: false 
+		});
+		this.handleFormSubmit();
 	}
 
+	changePassword(){
+		e.preventDefault(); 
+		if (this.validatePassChange()){ 
+			const payload = {
+				userId: this.props.userId, 
+				passhash: this.state.newPassword, 
+			}
+			fetch(this.link + "/" + this.props.userId.toString() + "/" + this.state.enterPassword), { //post to change password 
 
-changePassword(e){ 
-	e.preventDefault(); 
-	if (this.validatePassChange()){ 
-	const payload = { 
+				method: 'post', 
+			
+				headers: { 
+			
+			
+				'Accept': 'application/json', 
+			
+			
+				'Content-Type': 'application/json',	 
+			
+				}, 
+			
+				body: JSON.stringify(payload)
+			}
+			.then(response => { 
+				if (response.status == 200){ 
+					console.log('formPayload: ', JSON.stringify(formPayload)); 
+					alert("Password Changed!"); 
+					//return response.json(); 
+					}
+				
+					else if (response.status == 404) { 
+				
+					console.log('formPayload: ', JSON.stringify(formPayload)); 
+				
+					alert("Incorrect password, please try again"); 
+					}
+					else { 
+				
+					alert("An error occurred, please try again later"); 
+				
+					console.log('formPayload: ', JSON.stringify(formPayload)); 
+					}
+				})
+				.then( //clear change pass form 
 
-	userId: this.props.userId, 
-
-	passhash: this.state.newPassword, 
-}
-	fetch(this.link + "/" + this.props.userId.toString() + "/" + this.state.enterPassword), { //post to change password 
-
-	method: 'post', 
-
-	headers: { 
-
-
-	'Accept': 'application/json', 
-
-
-	'Content-Type': 'application/json',	 
-
-	}, 
-
-	body: JSON.stringify(payload)					 
-
-	.then(response => { 
-
-	if (response.status == 200){ 
-	console.log('formPayload: ', JSON.stringify(formPayload)); 
-	alert("Password Changed!"); 
-	//return response.json(); 
-	}
-
-	else if (response.status == 404) { 
-
-	console.log('formPayload: ', JSON.stringify(formPayload)); 
-
-	alert("Incorrect password, please try again"); 
-	}
-	else { 
-
-	alert("An error occurred, please try again later"); 
-
-	console.log('formPayload: ', JSON.stringify(formPayload)); 
-
-
-} 
-
-
-}) 
-
-	.then( //clear change pass form 
-
-	this.setstate({ 
-
-	enterPassword: "", 
-
-	newPassword: "", 
-
-	reenterPassword: "", 	
-	}) 
-
-	) 
-
-
-	.catch(error => alert('parsing failed at change password', error)); 
-	}// end validate form 
+						this.setstate({ 
+					
+						enterPassword: "", 
+					
+						newPassword: "", 
+					
+						reenterPassword: "", 	
+						}) 
+					) 					
+			    	.catch(error => alert('parsing failed at change password', error))
+			}// end validate form 
 		
-	}
+}	
+
 
 	render() {
 
@@ -370,11 +359,10 @@ changePassword(e){
 				  
 				  <Img src={img} alt="Profile Picture"> </Img>
 				 
-						  <Dropzone
+						  <Dropzone height="10"
 						  multiple={false}
 						  accept="image/*"
-						  onDrop={this.onImageDrop.bind(this)}
-						  style={{"width" : "100%", "height" : "5%", "border" : "0px solid black"}}>
+						  onDrop={this.onImageDrop.bind(this)}>
 	  
 						  <BlueButton form="" onClick={() => {
 								   this.setState({ img: this.state.uploadedFileCloudinaryUrl})
@@ -461,7 +449,7 @@ changePassword(e){
 					<TextArea
 						inputType={'text'}
 						rows={5}
-						cols={80}
+						cols={100}
 						resize={false}
 						title={''}
 						name={'bio'}
@@ -485,6 +473,7 @@ changePassword(e){
 		        </CenteredSection>
       		</Wrapper>
 	  	</Form>
+
 
 		{/* Change Password Modal */}
 		<Modal show={this.state.isChangePassOpen}
@@ -526,8 +515,8 @@ changePassword(e){
 		<Modal show={this.state.isDeactivateOpen}
 					onClose={this.toggleDeactivateModal}>
 
-				<p> Click here to delete your account </p>
-				<BlueButton form="" onClick={this.deactivateAccount}> Deactivate Account </BlueButton>
+				<p> This will deactivate your account. Are you sure? </p>
+				<BlueButton form="form" onClick={this.deactivateAccount}> Deactivate Account </BlueButton>
 		</Modal>		
 	
     	</div>
