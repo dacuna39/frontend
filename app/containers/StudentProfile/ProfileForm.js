@@ -283,16 +283,74 @@ class ProfileForm extends Component {
 		}
 	}
 
-	changePassword(){
 
-		// /changepassword/{id}/oldpassword
-		// payload: userId and new password
+changePassword(e){ 
+	e.preventDefault(); 
+	const payload = { 
 
-		if (this.validatePassChange()){
+	userId: this.props.userId, 
 
-			this.setState({ password: this.state.enterPassword });
-			this.handleFormSubmit();
-		}
+	passhash: this.state.newPassword, 
+}
+	fetch(this.link + "/" + this.props.userId.toString() + "/" + this.state.enterPassword), { //post to change password 
+
+	method: 'post', 
+
+	headers: { 
+
+
+	'Accept': 'application/json', 
+
+
+	'Content-Type': 'application/json',	 
+
+	}, 
+
+	body: JSON.stringify(payload)					 
+
+	.then(response => { 
+
+	if (response.status == 200){ 
+	console.log('formPayload: ', JSON.stringify(formPayload)); 
+	alert("Password Changed!"); 
+	//return response.json(); 
+
+
+	else if (response.status == 404) { 
+
+	console.log('formPayload: ', JSON.stringify(formPayload)); 
+
+	alert("Incorrect password, please try again"); 
+
+	else { 
+
+	alert("An error occurred, please try again later"); 
+
+	console.log('formPayload: ', JSON.stringify(formPayload)); 
+
+
+} 
+
+
+}) 
+
+	.then( //clear change pass form 
+
+	this.setstate({ 
+
+	enterPassword: "", 
+
+	newPassword: "", 
+
+	reenterPassword: "", 	
+	}) 
+
+	) 
+
+
+	.catch(error => alert('parsing failed at change password', error)); 
+	}// end validate form 
+		
 	}
 
 	render() {
