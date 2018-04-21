@@ -259,7 +259,7 @@ class ProfileForm extends Component {
 					alert("Saved!");
 					//return response.json();
 				} else {
-					alert("An error occurred, please try again later");
+				}					alert("An error occurred, please try again later");
 					console.log('formPayload: ', JSON.stringify(formPayload));
 				}
 			})
@@ -315,14 +315,14 @@ changePassword(e){
 	console.log('formPayload: ', JSON.stringify(formPayload)); 
 	alert("Password Changed!"); 
 	//return response.json(); 
-
+	}
 
 	else if (response.status == 404) { 
 
 	console.log('formPayload: ', JSON.stringify(formPayload)); 
 
 	alert("Incorrect password, please try again"); 
-
+	}
 	else { 
 
 	alert("An error occurred, please try again later"); 
