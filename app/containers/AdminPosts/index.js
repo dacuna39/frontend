@@ -137,41 +137,8 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
           if(post.postId != null && post.posterType != null && post.subject != null && post.location != null && post.availability != null
             && post.rate != null && post.unit != null) {
 
+            if(post.posterType = 'student') {
               //get students information
-              fetch(this.link + '/students/' + post.ownerId, {
-                method: 'get',
-                header: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json', 
-                }
-              })
-              .then(response => {
-                  if (response.status == 200) {
-                    return response.json();
-                  }
-                  else {
-                    return null;
-                  }
-              })
-
-              //get tutors information
-              fetch(this.link + '/tutors/' + post.ownerId, {
-                method: 'get',
-                header: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json', 
-                }
-              })
-              .then(response => {
-                  if (response.status == 200) {
-                    return response.json();
-                  }
-                  else {
-                    return null;
-                  }
-              })
-
-              //get admin information
               fetch(this.link + '/admin/' + post.ownerId, {
                 method: 'get',
                 header: {
@@ -187,7 +154,43 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
                     return null;
                   }
               })
-
+            }
+            else if(post.posterType = 'tutor') {
+              //get tutors information
+              fetch(this.link + '/admin/' + post.ownerId, {
+                method: 'get',
+                header: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json', 
+                }
+              })
+              .then(response => {
+                  if (response.status == 200) {
+                    return response.json();
+                  }
+                  else {
+                    return null;
+                  }
+              })
+            }
+            else {
+              fetch(this.link + '/admin/' + post.ownerId, {
+                method: 'get',
+                header: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json', 
+                }
+              })
+              .then(response => {
+                  if (response.status == 200) {
+                    return response.json();
+                  }
+                  else {
+                    return null;
+                  }
+              })
+            }
+          
               //print out availiability neatly without special characters
               var avail = "";
               for (var i =0; i < post.availability.length; i++){
@@ -200,16 +203,18 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
                 }
               }
 
+
+
               return (
                 <div key={post.postId}>
                   <Post>
-                    <h3> {}</h3>
+                    <h3> Name: {}</h3>
                     <p> User Type: {post.posterType} &nbsp;&nbsp; Post Id: {post.postId} </p>
                     <p> Subject(s): {post.subject} </p>
                     <p> Location: {post.location} </p>
                     <p> Times available: {avail} </p>
                     <p> Rate: {post.rate} {post.unit} </p>
-                    <Button type="submit" onClick={() => {this.deletePost(post)}}> Delete </Button>
+                    <Button type="submit" onClick={() => {if(confirm('Delete this post?')) {this.deletePost(post)}}}> Delete </Button>
                   </Post>             
                   <br />
                 </div>
