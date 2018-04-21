@@ -55,7 +55,6 @@ class ProfileForm extends Component {
 
 			subjects: arraySubjects,
 			selectedSubjects: this.props.subjects,
-			//subjects: [],
 			
 			active: this.props.active,
 			timestamp: this.props.timestamp,
@@ -85,6 +84,7 @@ class ProfileForm extends Component {
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.deactivateAccount = this.deactivateAccount.bind(this);
 		this.changePassword = this.changePassword.bind(this);
+		//this.clearPass = this.clearPass.bind(this);
 	}
 
 	onImageDrop(files) {
@@ -275,55 +275,68 @@ class ProfileForm extends Component {
 	}// end handleformsubmit
 
 	deactivateAccount(){
-		this.setState({ 
-			bio: "being deleted", //because the form still validates before deleting the user, will change this
-			major: "deleted",
-			selectedSubjects: ["deleted"],
-			active: false 
-		});
-		this.handleFormSubmit();
+		if(window.confirm("Deleting your account cannot be undone. Are you sure?")){
+			this.setState({ 
+				major: "deleted", //because the form still validates before deleting the user, will change this
+				selectedSubjects: ["deleted"],
+				active: false 
+			});
+			this.handleFormSubmit();
+		}
 	}
 
 	changePassword(){
-		//e.preventDefault(); 
+ 
 		if (this.validatePassChange()){ 
+
 			const payload = {
 				userId: this.props.userId, 
 				passhash: this.state.newPassword, 
 			}
-			fetch(this.link + "/changepassword/" + this.props.userId.toString() + "/" + this.state.enterPassword), { //post to change password 
+
+			fetch(this.link + "/changepassword/" + this.props.userId.toString() + "/" + this.state.enterPassword, { //post to change password 
 				method: 'post', 			
 				headers: { 			
 					'Accept': 'application/json', 
-					'Content-Type': 'application/json',	 
+					'Content-Type': 'application/json',
 				}, 
 				body: JSON.stringify(payload)
-			}
+			})
 			.then(response => { 
 				if (response.status == 200){ 
-					console.log('formPayload: ', JSON.stringify(formPayload)); 
+					console.log('payload: ', JSON.stringify(payload)); 
 					alert("Password Changed!"); 
-					//return response.json(); 
-					}
-					else if (response.status == 404) { 
-						console.log('formPayload: ', JSON.stringify(formPayload)); 
-						alert("Incorrect password, please try again"); 
-					}
-					else { 
-						alert("An error occurred, please try again later"); 
-						console.log('formPayload: ', JSON.stringify(formPayload)); 
-					}
-				})
-				.then( //clear change pass form 
-						this.setstate({ 					
+					//return response.json();
+					return true;
+				}
+				else if (response.status == 404) { 
+					console.log('payload: ', JSON.stringify(payload)); 
+					alert("Incorrect password, please try again"); 
+					return false;
+				}
+				else { 
+					alert("An error occurred, please try again later"); 
+					console.log('payload: ', JSON.stringify(payload)); 
+					return false;
+				}
+			})
+			.then( success => { //clear change pass form 
+				if (success == true){
+					//this.clearPass();
+					this.setstate({
 						enterPassword: "", 
 						newPassword: "", 
 						reenterPassword: "", 	
-						}) 
-				) 					
-			    .catch(error => alert('parsing failed at change password', error))
-			}// end validate form 
-}	
+					});
+				}
+			}) 					
+		    .catch(error => console.log('parsing failed at change password', error))
+		}// end validate form 
+	}
+
+	//clearPass(){
+		
+	//}
 
 	render() {
 		const { legalFirstName, legalLastName, major, minor, img, bio, password, selectedSubjects } = this.state;
@@ -491,18 +504,16 @@ class ProfileForm extends Component {
 				<BlueButton form="" onClick={this.changePassword}> Change </BlueButton>
 		</Modal>
 
-
 		{/* Deactivate Account Modal */}
 		<Modal show={this.state.isDeactivateOpen}
 					onClose={this.toggleDeactivateModal}>
 
-				<p> This will deactivate your account. Are you sure? </p>
-				<BlueButton form="form" onClick={this.deactivateAccount}> Deactivate Account </BlueButton>
+				<p> Click here to delete your account </p>
+				<BlueButton form="" onClick={this.deactivateAccount}> Deactivate Account </BlueButton>
 		</Modal>		
 	
-    	</div>
-		) //end return
-		
+    </div>
+	) //end return		
 	} // end render
 }
 
