@@ -22,7 +22,7 @@ export default function (state=
 		degrees: "", //tutor props
 		links: "",
 		timestamp: 100000000000000,
-		ratings: []
+		ratings: {"1":5}
     }
 
     , action){
@@ -30,7 +30,7 @@ export default function (state=
         
         case "UPDATE_PROFILE":
 
-            if (action.payload.legalFirstName == ""){
+            if (action.payload.userId == null){
                 console.log("payloadId is undefined");
                 console.log("state: ", state);
                 return state;

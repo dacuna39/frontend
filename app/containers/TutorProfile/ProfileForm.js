@@ -182,20 +182,34 @@ class ProfileForm extends Component {
 
 	validateForm(){
 
+		var subs = this.state.selectedSubjects;
+
+		for(var i =0; i < subs.length; i++){ // removes bad elements in array
+			if(subs[i].includes("\\") || subs[i].includes("\"") || subs[i] == "NULL"){
+					subs.splice(i, 1);
+						i = -1;					
+			}
+		}
+		this.setState({ selectedSubjects: subs }, () => console.log("subs", subs));
+
 		if(this.state.legalFirstName == ''){
 			alert('Please enter your first name');
-		return false;
+			return false;
 		}
 		else if(this.state.legalLastName == ''){
 			alert('Please enter your last name');
 			return false;
 		}
+		else if(this.state.major == ''){
+			alert('Please enter a major');
+			return false;
+		}
 		else if(this.state.bio == ''){
 			alert('Please write a bio. Express yourself!');
 			return false;
-		}
+		}		
 		else if(this.state.selectedSubjects.length == 0){
-			alert('Please select at least one subject you are willing to tutor');
+			alert('Please select at least one subject you need help with');
 			return false;
 		}
 		else {

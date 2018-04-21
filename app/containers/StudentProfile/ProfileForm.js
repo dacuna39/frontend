@@ -84,7 +84,6 @@ class ProfileForm extends Component {
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.deactivateAccount = this.deactivateAccount.bind(this);
 		this.changePassword = this.changePassword.bind(this);
-		//this.clearPass = this.clearPass.bind(this);
 	}
 
 	onImageDrop(files) {
@@ -158,10 +157,11 @@ class ProfileForm extends Component {
 		const newSelection = e.target.value;
 		let newSelectionArray;
 		if(this.state.selectedSubjects.indexOf(newSelection) > -1) {
-			newSelectionArray = this.state.selectedSubjects.filter(s => s !== newSelection)
+			newSelectionArray = this.state.selectedSubjects.filter(s => s !== newSelection);
 		} else {
 			newSelectionArray = [...this.state.selectedSubjects, newSelection];
 		}
+
 		this.setState({ selectedSubjects: newSelectionArray }, () => console.log('subject selection', this.state.selectedSubjects));
 	}
 
@@ -180,6 +180,16 @@ class ProfileForm extends Component {
 	/* validate forms */
 
 	validateForm(){
+
+		var subs = this.state.selectedSubjects;
+
+		for(var i =0; i < subs.length; i++){ // removes bad elements in array
+			if(subs[i].includes("\\") || subs[i].includes("\"") || subs[i] == "NULL"){
+					subs.splice(i, 1);
+						i = -1;					
+			}
+		}
+		this.setState({ selectedSubjects: subs }, () => console.log("subs", subs));
 
 		if(this.state.legalFirstName == ''){
 			alert('Please enter your first name');
@@ -333,10 +343,6 @@ class ProfileForm extends Component {
 		    .catch(error => console.log('parsing failed at change password', error))
 		}// end validate form 
 	}
-
-	//clearPass(){
-		
-	//}
 
 	render() {
 		const { legalFirstName, legalLastName, major, minor, img, bio, password, selectedSubjects } = this.state;
