@@ -239,7 +239,7 @@ class SignUpForm extends Component {
 
 					active: true,
 					timestamp: Math.floor(Date.now()/1000),
-					ratings: [],
+					ratings: "{1:5}",
 				};
 				console.log('tutorPayload' + JSON.stringify(tutorPayload));
 				

@@ -34,7 +34,9 @@ class ProfileForm extends Component {
 
 	constructor(props) {
 		super(props);
-		this.link = 'https://tutor-find.herokuapp.com/students/';
+		this.link = 'https://tutor-find.herokuapp.com';
+
+		console.log("props at profileform: ", this.props);
 
 		this.state = {
 			uploadedFileCloudinaryUrl: '',
@@ -206,17 +208,16 @@ class ProfileForm extends Component {
 
 	validatePassChange() {
 
-		if (this.state.enterPassword != this.state.password){
-			alert('Your current password is incorrect');
-			return false;
-		}
-		else if (this.state.newPassword.length < 6){
+		if (this.state.newPassword.length < 6){
 			alert('Password must be at least 6 characters long');
 			return false;
 		}
 		else if (this.state.newPassword != this.state.reenterPassword){
 			alert('New passwords do not match');
 			return false;
+		}
+		else {
+			return true;
 		}
 	}
 
@@ -248,7 +249,7 @@ class ProfileForm extends Component {
 		  		creationDate: this.state.timestamp,
 			};
 
-			fetch(this.link + this.props.userId.toString(), { //post profile updates to database :)
+			fetch(this.link + "/students/" + this.props.userId.toString(), { //post profile updates to database :)
 				method: 'post',
 				headers: {
 					'Accept': 'application/json',
@@ -283,27 +284,19 @@ class ProfileForm extends Component {
 		this.handleFormSubmit();
 	}
 
-	changePassword(e){
-		e.preventDefault(); 
+	changePassword(){
+		//e.preventDefault(); 
 		if (this.validatePassChange()){ 
 			const payload = {
 				userId: this.props.userId, 
 				passhash: this.state.newPassword, 
 			}
-			fetch(this.link + "/" + this.props.userId.toString() + "/" + this.state.enterPassword), { //post to change password 
-
-				method: 'post', 
-			
-				headers: { 
-			
-			
-				'Accept': 'application/json', 
-			
-			
-				'Content-Type': 'application/json',	 
-			
+			fetch(this.link + "/changepassword/" + this.props.userId.toString() + "/" + this.state.enterPassword), { //post to change password 
+				method: 'post', 			
+				headers: { 			
+					'Accept': 'application/json', 
+					'Content-Type': 'application/json',	 
 				}, 
-			
 				body: JSON.stringify(payload)
 			}
 			.then(response => { 
@@ -312,40 +305,27 @@ class ProfileForm extends Component {
 					alert("Password Changed!"); 
 					//return response.json(); 
 					}
-				
 					else if (response.status == 404) { 
-				
-					console.log('formPayload: ', JSON.stringify(formPayload)); 
-				
-					alert("Incorrect password, please try again"); 
+						console.log('formPayload: ', JSON.stringify(formPayload)); 
+						alert("Incorrect password, please try again"); 
 					}
 					else { 
-				
-					alert("An error occurred, please try again later"); 
-				
-					console.log('formPayload: ', JSON.stringify(formPayload)); 
+						alert("An error occurred, please try again later"); 
+						console.log('formPayload: ', JSON.stringify(formPayload)); 
 					}
 				})
 				.then( //clear change pass form 
-
-						this.setstate({ 
-					
+						this.setstate({ 					
 						enterPassword: "", 
-					
 						newPassword: "", 
-					
 						reenterPassword: "", 	
 						}) 
-					) 					
-			    	.catch(error => alert('parsing failed at change password', error))
+				) 					
+			    .catch(error => alert('parsing failed at change password', error))
 			}// end validate form 
-		
 }	
 
-
 	render() {
-
-		console.log("props at profileform: ", this.props);
 		const { legalFirstName, legalLastName, major, minor, img, bio, password, selectedSubjects } = this.state;
 
         return(
@@ -359,10 +339,11 @@ class ProfileForm extends Component {
 				  
 				  <Img src={img} alt="Profile Picture"> </Img>
 				 
-						  <Dropzone height="10"
+						  <Dropzone
 						  multiple={false}
 						  accept="image/*"
-						  onDrop={this.onImageDrop.bind(this)}>
+						  onDrop={this.onImageDrop.bind(this)}
+						  style={{"width" : "100%", "height" : "5%", "border" : "0px solid black"}}>
 	  
 						  <BlueButton form="" onClick={() => {
 								   this.setState({ img: this.state.uploadedFileCloudinaryUrl})
