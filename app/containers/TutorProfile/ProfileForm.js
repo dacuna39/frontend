@@ -273,13 +273,15 @@ class ProfileForm extends Component {
 	}// end handleformsubmit
 
 	deactivateAccount(){
-		this.setState({ 
-			bio: "being deleted",//because the form still validates before deleting the user, will change this
-			degrees: "deleted", 
-			selectedSubjects: ["deleted"],
-			active: false 
-		});
-		this.handleFormSubmit();
+		if(window.confirm("Deleting your account cannot be undone. Are you sure?")){
+			this.setState({ 
+				bio: "being deleted", //because the form still validates before deleting the user, will change this
+				major: "deleted",
+				selectedSubjects: ["deleted"],
+				active: false 
+			});
+			this.handleFormSubmit();
+		}
 	}
 
 	changePassword(){
@@ -395,7 +397,7 @@ class ProfileForm extends Component {
 					<TextArea
 						inputType={'text'}
 						rows={5}
-						cols={100}
+						cols={80}
 						resize={false}
 						title={''}
 						name={'bio'}
@@ -459,8 +461,8 @@ class ProfileForm extends Component {
 		<Modal show={this.state.isDeactivateOpen}
 					onClose={this.toggleDeactivateModal}>
 
-				<p> This will deactivate your account. Are you sure? </p>
-				<BlueButton form="form" onClick={this.deactivateAccount}> Deactivate Account </BlueButton>
+				<p> Click here to delete your account </p>
+				<BlueButton form="" onClick={this.deactivateAccount}> Deactivate Account </BlueButton>
 		</Modal>		
 	
     </div>
