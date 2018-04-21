@@ -110,18 +110,35 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 			
 			if (this.state.userPosts.length != 0){
 				return this.state.userPosts.map((post) => {	
-					return (
-						<div key={post.postId}>
-							<Post>
-								<p> {post.subject} </p>
-								<p> {post.location} </p>
-								<p> {post.availability} </p>
-								<p> {post.rate} {post.unit} </p>
-								<Button onClick={() => this.deletePost(post)}> Delete </Button>
-							</Post>							
-							<br />
-						</div>
-					);
+
+					//ensures that no glitcy posts crash the app :)
+					if(post.subject != null && post.location != null && post.availability != null
+						&& post.rate != null && post.unit != null) {
+							//print out availiability neatly without special characters
+							var avail = "";
+							for (var i =0; i < post.availability.length; i++){
+								if (post.availability.charAt(i).match(/[a-zA-Z]/)){
+									avail += post.availability.charAt(i);
+								} else if (post.availability.charAt(i).match(/[,]/)){
+									avail += " | ";
+								} else {
+									avail += " ";
+								}
+							}
+
+							return (
+								<div key={post.postId}>
+									<Post>
+										<p> {post.subject} </p>
+										<p> {post.location} </p>
+										<p> {avail} </p>
+										<p> {post.rate} {post.unit} </p>
+										<Button onClick={() => this.deletePost(post)}> Delete </Button>
+									</Post>							
+									<br />
+								</div>
+							);
+					}
 				});
 			}
 			else {

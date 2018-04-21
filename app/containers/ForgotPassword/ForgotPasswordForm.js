@@ -61,14 +61,6 @@ class ForgotPasswordForm extends Component {
 	handleEmailChange(e) {
 		this.setState({ email: e.target.value }, console.log(this.state.email));
 	}
-	/*handleClearForm(e) {
-		e.preventDefault();
-		this.state = {
-			email: '',
-			accountOptions: ['Student','Tutor'],
-			accountSelection: ''
-		};
-	}*/
 
 	validateForm(){
 		if(this.state.accountSelection == ''){

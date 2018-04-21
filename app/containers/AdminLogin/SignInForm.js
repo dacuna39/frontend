@@ -23,8 +23,8 @@ class SignInForm extends Component {
 		this.state = {
 			userName: '',
 			password: '',
-			accountOptions: ['Student','Tutor'],
-			accountSelection: [],
+			accountOptions: ['admin'],
+			accountSelection: ['admin'],
 		};
 
 		this.handleUserNameChange = this.handleUserNameChange.bind(this);
@@ -53,17 +53,18 @@ class SignInForm extends Component {
 			userName: this.state.userName,
 			passhash: this.state.password
 		};
+		console.log(JSON.stringify(formPayload));	
 
-		//student post
-		if(this.state.accountSelection[0] == 'Student'){
+		//admin post
+		if(this.state.accountSelection[0] == 'admin'){
 		
-			fetch(this.link + '/students/login', { 
+			fetch(this.link + '/admin/login', { 
 				method: 'post',
 				headers: {
 					'Accept': 'application/json',
 					'Content-Type': 'application/json',	
 				},
-				body: JSON.stringify(formPayload)					
+				body: JSON.stringify(formPayload)			
 			})
 			.then(response => {
 				if (response.status == 200){ //checks if user was found
@@ -77,63 +78,22 @@ class SignInForm extends Component {
 				this.props.loadProfile(data);			
 				return true;
 			})
-			.then(doneLoading => { //once job is finished, go to profile page
+			.then(doneLoading => { //once job is finished, go to posts page
 				if(doneLoading == true){
-					this.props.history.push("/studentProfile");					
+					this.props.history.push("/AdminPosts");					
 				}				
 			})
 			.catch(error => console.log('parsing failed', error));
 			
-		}// end student post
-
-		//Tutor post
-		else if (this.state.accountSelection[0] == 'Tutor'){
-			fetch(this.link + '/tutors/login', { 
-				method: 'post',
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json',	
-				},
-				body: JSON.stringify(formPayload)					
-			})
-			.then(response => { //checks if user was found
-				if (response.status == 200){
-					console.log("Loggin in");
-					return response.json();
-				} else {
-					alert("Invalid login");
-				}
-			})
-			.then(data => { // loads data into store/props
-				this.props.loadProfile(data);			
-				return true;
-			})
-			.then(doneLoading => { //once job is finished, go to profile page
-				if(doneLoading == true){
-					this.props.history.push("/tutorProfile");					
-				}				
-			})
-			.catch(error => console.log('parsing failed', error));
-		}
-		//end tutor post
+		}// end admin post
 	}
+		
 
 	render() {
 		return (
 			<article>
 				
 			<form onSubmit={this.handleFormSubmit}>
-
-				<p> I am a: 
-				<Radio
-					title={''}
-					type={'radio'}
-					setName={'accountSelection'}
-					controlFunc={this.handleAccountOptionSelect}
-					options={this.state.accountOptions}
-					selectedOptions={this.state.accountSelection}
-					 />
-				</p>
 
 				<SingleInput
 					inputType={'text'}
@@ -166,24 +126,10 @@ function mapStateToProps(state) {
 		userId: state.userId,
 		userName: state.userName,
 		email: state.email,
-		password: state.password,
 		salt: state.salt,
+		passhash: state.hash,
 		userType: state.userType,
 
-		legalFirstName: state.legalFirstName,
-		legalLastName: state.legalLastName,
-		bio: state.bio,
-		img: state.img,
-		active: state.active,
-
-		major: state.major, //student props
-		minor: state.minor,
-		creationDate: state.creationDate,
-
-		degrees: state.degrees, //tutor props
-		links: state.links,
-		timestamp: state.timestamp,
-		ratings: state.ratings,
 	}
 }
 
