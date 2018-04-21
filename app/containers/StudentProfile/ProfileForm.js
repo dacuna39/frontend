@@ -359,10 +359,11 @@ class ProfileForm extends Component {
 				  
 				  <Img src={img} alt="Profile Picture"> </Img>
 				 
-						  <Dropzone height="10"
+						  <Dropzone
 						  multiple={false}
 						  accept="image/*"
-						  onDrop={this.onImageDrop.bind(this)}>
+						  onDrop={this.onImageDrop.bind(this)}
+						  style={{"width" : "100%", "height" : "5%", "border" : "0px solid black"}}>
 	  
 						  <BlueButton form="" onClick={() => {
 								   this.setState({ img: this.state.uploadedFileCloudinaryUrl})
