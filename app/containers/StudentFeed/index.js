@@ -117,7 +117,8 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 	createPostsTable(){
 
 		if (this.state != null){
-			
+			console.log("createPostsTable:this.state.posts");
+      console.log(this.state.posts);
 			if (this.state.posts.length != 0){
 				return this.state.posts.map((post) => {	
 					return (
