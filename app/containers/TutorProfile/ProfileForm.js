@@ -280,14 +280,64 @@ class ProfileForm extends Component {
 		}
 	}
 
-	changePassword(){
+	changePassword(e){
+		e.preventDefault(); 
+		if (this.validatePassChange()){ 
+			const payload = {
+				userId: this.props.userId, 
+				passhash: this.state.newPassword, 
+			}
+			fetch(this.link + "/" + this.props.userId.toString() + "/" + this.state.enterPassword), { //post to change password 
 
-		if (this.validatePassChange()){
+				method: 'post', 
+			
+				headers: { 
+			
+			
+				'Accept': 'application/json', 
+			
+			
+				'Content-Type': 'application/json',	 
+			
+				}, 
+			
+				body: JSON.stringify(payload)
+			}
+			.then(response => { 
+				if (response.status == 200){ 
+					console.log('formPayload: ', JSON.stringify(formPayload)); 
+					alert("Password Changed!"); 
+					//return response.json(); 
+					}
+				
+					else if (response.status == 404) { 
+				
+					console.log('formPayload: ', JSON.stringify(formPayload)); 
+				
+					alert("Incorrect password, please try again"); 
+					}
+					else { 
+				
+					alert("An error occurred, please try again later"); 
+				
+					console.log('formPayload: ', JSON.stringify(formPayload)); 
+					}
+				})
+				.then( //clear change pass form 
 
-			this.setState({ password: this.state.enterPassword });
-			this.handleFormSubmit();
-		}
-	}
+						this.setstate({ 
+					
+						enterPassword: "", 
+					
+						newPassword: "", 
+					
+						reenterPassword: "", 	
+						}) 
+					) 					
+			    	.catch(error => alert('parsing failed at change password', error))
+			}// end validate form 
+		
+}	
 	render() {
 		console.log("props at profileform: ", this.props);
         const { legalFirstName, legalLastName, degrees, links, img, bio, password, selectedSubjects } = this.state;
