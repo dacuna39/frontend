@@ -23,8 +23,8 @@ class SignInForm extends Component {
 		this.state = {
 			userName: '',
 			password: '',
-			accountOptions: ['Admin'],
-			accountSelection: ['Admin'],
+			accountOptions: ['admin'],
+			accountSelection: ['admin'],
 		};
 
 		this.handleUserNameChange = this.handleUserNameChange.bind(this);
@@ -53,10 +53,10 @@ class SignInForm extends Component {
 			userName: this.state.userName,
 			passhash: this.state.password
 		};
-				console.log(JSON.stringify(formPayload));	
+		console.log(JSON.stringify(formPayload));	
 
 		//admin post
-		if(this.state.accountSelection[0] == 'Admin'){
+		if(this.state.accountSelection[0] == 'admin'){
 		
 			fetch(this.link + '/admin/login', { 
 				method: 'post',
@@ -94,17 +94,6 @@ class SignInForm extends Component {
 			<article>
 				
 			<form onSubmit={this.handleFormSubmit}>
-
-				<p> I am a: 
-				<Radio
-					title={''}
-					type={'radio'}
-					setName={'accountSelection'}
-					controlFunc={this.handleAccountOptionSelect}
-					options={this.state.accountOptions}
-					selectedOptions={this.state.accountSelection}
-					 />
-				</p>
 
 				<SingleInput
 					inputType={'text'}

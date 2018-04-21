@@ -1,5 +1,5 @@
 /*
- * HomePage
+ * Admin
  */
 
 import React from 'react';
@@ -51,7 +51,7 @@ export default class AdminLogin extends React.Component { // eslint-disable-line
       <BodyWrapper>
 
 		    <Wrapper>
-		      {/* Sign up */}
+		      {/* Sign In */}
           <CenteredSection>
 			      <H1> Sign In </H1>
             <SignInForm /> 

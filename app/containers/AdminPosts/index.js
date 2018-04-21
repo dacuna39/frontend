@@ -46,8 +46,6 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
     super(props);
     this.link = 'https://tutor-find.herokuapp.com';
 
-
-
     this.componentDidMount = this.componentDidMount.bind(this); 
     this.createPostsTable = this.createPostsTable.bind(this);
   }
@@ -79,6 +77,30 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
     this.setState({ isLoading: false });
   }
 
+  getAllPosts(){
+    var allPosts = [];
+
+    fetch(this.link + '/posts', {
+      method: 'get',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json', 
+      }
+    })
+    .then(response => response.json())
+    .then(posts => {
+      for (var i =0; i < posts.length; i++){
+        if (posts.length <= 60){
+          allPosts.push(posts[i]);
+        }
+      }
+
+      this.setState({ posts: allPosts });
+    })
+    .catch(error => console.log('parsing failed', error));
+    this.setState({isLoading: false});
+  }
+
   deletePost(post){
     
     post.active = false;
@@ -95,7 +117,7 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
       if (response.status == 200){
         console.log('post: ' + JSON.stringify(post));
         alert("Deleted!");
-        this.getPosts();
+        this.getAllPosts();
       } else {
         alert("An error occurred, please try again later");
         console.log('formPayload: ' + JSON.stringify(formPayload));
@@ -106,7 +128,7 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
 
   createPostsTable(){
 
-    if (this.state != null){
+    if (this.state != null && this.state.isLoading == false){
       
       if (this.state.posts.length != 0){
         return this.state.posts.map((post) => { 
@@ -114,6 +136,58 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
           //ensures that no glitcy posts crash the app :)
           if(post.postId != null && post.posterType != null && post.subject != null && post.location != null && post.availability != null
             && post.rate != null && post.unit != null) {
+
+              //get students information
+              fetch(this.link + '/students/' + post.ownerId, {
+                method: 'get',
+                header: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json', 
+                }
+              })
+              .then(response => {
+                  if (response.status == 200) {
+                    return response.json();
+                  }
+                  else {
+                    return null;
+                  }
+              })
+
+              //get tutors information
+              fetch(this.link + '/tutors/' + post.ownerId, {
+                method: 'get',
+                header: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json', 
+                }
+              })
+              .then(response => {
+                  if (response.status == 200) {
+                    return response.json();
+                  }
+                  else {
+                    return null;
+                  }
+              })
+
+              //get admin information
+              fetch(this.link + '/admin/' + post.ownerId, {
+                method: 'get',
+                header: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json', 
+                }
+              })
+              .then(response => {
+                  if (response.status == 200) {
+                    return response.json();
+                  }
+                  else {
+                    return null;
+                  }
+              })
+
               //print out availiability neatly without special characters
               var avail = "";
               for (var i =0; i < post.availability.length; i++){
@@ -129,6 +203,7 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
               return (
                 <div key={post.postId}>
                   <Post>
+                    <h3> {}</h3>
                     <p> User Type: {post.posterType} &nbsp;&nbsp; Post Id: {post.postId} </p>
                     <p> {post.subject} </p>
                     <p> {post.location} </p>
@@ -160,8 +235,8 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
       return (
       <div>
           <Helmet>
-            <title> Admin Feed </title>
-            <meta name="description" content="Description of Admin Feed" />
+            <title> Admin Posts </title>
+            <meta name="description" content="Description of Admin posts" />
           </Helmet>
     
       <HeaderAdminLoggedIn />
@@ -172,7 +247,7 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
           {/* link to user list */}
           <Button onClick={() => { // link to admin user feed
             if (this.state.isLoading == false){
-              this.props.history.push("/adminFeed");
+              this.props.history.push("/AdminFeed");
             }
           }}> User Lists </Button>
           {/* end link to user list */}
