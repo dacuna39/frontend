@@ -283,7 +283,7 @@ class ProfileForm extends Component {
 		this.handleFormSubmit();
 	}
 
-	changePassword(){
+	changePassword(e){
 		e.preventDefault(); 
 		if (this.validatePassChange()){ 
 			const payload = {
