@@ -133,7 +133,7 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 										<p> {post.location} </p>
 										<p> {avail} </p>
 										<p> {post.rate} {post.unit} </p>
-										<Button onClick={() => this.apply(post)}> Apply </Button>
+										<Button onClick={() => this.deletePost(post)}> Delete </Button>
 									</Post>							
 									<br />
 								</div>
