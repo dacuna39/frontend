@@ -33,7 +33,7 @@ const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/tutorfind/image/u
 class ProfileForm extends Component {
 	constructor(props) {
 		super(props);
-		this.link = 'https://tutor-find.herokuapp.com/tutors/';
+		this.link = 'https://tutor-find.herokuapp.com';
 
 		console.log("props at profileform: ", this.props);
 
@@ -55,7 +55,6 @@ class ProfileForm extends Component {
 
 			subjects: arraySubjects,
 			selectedSubjects: this.props.subjects,
-			//selectedSubject: [],
 
 			active: this.props.active,
 			timestamp: this.props.timestamp,
@@ -248,7 +247,7 @@ class ProfileForm extends Component {
 		  		ratings: this.state.ratings,
 			};
 
-			fetch(this.link + this.props.userId.toString(), { //post profile updates to database :)
+			fetch(this.link + "/tutors/" + this.props.userId.toString(), { //post profile updates to database :)
 				method: 'post',
 				headers: {
 					'Accept': 'application/json',
@@ -275,8 +274,7 @@ class ProfileForm extends Component {
 	deactivateAccount(){
 		if(window.confirm("Deleting your account cannot be undone. Are you sure?")){
 			this.setState({ 
-				bio: "being deleted", //because the form still validates before deleting the user, will change this
-				major: "deleted",
+				major: "deleted", //because the form still validates before deleting the user, will change this
 				selectedSubjects: ["deleted"],
 				active: false 
 			});
@@ -285,48 +283,52 @@ class ProfileForm extends Component {
 	}
 
 	changePassword(){
+ 
+		if (this.validatePassChange()){ 
 
-		//e.preventDefault();
+			const payload = {
+				userId: this.props.userId, 
+				passhash: this.state.newPassword, 
+			}
 
-				 if (this.validatePassChange()){
-					const payload = {
-						userId: this.props.userId,
-						passhash: this.state.newPassword,
-					}
-
-					fetch(this.link + "/" + this.props.userId.toString() + "/" + this.state.enterPassword), { //post to change password
-						method: 'post',
-						headers: {
-							'Accept': 'application/json',
-						  	'Content-Type': 'application/json',	
-						},
-						body: JSON.stringify(payload)					
-					}
-					.then(response => {
-						if (response.status == 200){
-							console.log('formPayload: ', JSON.stringify(formPayload));
-							alert("Password Changed!");
-							//return response.json();
-						}
-						else if (response.status == 404) {
-							console.log('formPayload: ', JSON.stringify(formPayload));
-							alert("Incorrect password, please try again");
-						}
-						else {
-							alert("An error occurred, please try again later");
-							console.log('formPayload: ', JSON.stringify(formPayload));
-						}
-					})
-					.then( //clear change pass form
-						this.setstate({
-							enterPassword: "",
-							newPassword: "",
-							reenterPassword: "",
-						})
-					)
-					.catch(error => alert('parsing failed at change password', error));
-		}// end validate form
-	}
+			fetch(this.link + "/changepassword/" + this.props.userId.toString() + "/" + this.state.enterPassword, { //post to change password 
+				method: 'post', 			
+				headers: { 			
+					'Accept': 'application/json', 
+					'Content-Type': 'application/json',
+				}, 
+				body: JSON.stringify(payload)
+			})
+			.then(response => { 
+				if (response.status == 200){ 
+					console.log('payload: ', JSON.stringify(payload)); 
+					alert("Password Changed!"); 
+					//return response.json();
+					return true;
+				}
+				else if (response.status == 404) { 
+					console.log('payload: ', JSON.stringify(payload)); 
+					alert("Incorrect password, please try again"); 
+					return false;
+				}
+				else { 
+					alert("An error occurred, please try again later"); 
+					console.log('payload: ', JSON.stringify(payload)); 
+					return false;
+				}
+			})
+			.then( success => { //clear change pass form 
+				if (success == true){
+					this.setstate({
+						enterPassword: "", 
+						newPassword: "", 
+						reenterPassword: "", 	
+					}) 
+				}
+			}) 					
+		    .catch(error => console.log('parsing failed at change password', error))
+		}// end validate form 
+	}	
 
 	render() {
         const { legalFirstName, legalLastName, degrees, links, img, bio, password, selectedSubjects } = this.state;
