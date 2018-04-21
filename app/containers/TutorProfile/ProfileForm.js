@@ -184,7 +184,7 @@ class ProfileForm extends Component {
 
 		if(this.state.legalFirstName == ''){
 			alert('Please enter your first name');
-			return false;
+		return false;
 		}
 		else if(this.state.legalLastName == ''){
 			alert('Please enter your last name');
@@ -205,11 +205,7 @@ class ProfileForm extends Component {
 
 	validatePassChange() {
 
-		if (this.state.enterPassword != this.state.password){
-			alert('Your current password is incorrect');
-			return false;
-		}
-		else if (this.state.newPassword.length < 6){
+		if (this.state.newPassword.length < 6){
 			alert('Password must be at least 6 characters long');
 			return false;
 		}
