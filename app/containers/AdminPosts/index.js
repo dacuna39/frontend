@@ -160,8 +160,8 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
       return (
       <div>
           <Helmet>
-            <title> Admin Feed </title>
-            <meta name="description" content="Description of Admin Feed" />
+            <title> Admin Posts </title>
+            <meta name="description" content="Description of Admin posts" />
           </Helmet>
     
       <HeaderAdminLoggedIn />
@@ -172,7 +172,7 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
           {/* link to user list */}
           <Button onClick={() => { // link to admin user feed
             if (this.state.isLoading == false){
-              this.props.history.push("/adminFeed");
+              this.props.history.push("/AdminFeed");
             }
           }}> User Lists </Button>
           {/* end link to user list */}
