@@ -126,18 +126,35 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 								}
 							}
 
-							return (
-								<div key={post.postId}>
-									<Post>
-										<p> {post.subject} </p>
-										<p> {post.location} </p>
-										<p> {avail} </p>
-										<p> {post.rate} {post.unit} </p>
-										<Button onClick={() => this.deletePost(post)}> Delete </Button>
-									</Post>							
-									<br />
-								</div>
-							);
+							if (post.acceptsPaid){
+								return (
+									<div key={post.postId}>
+										<Post>
+											<p> {post.subject} </p>
+											<p> {post.location} </p>
+											<p> {avail} </p>
+											<p> {post.rate} {post.unit} </p>
+											<Button onClick={() => this.deletePost(post)}> Delete </Button>
+										</Post>							
+										<br />
+									</div>
+								);
+							}
+							else {
+								return (
+									<div key={post.postId}>
+										<Post>
+											<p> {post.subject} </p>
+											<p> {post.location} </p>
+											<p> {avail} </p>
+											<p> Requesting Free Tutoring </p>
+											<Button onClick={() => this.deletePost(post)}> Delete </Button>
+										</Post>							
+										<br />
+									</div>
+								);
+							}
+							
 					}
 				});
 			}

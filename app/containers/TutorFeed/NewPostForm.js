@@ -27,8 +27,7 @@ class NewPostForm extends Component {
 	
             location: "",
             acceptsPaid: true,
-            rate: 20,
-			//unit: "dollars/hour",
+            rate: 0,
 			
 			days: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
 			daysSelect: [],

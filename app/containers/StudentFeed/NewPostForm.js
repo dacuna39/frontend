@@ -18,7 +18,6 @@ class NewPostForm extends Component {
     constructor(props) {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
-		this.availArray = [];
 
 		this.state = { //student post
 
@@ -27,9 +26,7 @@ class NewPostForm extends Component {
 			
             location: "",
             availability: "",
-            acceptsPaid: true,
-            rate: 20,
-			//unit: "dollars/hour",
+            rate: 0,
 			
 			days: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
 			daysSelect: [],
@@ -55,7 +52,11 @@ class NewPostForm extends Component {
 			acceptsGroupTutoring: [],
 			groups: false,
 
-            booleanOptions: ['Yes', 'No'],
+			acceptsPaid: [],
+			paid: false,
+
+			booleanOptions: ['Yes', 'No'],
+			booleanOptions2: ['Yes', 'No'],
         };
 
 		this.handleSubjectChange = this.handleSubjectChange.bind(this);
@@ -64,6 +65,7 @@ class NewPostForm extends Component {
 		this.handleDaysSelect = this.handleDaysSelect.bind(this);
 		this.handleRateChange = this.handleRateChange.bind(this);
 		this.handleGroupTutoringChange = this.handleGroupTutoringChange.bind(this);
+		this.handleAcceptsPaidChange = this.handleAcceptsPaidChange.bind(this);
 		
 		this.handleMondayChange = this.handleMondayChange.bind(this);
 		this.handleTuesdayChange = this.handleTuesdayChange.bind(this);
@@ -192,22 +194,24 @@ class NewPostForm extends Component {
 	}
     
     handleRateChange(e) {
-		this.setState({ rate: parseInt( e.target.value, 10) });
-
-		if (e.target.value == 0){
-			this.setState({acceptsPaid: false})
-		} else if (e.target.value > 0){
-			this.setState({acceptsPaid: true})
-		}
+		this.setState({ rate: e.target.value }, () => console.log("rate", this.state.rate));
     }
     
     handleGroupTutoringChange(e) {
-		this.setState({ acceptsGroupTutoring: [e.target.value] });
-	
+
 		if (e.target.value == "Yes"){
-			this.setState({groups: true});
+			this.setState({groups: true, acceptsGroupTutoring: [e.target.value]});
 		} else if (e.target.value == "No"){
-			this.setState({groups: false});
+			this.setState({groups: false, acceptsGroupTutoring: [e.target.value]});
+		}
+	}
+
+	handleAcceptsPaidChange(e) {
+
+		if (e.target.value == "Yes"){
+			this.setState({paid: true, acceptsPaid: [e.target.value]});
+		} else if (e.target.value == "No"){
+			this.setState({paid: false, acceptsPaid: [e.target.value], rate: 0});
 		}
 	}
 	
@@ -242,6 +246,8 @@ class NewPostForm extends Component {
 			saturdayShow: false,
 			sunday: [],
 			sundayShow: false,
+
+			rateShow: false,
             
 			acceptsGroupTutoring: [],
 			groups: false,
@@ -262,7 +268,7 @@ class NewPostForm extends Component {
           alert("Please enter you availability (e.g. Days and hours available)");
           return false;
         }
-        else if (this.state.rate == "" || this.state.rate < 0){
+        else if ((this.state.rate == "" || this.state.rate < 0) && this.state.paid == true){
           	alert("Please enter a valid pay rate");
           	return false;
 		}
@@ -296,7 +302,7 @@ class NewPostForm extends Component {
 				   // availability requires a format like this:
 				   // {"Monday":"Night","Tuesday":"Morning","Friday":"Afternoon"}
 				   
-				   acceptsPaid: this.state.acceptsPaid,
+				   acceptsPaid: this.state.paid,
    
 				   rate: this.state.rate,
 				   unit: "dollars/hour",
@@ -324,7 +330,7 @@ class NewPostForm extends Component {
 				   } else {
 					   alert("Error submitting post");
 				   }
-			   })			
+			   })
 		   }//end if validateForm
     }//end handleFormSubmit
 
@@ -363,15 +369,16 @@ class NewPostForm extends Component {
 
 				{this.renderTimeOptions()}
 
-                <p> Enter your rate per hour in dollars (Enter 0 to request free tutoring) </p>
-                <SingleInput
-		          		inputType={'number'} // sets this.state.rate to "" if it's not a number, validate-able
-					    title={''}
-          				name={'rate'}
-				        controlFunc={this.handleRateChange}
-        				content={this.state.rate}
-				        placeholder={"20"} 
-						/>
+				<p> Are you offering payment for tutoring? </p>
+				<Group
+			            title={''}
+            			type={'radio'}
+                    	setName={'acceptsGroupTutoring'}
+                    	controlFunc={this.handleAcceptsPaidChange}
+				        options={this.state.booleanOptions}
+				        selectedOptions={this.state.acceptsPaid} />
+
+                {this.renderRateInput()}
 
                 <p> Do you accept group tutoring? </p>
                 <Group
@@ -379,7 +386,7 @@ class NewPostForm extends Component {
             			type={'radio'}
                     	setName={'acceptsGroupTutoring'}
                     	controlFunc={this.handleGroupTutoringChange}
-				        options={this.state.booleanOptions}
+				        options={this.state.booleanOptions2}
 				        selectedOptions={this.state.acceptsGroupTutoring} />
 				            
                 <p>
@@ -389,6 +396,23 @@ class NewPostForm extends Component {
 			    </p>
             </Form>
         )
+	}
+
+	renderRateInput() {
+		if (this.state.paid){
+			return (
+				<div>
+					<p> Enter your rate per hour in dollars </p>
+					<SingleInput
+						inputType={'number'} // sets this.state.rate to "" if it's not a number, validate-able
+			      		title={''}
+						name={'rate'}
+		    			controlFunc={this.handleRateChange}
+		    			content={this.state.rate}
+		    			/>
+				</div>
+			);
+		}
 	}
 
 	renderTimeOptions() {
@@ -406,8 +430,7 @@ class NewPostForm extends Component {
 						controlFunc={this.handleMondayChange}
 						options={this.state.times}
 						selectedOptions={this.state.monday}
-						disabled={!this.state.mondayShow}
-						 />
+						disabled={!this.state.mondayShow} />
 					</td>
 				);
 				i++;
@@ -474,8 +497,7 @@ class NewPostForm extends Component {
 						controlFunc={this.handleFridayChange}
 						options={this.state.times}
 						selectedOptions={this.state.friday}
-						disabled={!this.state.fridayShow}
-						 />
+						disabled={!this.state.fridayShow} />
 					</td>
 				);
 				i++;
