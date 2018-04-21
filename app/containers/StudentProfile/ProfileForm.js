@@ -206,11 +206,7 @@ class ProfileForm extends Component {
 
 	validatePassChange() {
 
-		if (this.state.enterPassword != this.state.password){
-			alert('Your current password is incorrect');
-			return false;
-		}
-		else if (this.state.newPassword.length < 6){
+		if (this.state.newPassword.length < 6){
 			alert('Password must be at least 6 characters long');
 			return false;
 		}
