@@ -21,8 +21,6 @@ import request from 'superagent';
 //actions
 import { loadProfile } from './loadProfile';
 
-import profile from './default_profile_pic.jpg';
-
 import jsonSubjects from 'components/subjects.json';
 
 let arraySubjects = eval(jsonSubjects.arraySubjects);

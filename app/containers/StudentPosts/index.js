@@ -9,13 +9,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { withRouter } from "react-router-dom";
-
 import styled from 'styled-components';
+
 import HeaderFeed from 'components/HeaderFeed';
 import Button from 'components/Button';
 import H1 from 'components/H1';
+import Cap from 'components/images/graduation-cap.png';
 
 import CenteredSection from './CenteredSection';
+import Img from './Img';
 
 const BodyWrapper = styled.div`
   max-width: calc(1000px + 16px * 2);
@@ -29,8 +31,8 @@ const BodyWrapper = styled.div`
 const Post = styled.div`
 	border: 2px solid;
 	border-color: FFB71C;
-	width: 100%;
-	height: 100%;
+	width: auto;
+	height: auto;
 	background: #EEECE9;
 	text-align: center;
 	padding: 2em;
@@ -130,8 +132,8 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 								return (
 									<div key={post.postId}>
 										<Post>
-											<p> {post.subject} </p>
-											<p> {post.location} </p>
+											<p> Subject: {post.subject} </p>
+											<p> Preferred Meeting Location: {post.location} </p>
 											<p> {avail} </p>
 											<p> {post.rate} {post.unit} </p>
 											<Button onClick={() => this.deletePost(post)}> Delete </Button>
@@ -144,8 +146,8 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 								return (
 									<div key={post.postId}>
 										<Post>
-											<p> {post.subject} </p>
-											<p> {post.location} </p>
+											<p> Subject: {post.subject} </p>
+											<p> Preferred Meeting Location: {post.location} </p>
 											<p> {avail} </p>
 											<p> Requesting Free Tutoring </p>
 											<Button onClick={() => this.deletePost(post)}> Delete </Button>
@@ -184,7 +186,9 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 				<CenteredSection>
 					<br />
 					<H1> Your Posts </H1>
-					<br />
+					<Img src={Cap} alt="Graduation Cap" />
+					<h3> Here are your current active posts. Delete a post to stop receiving incoming tutoring requests </h3>
+					<hr /> <br />
 					{this.createPostsTable()}
 					
 					<Button onClick={() => this.props.history.goBack()}> Back </Button>

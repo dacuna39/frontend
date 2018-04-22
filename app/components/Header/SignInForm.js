@@ -79,7 +79,7 @@ class SignInForm extends Component {
 			})
 			.then(doneLoading => { //once job is finished, go to profile page
 				if(doneLoading == true){
-					this.props.history.push("/studentProfile");					
+					this.props.history.push("/studentFeed");					
 				}				
 			})
 			.catch(error => console.log('parsing failed', error));
@@ -110,7 +110,7 @@ class SignInForm extends Component {
 			})
 			.then(doneLoading => { //once job is finished, go to profile page
 				if(doneLoading == true){
-					this.props.history.push("/tutorProfile");					
+					this.props.history.push("/tutorFeed");					
 				}				
 			})
 			.catch(error => console.log('parsing failed', error));
