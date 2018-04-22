@@ -56,8 +56,7 @@ class NewPostForm extends Component {
 			acceptsPaid: [],
 			paid: false,
 
-			booleanOptions: ['Yes', 'No'],
-			booleanOptions2: ['Yes', 'No'],
+			booleanOptions: ["Yes", "No"],
         };
 
 		this.handleSubjectChange = this.handleSubjectChange.bind(this);
@@ -116,7 +115,7 @@ class NewPostForm extends Component {
 		this.setState({ sunday: [e.target.value] });
   	}
 	
-	  handleDaysSelect(e) {
+	handleDaysSelect(e) {
 		const newSelection = e.target.value;
 		let newSelectionArray;
 		if(this.state.daysSelect.indexOf(newSelection) > -1) { //remove
@@ -199,7 +198,6 @@ class NewPostForm extends Component {
     }
     
     handleGroupTutoringChange(e) {
-
 		if (e.target.value == "Yes"){
 			this.setState({groups: true, acceptsGroupTutoring: [e.target.value]});
 		} else if (e.target.value == "No"){
@@ -208,7 +206,6 @@ class NewPostForm extends Component {
 	}
 
 	handleAcceptsPaidChange(e) {
-
 		if (e.target.value == "Yes"){
 			this.setState({paid: true, acceptsPaid: [e.target.value]});
 		} else if (e.target.value == "No"){
@@ -219,7 +216,6 @@ class NewPostForm extends Component {
 	clearForm(){
 		this.setState({
 			subject: [],
-			subjects: arraySubjects,
 	
             location: "",
             availability: "",
@@ -227,10 +223,7 @@ class NewPostForm extends Component {
             rate: 20,
 			//unit: "dollars/hour",
 			
-			days: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
 			daysSelect: [],
-			
-			times: ["Morning","Afternoon","Night"],
 			timeSelect: [],
 
 			monday: [],
@@ -268,8 +261,12 @@ class NewPostForm extends Component {
         else if (availability == ""){
           alert("Please enter you availability (e.g. Days and hours available)");
           return false;
-        }
-        else if ((this.state.rate == "" || this.state.rate < 0) && this.state.paid == true){
+		}
+		else if (this.state.acceptsPaid.length == 0){
+			alert("Please select whether you want free or paid tutoring");
+			return false;
+		}
+        else if ((this.state.rate == "" || this.state.rate <= 0) && this.state.paid == true){
           	alert("Please enter a valid pay rate");
           	return false;
 		}
@@ -357,7 +354,8 @@ class NewPostForm extends Component {
 				        controlFunc={this.handleLocationChange}
           				content={this.state.location}
 		                placeholder={''} />
-						
+				
+				{/* Availiability */}
 				<h4> Please enter your availability </h4>
 				<Group
 			            title={''}
@@ -370,11 +368,13 @@ class NewPostForm extends Component {
 				
 				{this.renderTimeOptions()}
 
+				{/* end Availiability */}
+
 				<p> Are you offering payment for tutoring? </p>
 				<Group
 			            title={''}
             			type={'radio'}
-                    	setName={'acceptsGroupTutoring'}
+                    	setName={'acceptsPaid'}
                     	controlFunc={this.handleAcceptsPaidChange}
 				        options={this.state.booleanOptions}
 				        selectedOptions={this.state.acceptsPaid} />
@@ -387,7 +387,7 @@ class NewPostForm extends Component {
             			type={'radio'}
                     	setName={'acceptsGroupTutoring'}
                     	controlFunc={this.handleGroupTutoringChange}
-				        options={this.state.booleanOptions2}
+				        options={this.state.booleanOptions}
 				        selectedOptions={this.state.acceptsGroupTutoring} />
 				            
                 <p>

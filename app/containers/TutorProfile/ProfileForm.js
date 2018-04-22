@@ -278,7 +278,7 @@ class ProfileForm extends Component {
 					console.log('formPayload: ', JSON.stringify(formPayload));
 				}
 			})
-			.catch(error => console.log('parsing failed', error))
+			.catch(error => console.log('parsing failed', error));
 
 		}// end if
 	}// end handleformsubmit
@@ -375,7 +375,7 @@ class ProfileForm extends Component {
 			<tr>
 				<td>
           		<LeftAlignSection>
-            		<p>First Name</p>
+            		<p>First Name *</p>
 					<SingleInput
 						inputType={'text'}
 						title={''}
@@ -387,7 +387,7 @@ class ProfileForm extends Component {
 				</td>
 				<td>
 				<LeftAlignSection>
-            		<p>Last Name</p>
+            		<p>Last Name *</p>
             		<SingleInput
 						inputType={'text'}
 						title={''}
@@ -402,7 +402,7 @@ class ProfileForm extends Component {
           	<tr>
 				<td>
 				<LeftAlignSection>
-            		<p>Highest Degree</p>
+            		<p>Highest Degree *</p>
             		<SingleInput
 						inputType={'text'}
 						title={''}
@@ -432,7 +432,7 @@ class ProfileForm extends Component {
 			{/* Subject Options */}
 			<Wrapper>
 				<CheckboxOrRadioGroup
-						title={'Select the subjects you are offering tutoring on'}
+						title={'Select the subjects you are offering tutoring on *'}
 						setName={'subjects'}
 						type={'checkbox'}
 						controlFunc={this.handleSubjectSelection}

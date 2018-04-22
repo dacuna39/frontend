@@ -329,7 +329,7 @@ class ProfileForm extends Component {
 					});
 				}
 			}) 					
-		    .catch(error => console.log('parsing failed at change password', error))
+		    .catch(error => console.log('parsing failed at change password', error));
 		}// end validate form 
 	}
 
@@ -366,7 +366,7 @@ class ProfileForm extends Component {
 			<tr>
 				<td>
           		<LeftAlignSection>
-            		<p>First Name</p>
+            		<p>First Name *</p>
 					<SingleInput
 						inputType={'text'}
 						title={''}
@@ -378,7 +378,7 @@ class ProfileForm extends Component {
 				</td>
 				<td>
 				<LeftAlignSection>
-            		<p>Last Name</p>
+            		<p>Last Name *</p>
             		<SingleInput
 						inputType={'text'}
 						title={''}
@@ -392,7 +392,7 @@ class ProfileForm extends Component {
           	<tr>
 				<td>
 				<LeftAlignSection>
-            		<p>Major</p>
+            		<p>Major *</p>
             		<SingleInput
 						inputType={'text'}
 						title={''}
@@ -423,7 +423,7 @@ class ProfileForm extends Component {
 			{/* Subject Options */}
 			<Wrapper>
 				<CheckboxOrRadioGroup
-						title={'Select the subjects you need help with'}
+						title={'Select the subjects you need help with *'}
 						setName={'subjects'}
 						type={'checkbox'}
 						controlFunc={this.handleSubjectSelection}
