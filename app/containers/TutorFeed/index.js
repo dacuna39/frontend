@@ -30,7 +30,7 @@ import Modal from './Modal';
 import NewPostForm from './NewPostForm';
 import Img from './Img';
 
-import Cap from 'components/images/graduation-cap.png';
+import Cap from 'components/Images/graduation-cap.png';
 
 const BodyWrapper = styled.div`
   max-width: calc(1000px + 16px * 2);
