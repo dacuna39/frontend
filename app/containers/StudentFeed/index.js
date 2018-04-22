@@ -120,7 +120,6 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 			this.setState({ posts: allPosts, isLoading: false }, () => this.createPostsTable());
 		})
 		.catch(error => console.log('parsing failed', error));
-
 	}
 
 	apply(post){
@@ -174,8 +173,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 								}
 							})
 							.then( tutor => {
-								//console.log(post.postId);
-								console.log(tutor);
+								//console.log(tutor);
 								if (tutor != null && tutor != undefined){
 									//print out availiability neatly without special characters
 									var avail = "";
@@ -188,41 +186,90 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 											avail += " ";
 										}
 									}
-									console.log("avail", avail);
+									//console.log("avail", avail);
 
+									//if they accept paid
 									if (post.acceptsPaid){
 
-										returnPosts.push (
-											<div key={post.postId}>
-												<Post>
-													<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
-													<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
-													<p> Highest Degree: {tutor.degrees} </p> <hr />
-													<p> Subject: {post.subject} </p>
-													<p> Preferred Meeting Location: {post.location} </p>
-													<p> {avail} </p>
-													<p> {post.rate} {post.unit} </p>
-													<Button onClick={() => this.apply(post)}> Apply </Button>
-												</Post>							
-												<br />
-											</div>
-										);
+										if (tutor.links != ""){
+											returnPosts.push (
+												<div key={post.postId}>
+													<Post>
+														<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
+														<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
+														<p> Highest Degree: {tutor.degrees} </p> 
+														<p> LinkedIn: {tutor.links} </p>
+														<hr />
+														<p> Subject: {post.subject} </p>
+														<p> Preferred Meeting Location: {post.location} </p>
+														<p> {avail} </p>
+														<p> {post.rate} {post.unit} </p>
+														<Button onClick={() => this.apply(post)}> Apply </Button>
+													</Post>							
+													<br />
+												</div>
+											);
+										}
+										else {
+											returnPosts.push (
+												<div key={post.postId}>
+													<Post>
+														<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
+														<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
+														<p> Highest Degree: {tutor.degrees} </p>
+														<hr />
+														<p> Subject: {post.subject} </p>
+														<p> Preferred Meeting Location: {post.location} </p>
+														<p> {avail} </p>
+														<p> {post.rate} {post.unit} </p>
+														<Button onClick={() => this.apply(post)}> Apply </Button>
+													</Post>							
+													<br />
+												</div>
+											);
+										}//end check for links
+									
+									//if they don't accept paid
 									} else {
-										returnPosts.push (
-											<div key={post.postId}>
-												<Post>
-													<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
-													<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
-													<p> Highest Degree: {tutor.degrees} </p> <hr />
-													<p> Subject: {post.subject} </p>
-													<p> Preferred Meeting Location: {post.location} </p>
-													<p> {avail} </p>
-													<p> Offering Free Tutoring </p>
-													<Button onClick={() => this.apply(post)}> Apply </Button>
-												</Post>							
-												<br />
-											</div>
-										);
+
+										if (tutor.links != ""){
+											returnPosts.push (
+												<div key={post.postId}>
+													<Post>
+														<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
+														<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
+														<p> Highest Degree: {tutor.degrees} </p>
+														<p> LinkedIn: {tutor.links} </p>
+														<hr />
+														<p> Subject: {post.subject} </p>
+														<p> Preferred Meeting Location: {post.location} </p>
+														<p> {avail} </p>
+														<p> Offering Free Tutoring </p>
+														<Button onClick={() => this.apply(post)}> Apply </Button>
+													</Post>							
+													<br />
+												</div>
+											);
+										}
+										else {
+											returnPosts.push (
+												<div key={post.postId}>
+													<Post>
+														<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
+														<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
+														<p> Highest Degree: {tutor.degrees} </p>
+														<hr />
+														<p> Subject: {post.subject} </p>
+														<p> Preferred Meeting Location: {post.location} </p>
+														<p> {avail} </p>
+														<p> Offering Free Tutoring </p>
+														<Button onClick={() => this.apply(post)}> Apply </Button>
+													</Post>							
+													<br />
+												</div>
+											);
+										}//end check for links
+										
 									}									
 									this.setState({printPosts: returnPosts}, () => console.log("printposts", this.state.printPosts));
 								}//end if tutor != null
