@@ -504,8 +504,8 @@ class ProfileForm extends Component {
 					content={this.state.reenterPassword}
 					placeholder={'Password'} />	
 
-				<BlueButton onClick={() => this.changePassword}> Change </BlueButton>
-		</Modal>
+				<BlueButton form="" onClick={this.changePassword}> Change </BlueButton>		
+</Modal>
 
 		{/* Deactivate Account Modal */}
 		<Modal show={this.state.isDeactivateOpen}
