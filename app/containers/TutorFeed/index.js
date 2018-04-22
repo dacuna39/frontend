@@ -30,7 +30,7 @@ import Modal from './Modal';
 import NewPostForm from './NewPostForm';
 import Img from './Img';
 
-import graduationcap from './graduation-cap.png';
+import Cap from 'components/images/graduation-cap.png';
 
 const BodyWrapper = styled.div`
   max-width: calc(1000px + 16px * 2);
@@ -178,9 +178,9 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 											<div key={post.postId}>
 												<Post>
 													<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
-													<img src={tutor.img} width="150px" height="150px"/>
+													<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
 													<p> Highest Degree: {tutor.degrees} </p> <hr />
-													<p> {post.subject} </p>
+													<p> Subject: {post.subject} </p>
 													<p> Preferred Meeting Location: {post.location} </p>
 													<p> {avail} </p>
 													<p> {post.rate} {post.unit} </p>
@@ -194,9 +194,9 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 											<div key={post.postId}>
 												<Post>
 													<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
-													<img src={tutor.img} width="150px" height="150px"/>
+													<img src={tutor.img} width="150px" height="150px" alt="Profile Picture" />
 													<p> Highest Degree: {tutor.degrees} </p> <hr />
-													<p> {post.subject} </p>
+													<p> Subject: {post.subject} </p>
 													<p> Preferred Meeting Location: {post.location} </p>
 													<p> {avail} </p>
 													<p> Offering Free Tutoring </p>
@@ -274,7 +274,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 					<td> <Button onClick={() => this.props.history.goBack()}> Back </Button> </td>
 				</tr>
 				
-						{/*
+				{/*
 				<Group
 					title={''}
 					type={'radio'}
@@ -289,34 +289,31 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 
 			<BodyWrapper>
 				<CenteredSection>
-
-					{/* make a new post */}
-					<Button onClick={this.toggleModal}> New Post </Button>
-
-					<Modal show={this.state.isOpen} onClose={this.toggleModal}>
-						<H1> New Post </H1>
-						<NewPostForm />
-					</Modal>
-					{/* end make new post */}
-
-					{/* link to studentPost */}
-					<Button onClick={() => { // link to student's posts
-						if (this.state.isLoading == false){
-							this.props.history.push("/tutorPosts");
-						}
-					}}> My Posts </Button>
-					{/* end link to studentPost */}
-					
+					<br />
 					<H1> Available Students </H1>
-					<Img src={graduationcap} alt="graduation-cap"/>
-					<br /><br />
+					<Img src={Cap} alt="Graduation Cap"/>
+					<h3> These students are looking for tutors! Find a student that you want to tutor and click apply to email them. </h3>
+					<hr />
+							{/* make a new post */}
+							<Button onClick={this.toggleModal}> New Post </Button>
 
-					{/* Load tutor posts */}
-					<table>
+							<Modal show={this.state.isOpen} onClose={this.toggleModal}>
+								<H1> New Post </H1>
+								<NewPostForm />
+							</Modal>
+							{/* end make new post */}
+
+							{/* link to tutorPost */}
+							<Button onClick={() => { // link to student's posts
+								if (this.state.isLoading == false){
+									this.props.history.push("/tutorPosts");
+								}
+								}}> My Posts </Button>
+							{/* end link to tutorPost */}
+
+						{/* Load student posts */}
 						{this.printPosts()}
-					</table>
 					
-					<Button onClick={() => this.props.history.goBack()}> Back </Button>
 				</CenteredSection>
 			</BodyWrapper>
       	</div>

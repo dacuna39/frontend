@@ -11,6 +11,9 @@ import ProfileForm from './ProfileForm';
 
 import HeaderProfile from 'components/HeaderProfile';
 import H1 from 'components/H1';
+import Cap from 'components/images/graduation-cap.png';
+
+//import Img from './Img';
 
 const BodyWrapper = styled.div`
   max-width: calc(1000px + 16px * 2);
@@ -41,8 +44,11 @@ export default class StudentProfile extends React.Component { // eslint-disable-
         <HeaderProfile />
 
         <BodyWrapper>
-          <CenteredSection>  
+          <CenteredSection> 
+            <br />
             <H1>Student Profile</H1>
+            <img src={Cap} width="50px" height="50px" alt="Graduation Cap" />
+            <h3> Edit your profile here to make yourself stand out and get more tutoring! </h3>
             <ProfileForm /> 
           </CenteredSection>
         </BodyWrapper>

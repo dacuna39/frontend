@@ -31,7 +31,7 @@ import Modal from './Modal';
 import NewPostForm from './NewPostForm';
 import Img from './Img';
 
-import graduationcap from './graduation-cap.png';
+import Cap from 'components/images/graduation-cap.png';
 
 const BodyWrapper = styled.div`
   max-width: calc(1000px + 16px * 2);
@@ -45,8 +45,8 @@ const BodyWrapper = styled.div`
 const Post = styled.div`
 	border: 2px solid;
 	border-color: FFB71C;
-	width: 100%;
-	height: 100%;
+	width: auto;
+	height: auto;
 	background: #EEECE9;
 	text-align: center;
 	padding: 2em;
@@ -149,7 +149,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		var returnPosts =[];
 
 		if (this.state != null && this.state.isLoading == false){
-			console.log("createPostsTable:", this.state.posts);
+			//console.log("createPostsTable:", this.state.posts);
 
 			if (this.state.posts.length != 0){
 				return this.state.posts.map((post) => {	//for each post...
@@ -196,9 +196,9 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 											<div key={post.postId}>
 												<Post>
 													<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
-													<img src={tutor.img} width="150px" height="150px"/>
+													<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
 													<p> Highest Degree: {tutor.degrees} </p> <hr />
-													<p> {post.subject} </p>
+													<p> Subject: {post.subject} </p>
 													<p> Preferred Meeting Location: {post.location} </p>
 													<p> {avail} </p>
 													<p> {post.rate} {post.unit} </p>
@@ -212,9 +212,9 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 											<div key={post.postId}>
 												<Post>
 													<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
-													<img src={tutor.img} width="150px" height="150px"/>
+													<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
 													<p> Highest Degree: {tutor.degrees} </p> <hr />
-													<p> {post.subject} </p>
+													<p> Subject: {post.subject} </p>
 													<p> Preferred Meeting Location: {post.location} </p>
 													<p> {avail} </p>
 													<p> Offering Free Tutoring </p>
@@ -307,32 +307,30 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 
 			<BodyWrapper>
 				<CenteredSection>
-
-					{/* make a new post */}
-					<Button onClick={this.toggleModal}> New Post </Button>
-
-					<Modal show={this.state.isOpen} onClose={this.toggleModal}>
-						<H1> New Post </H1>
-						<NewPostForm />
-					</Modal>
-					{/* end make new post */}
-
-					{/* link to studentPost */}
-					<Button onClick={() => { // link to student's posts
-						if (this.state.isLoading == false){
-							this.props.history.push("/studentPosts");
-						}
-					}}> My Posts </Button>
-					{/* end link to studentPost */}
-
+					<br />
 					<H1> Available Tutors </H1>
-					<Img src={graduationcap} alt="graduation-cap"/>
-					<br /><br />
+					<Img src={Cap} alt="Graduation Cap"/>
+					<h3> These tutors are looking for students! Find a tutor that you like and click on apply to email them. </h3>
+					<hr />
+							{/* make a new post */}
+							<Button onClick={this.toggleModal}> New Post </Button>
+
+							<Modal show={this.state.isOpen} onClose={this.toggleModal}>
+								<H1> New Post </H1>
+								<NewPostForm />
+							</Modal>
+							{/* end make new post */}
+
+							{/* link to studentPost */}
+							<Button onClick={() => { // link to student's posts
+								if (this.state.isLoading == false){
+									this.props.history.push("/studentPosts");
+								}
+								}}> My Posts </Button>
+							{/* end link to studentPost */}					
 
 					{/* Load tutor posts */}
-					<table>
 						{this.printPosts()}
-					</table>
 					
 				</CenteredSection>
 			</BodyWrapper>

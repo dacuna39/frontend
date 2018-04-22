@@ -130,8 +130,8 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 								return (
 									<div key={post.postId}>
 										<Post>
-											<p> {post.subject} </p>
-											<p> {post.location} </p>
+											<p> Subject: {post.subject} </p>
+											<p> Preferred Meeting Location: {post.location} </p>
 											<p> {avail} </p>
 											<p> {post.rate} {post.unit} </p>
 											<Button onClick={() => this.deletePost(post)}> Delete </Button>
@@ -144,8 +144,8 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 								return (
 									<div key={post.postId}>
 										<Post>
-											<p> {post.subject} </p>
-											<p> {post.location} </p>
+											<p> Subject: {post.subject} </p>
+											<p> Preferred Meeting Location: {post.location} </p>
 											<p> {avail} </p>
 											<p> Offering Free Tutoring </p>
 											<Button onClick={() => this.deletePost(post)}> Delete </Button>
@@ -183,7 +183,8 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 				<CenteredSection>
 					<br />
 					<H1> Your Posts </H1>
-					<br />
+					<h3> Here are your current active posts. Delete a post to stop receiving incoming tutoring requests </h3>
+					<hr /> <br />
 					{this.createPostsTable()}
 
 					<Button onClick={() => this.props.history.goBack()}> Back </Button>
