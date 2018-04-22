@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import SingleInput from 'components/FormComponents/SingleInput';
 import Group from 'components/FormComponents/CheckboxOrRadioGroup';
+import GroupDown from 'components/FormComponents/GroupDown';
 
 import CenteredSection from './CenteredSection';
 import Form from './Form';
@@ -366,7 +367,7 @@ class NewPostForm extends Component {
 				        options={this.state.days}
 				        selectedOptions={this.state.daysSelect} /> 
 				<hr />
-
+				
 				{this.renderTimeOptions()}
 
 				<p> Are you offering payment for tutoring? </p>
@@ -422,9 +423,8 @@ class NewPostForm extends Component {
 			if (this.state.mondayShow){
 				options[i] = (
 					<td key={i}>
-					<label> Monday Time </label>
-					<Group
-						title={''}
+					<GroupDown
+						title={'Monday Time'}
 						type={'radio'}
 						setName={'monday'}
 						controlFunc={this.handleMondayChange}
@@ -438,9 +438,8 @@ class NewPostForm extends Component {
 			if (this.state.tuesdayShow){
 				options[i] = (
 					<td key={i}>
-					<label> Tuesday Time </label>
-					<Group
-						title={''}
+					<GroupDown
+						title={'Tuesday Time'}
 						type={'radio'}
 						setName={'tuesday'}
 						controlFunc={this.handleTuesdayChange}
@@ -455,9 +454,8 @@ class NewPostForm extends Component {
 			if (this.state.wednesdayShow){
 				options[i] =  (
 					<td key={i}>
-					<label> Wednesday Time </label>
-					<Group
-						title={''}
+					<GroupDown
+						title={'Wednesday Time'}
 						type={'radio'}
 						setName={'wednesday'}
 						controlFunc={this.handleWednesdayChange}
@@ -472,9 +470,8 @@ class NewPostForm extends Component {
 			if (this.state.thursdayShow){
 				options[i] = (
 					<td key={i}>
-					<label> Thursday Time </label>
-					<Group
-						title={''}
+					<GroupDown
+						title={'Thursday Time'}
 						type={'radio'}
 						setName={'thursday'}
 						controlFunc={this.handleThursdayChange}
@@ -489,9 +486,8 @@ class NewPostForm extends Component {
 			if (this.state.fridayShow){
 				options[i] = (
 					<td key={i}>
-					<label> Friday Time </label>
-					<Group
-						title={''}
+					<GroupDown
+						title={'Friday Time'}
 						type={'radio'}
 						setName={'friday'}
 						controlFunc={this.handleFridayChange}
@@ -505,9 +501,8 @@ class NewPostForm extends Component {
 			if (this.state.saturdayShow){
 				options[i] = (
 					<td key={i}>
-					<label> Saturday Time </label>
-					<Group
-						title={''}
+					<GroupDown
+						title={'Saturday Time'}
 						type={'radio'}
 						setName={'saturday'}
 						controlFunc={this.handleSaturdayChange}
@@ -522,9 +517,8 @@ class NewPostForm extends Component {
 			if (this.state.sundayShow){
 				options[i] = (
 					<td key={i}>
-					<label> Sunday Time </label>
-					<Group
-						title={''}
+					<GroupDown
+						title={'Sunday Time'}
 						type={'radio'}
 						setName={'sunday'}
 						controlFunc={this.handleSundayChange}

@@ -267,7 +267,8 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		
 			<HeaderFeed />
 
-			<CheckboxTableStyle>		
+			<CheckboxTableStyle>
+			<tbody>	
          		<tr>
             		<th>
 						<input type="radio" id="classSubject" name="subject" value="mySubjects" 
@@ -303,6 +304,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 					 />
 				<Button>Filter Subjects</Button>
 				*/}
+			</tbody>
         	</CheckboxTableStyle>
 
 			<BodyWrapper>

@@ -4,12 +4,14 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { withRouter } from "react-router-dom";
 import styled from 'styled-components';
 
 import CenteredSection from './CenteredSection';
 import ProfileForm from './ProfileForm';
 
 import HeaderProfile from 'components/HeaderProfile';
+import Button from 'components/Button';
 import H1 from 'components/H1';
 import Cap from 'components/Images/graduation-cap.png';
 
@@ -22,7 +24,7 @@ const BodyWrapper = styled.div`
   flex-direction: column;
 `;
 
-export default class TutorProfile extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class TutorProfile extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   // Since state and props are static,
   // there's no need to re-render this component
@@ -48,9 +50,17 @@ export default class TutorProfile extends React.Component { // eslint-disable-li
             <img src={Cap} width="50px" height="50px" alt="Graduation Cap" />
             <h3> Edit your profile here to make yourself stand out and get more tutoring! </h3>
             <ProfileForm /> 
+
+            <Button onClick={() => { // link to student's posts
+								//if (this.state.isLoading == false){
+									this.props.history.push("/tutorFeed");
+								//}
+								}}> Go To Feed </Button>
           </CenteredSection>
         </BodyWrapper>
       </article>
     );
   }
 }
+
+export default withRouter(TutorProfile);
