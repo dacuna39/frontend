@@ -18,7 +18,8 @@ const TextArea = (props) => (
 			cols={props.cols}
 			value={props.content}
 			onChange={props.controlFunc}
-			placeholder={props.placeholder} />
+			placeholder={props.placeholder} 
+			maxlength="300" />
 	</div>
 );
 

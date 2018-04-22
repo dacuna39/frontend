@@ -447,7 +447,7 @@ class ProfileForm extends Component {
 					<TextArea
 						inputType={'text'}
 						rows={5}
-						cols={80}
+						cols={60}
 						resize={false}
 						title={''}
 						name={'bio'}

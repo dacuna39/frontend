@@ -130,23 +130,18 @@ class ProfileForm extends Component {
 	handleFirstNameChange(e) {
 		this.setState({ legalFirstName: e.target.value });
 	}
-
 	handleLastNameChange(e) {
 		this.setState({ legalLastName: e.target.value });
 	}
-
 	handlePictureChange(e) {
 		this.setState({ img: e.target.value });
 	}
-
 	handleMajorChange(e) {
 		this.setState({ major: e.target.value });
 	}
-
 	handleMinorChange(e) {
 		this.setState({ minor: e.target.value });
 	}
-
 	handleBioChange(e) {
 		this.setState({ bio: e.target.value });
 	}
@@ -166,11 +161,9 @@ class ProfileForm extends Component {
 	handlePasswordChange(e) {
 		this.setState({ enterPassword: e.target.value }, () => console.log('enterPassword:', this.state.enterPassword));
 	}
-
 	handleNewPassChange(e) {
 		this.setState({ newPassword: e.target.value }, () => console.log('new password:', this.state.newPassword));
 	}
-
 	handleReenterPassChange(e) {
 		this.setState({ reenterPassword: e.target.value }, () => console.log('reenter password:', this.state.reenterPassword));
 	}
@@ -232,7 +225,6 @@ class ProfileForm extends Component {
 	/* submit form */
 
 	handleFormSubmit(e) {
-
 		e.preventDefault();
 
 		if(this.validateForm()){
@@ -279,7 +271,6 @@ class ProfileForm extends Component {
 			.catch(error => alert('parsing failed profile form', error))
 
 		}// end if validating form
-
 	}// end handleformsubmit
 
 	deactivateAccount(){
@@ -447,7 +438,7 @@ class ProfileForm extends Component {
 					<TextArea
 						inputType={'text'}
 						rows={5}
-						cols={100}
+						cols={60}
 						resize={false}
 						title={''}
 						name={'bio'}
