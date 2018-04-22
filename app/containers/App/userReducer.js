@@ -22,7 +22,7 @@ export default function (state=
 		degrees: "", //tutor props
 		links: "",
 		timestamp: 100000000000000,
-		ratings: {"1":5}
+		ratings: {"0":"0"}
     }
 
     , action){

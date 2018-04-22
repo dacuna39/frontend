@@ -177,9 +177,9 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 										returnPosts.push (
 											<div key={post.postId}>
 												<Post>
-													<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
-													<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
-													<p> Highest Degree: {tutor.degrees} </p> <hr />
+													<h3> {student.legalFirstName} {student.legalLastName} </h3>
+													<img src={student.img} width="150px" height="150px" alt="Profile Picture"/>
+													<p> Major: {student.major} </p> <hr />
 													<p> Subject: {post.subject} </p>
 													<p> Preferred Meeting Location: {post.location} </p>
 													<p> {avail} </p>
@@ -193,13 +193,13 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 										returnPosts.push (
 											<div key={post.postId}>
 												<Post>
-													<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
-													<img src={tutor.img} width="150px" height="150px" alt="Profile Picture" />
-													<p> Highest Degree: {tutor.degrees} </p> <hr />
+													<h3> {student.legalFirstName} {student.legalLastName} </h3>
+													<img src={student.img} width="150px" height="150px" alt="Profile Picture" />
+													<p> Major: {student.major} </p> <hr />
 													<p> Subject: {post.subject} </p>
 													<p> Preferred Meeting Location: {post.location} </p>
 													<p> {avail} </p>
-													<p> Offering Free Tutoring </p>
+													<p> Requesting Free Tutoring </p>
 													<Button onClick={() => this.apply(post)}> Apply </Button>
 												</Post>							
 												<br />
@@ -260,7 +260,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
         		</tr>
         		<tr>
             		<th>
-						<input type="radio" id="classSubject" name="subject" value="allSubjects" checked="true"
+						<input type="radio" id="classSubject" name="subject" value="allSubjects" //checked="true"
 						onClick={() => 
 							this.setState({filter: "allSubjects"}, () => {console.log("filter", this.state.filter)}) } />
 
