@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import HeaderFeed from 'components/HeaderFeed';
 import Button from 'components/Button';
 import H1 from 'components/H1';
-import Cap from 'components/images/graduation-cap.png';
+import Cap from 'components/Images/graduation-cap.png';
 
 import CenteredSection from './CenteredSection';
 import Img from './Img';
