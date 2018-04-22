@@ -11,7 +11,7 @@ import ProfileForm from './ProfileForm';
 
 import HeaderProfile from 'components/HeaderProfile';
 import H1 from 'components/H1';
-import Cap from 'components/images/graduation-cap.png';
+import Cap from 'components/Images/graduation-cap.png';
 
 //import Img from './Img';
 
