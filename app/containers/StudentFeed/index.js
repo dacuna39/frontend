@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { withRouter } from "react-router-dom";
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import HeaderFeed from 'components/HeaderFeed';
 import Button from 'components/Button';
@@ -144,6 +144,34 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 	
 	}
 
+	submitRating(tutor) {
+		console.log("rating", tutor.rating);
+		var canRate = true;
+
+		//var test = {"1":"3","2":"4"};
+
+		//check if student has already rated tutor			
+			var usersWhoRated = Object.keys(tutor.rating);
+			console.log("userid", this.props.userId);
+
+			console.log("object.keys()", usersWhoRated);
+			for (var i =0; i < usersWhoRated.length; i++){
+				if (usersWhoRated[i] == this.props.userId){
+					canRate = false;
+				}
+				console.log("looping");
+			}
+
+			if(canRate == true){
+				console.log("can rate!");	
+			}
+			else{
+				console.log("already rated!");
+			}
+
+		//return json.stringify tutor.rating
+	}
+
 	createPostsTable(){
 		var returnPosts =[];
 
@@ -198,13 +226,14 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 														<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
 														<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
 														<p> Highest Degree: {tutor.degrees} </p> 
-														<p> LinkedIn: {tutor.links} </p>
+														<p> LinkedIn: <a href={tutor.links} target="_blank"> {tutor.links} </a> </p>
 														<hr />
 														<p> Subject: {post.subject} </p>
 														<p> Preferred Meeting Location: {post.location} </p>
 														<p> {avail} </p>
 														<p> {post.rate} {post.unit} </p>
 														<Button onClick={() => this.apply(post)}> Apply </Button>
+														<Button onClick={() => this.submitRating(tutor)}> Rate </Button>
 													</Post>							
 													<br />
 												</div>
@@ -223,6 +252,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 														<p> {avail} </p>
 														<p> {post.rate} {post.unit} </p>
 														<Button onClick={() => this.apply(post)}> Apply </Button>
+														<Button onClick={() => this.submitRating(tutor)}> Rate </Button>
 													</Post>							
 													<br />
 												</div>
@@ -239,13 +269,14 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 														<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
 														<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
 														<p> Highest Degree: {tutor.degrees} </p>
-														<p> LinkedIn: {tutor.links} </p>
+														<p> LinkedIn: <a href={tutor.links} target="_blank"> {tutor.links} </a> </p>
 														<hr />
 														<p> Subject: {post.subject} </p>
 														<p> Preferred Meeting Location: {post.location} </p>
 														<p> {avail} </p>
 														<p> Offering Free Tutoring </p>
 														<Button onClick={() => this.apply(post)}> Apply </Button>
+														<Button onClick={() => this.submitRating(tutor)}> Rate </Button>
 													</Post>							
 													<br />
 												</div>
@@ -264,6 +295,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 														<p> {avail} </p>
 														<p> Offering Free Tutoring </p>
 														<Button onClick={() => this.apply(post)}> Apply </Button>
+														<Button onClick={() => this.submitRating(tutor)}> Rate </Button>
 													</Post>							
 													<br />
 												</div>
@@ -271,7 +303,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 										}//end check for links
 										
 									}									
-									this.setState({printPosts: returnPosts}, () => console.log("printposts", this.state.printPosts));
+									this.setState({printPosts: returnPosts});
 								}//end if tutor != null
 								else {
 									console.log("null tutor");
@@ -337,7 +369,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
             		<th><Button>Filter Subjects</Button></th>
 				</tr>
 				<tr>
-					<td> <Button onClick={() => this.props.history.goBack()}> Back </Button> </td>
+					<td> <Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button> </td>
 				</tr>
 				
 						{/*
@@ -406,6 +438,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 function mapStateToProps(state) {
 
 	return{
+		userId: state.userId,
 		legalFirstName: state.legalFirstName,
 		legalLastName: state.legalLastName,
 		bio: state.bio,

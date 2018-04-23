@@ -269,7 +269,7 @@ class NewPostForm extends Component {
 			alert("Please select whether you want free or paid tutoring");
 			return false;
 		}
-        else if (this.state.rate == "" || this.state.rate <= 0  && this.state.paid == true){
+        else if ((this.state.rate == "" || this.state.rate <= 0) && this.state.paid == true){
           	alert("Please enter a valid pay rate");
           	return false;
 		}
