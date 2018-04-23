@@ -56,7 +56,7 @@ class ProfileForm extends Component {
 
 			active: this.props.active,
 			timestamp: this.props.timestamp,
-			ratings: this.props.ratings,
+			rating: this.props.rating,
 
 			isChangePassOpen: false, //whether the change password modal is rendered
 			isDeactivateOpen: false, //whether the deactivate account modal is rendered
@@ -116,9 +116,7 @@ class ProfileForm extends Component {
 		  isChangePassOpen: !this.state.isChangePassOpen,
 		  isDeactivateOpen: false
 		});
-	  }
-
-	
+	}
 
 	toggleDeactivateModal = () => { //opens and closes the modal
 		this.setState({
@@ -201,11 +199,7 @@ class ProfileForm extends Component {
 		else if(this.state.major == ''){
 			alert('Please enter a major');
 			return false;
-		}
-		else if(this.state.bio == ''){
-			alert('Please write a bio. Express yourself!');
-			return false;
-		}		
+		}	
 		else if(this.state.selectedSubjects.length == 0){
 			alert('Please select at least one subject you need help with');
 			return false;
@@ -256,7 +250,7 @@ class ProfileForm extends Component {
 
 				active: this.state.active,
 		  		timestamp: this.state.timestamp,
-		  		ratings: this.state.ratings,
+		  		rating: this.state.rating,
 			};
 
 			fetch(this.link + "/tutors/" + this.props.userId.toString(), { //post profile updates to database :)
@@ -543,7 +537,7 @@ function mapStateToProps(state) {
 		degrees: state.degrees, //tutor props
 		links: state.links,
 		timestamp: state.timestamp,
-		ratings: state.ratings,
+		rating: state.rating,
 	}
 }
 

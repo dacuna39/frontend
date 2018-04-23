@@ -156,8 +156,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 								}
 							})
 							.then( student => {
-								//console.log(post.postId);
-								console.log(student);
+								//console.log(student);
 								if (student != null && student != undefined){
 									//print out availiability neatly without special characters
 									var avail = "";
@@ -170,7 +169,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 											avail += " ";
 										}
 									}
-									console.log("avail", avail);
+									//console.log("avail", avail);
 
 									if (post.acceptsPaid){
 
@@ -206,7 +205,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 											</div>
 										);
 									}
-									this.setState({printPosts: returnPosts}, () => console.log("printposts", this.state.printPosts));
+									this.setState({printPosts: returnPosts});
 								}//end if student != null
 								else {
 									console.log("null student");
@@ -271,7 +270,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
             		<th><Button>Filter Subjects</Button></th>
 				</tr>
 				<tr>
-					<td> <Button onClick={() => this.props.history.goBack()}> Back </Button> </td>
+					<td> <Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button> </td>
 				</tr>
 				
 				{/*

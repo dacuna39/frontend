@@ -22,7 +22,7 @@ export default function (state=
 		degrees: "", //tutor props
 		links: "",
 		timestamp: 100000000000000,
-		ratings: {"0":"0"}
+		rating: {"0":"0"}
     }
 
     , action){
@@ -57,7 +57,11 @@ export default function (state=
                 state.degrees = action.payload.degrees; //tutor info
                 state.links = action.payload.links;
                 state.timestamp = action.payload.timestamp;
-                state.ratings = action.payload.ratings;
+                state.rating = action.payload.rating;
+
+                //if (action.payload.rating == null){
+                //    state.rating = {"0":"0"};
+                //}
             }
 
             console.log("updated state: ", state);

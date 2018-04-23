@@ -14,6 +14,7 @@ import styled from 'styled-components';
 import HeaderFeed from 'components/HeaderFeed';
 import Button from 'components/Button';
 import H1 from 'components/H1';
+import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
 import Cap from 'components/Images/graduation-cap.png';
 
 import CenteredSection from './CenteredSection';
@@ -182,6 +183,19 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 		
 			<HeaderFeed />
 
+			<CheckboxTableStyle>
+				<tr>
+					<td>
+						<Button onClick={() => this.props.history.push("/studentFeed")}> Back to Feed </Button>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button>
+					</td>
+				</tr>
+			</CheckboxTableStyle>
+
 			<BodyWrapper>
 				<CenteredSection>
 					<br />
@@ -191,7 +205,6 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 					<hr /> <br />
 					{this.createPostsTable()}
 					
-					<Button onClick={() => this.props.history.goBack()}> Back </Button>
 				</CenteredSection>
 			</BodyWrapper>
       	</div>

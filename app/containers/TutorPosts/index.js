@@ -9,13 +9,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { withRouter } from "react-router-dom";
-
 import styled from 'styled-components';
+
 import HeaderFeed from 'components/HeaderFeed';
 import Button from 'components/Button';
 import H1 from 'components/H1';
+import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
+import Cap from 'components/Images/graduation-cap.png';
 
 import CenteredSection from './CenteredSection';
+import Img from './Img';
 
 const BodyWrapper = styled.div`
   max-width: calc(1000px + 16px * 2);
@@ -179,10 +182,24 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 		
 			<HeaderFeed />
 
+			<CheckboxTableStyle>
+				<tr>
+					<td>
+						<Button onClick={() => this.props.history.push("/studentFeed")}> Back to Feed </Button>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button>
+					</td>
+				</tr>
+			</CheckboxTableStyle>
+
 			<BodyWrapper>
 				<CenteredSection>
 					<br />
 					<H1> Your Posts </H1>
+					<Img src={Cap} alt="Graduation Cap" />
 					<h3> Here are your current active posts. Delete a post to stop receiving incoming tutoring requests </h3>
 					<hr /> <br />
 					{this.createPostsTable()}
