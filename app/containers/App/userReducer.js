@@ -59,9 +59,6 @@ export default function (state=
                 state.timestamp = action.payload.timestamp;
                 state.rating = action.payload.rating;
 
-                //if (action.payload.rating == null){
-                //    state.rating = {"0":"0"};
-                //}
             }
 
             console.log("updated state: ", state);
