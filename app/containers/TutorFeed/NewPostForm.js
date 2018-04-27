@@ -28,7 +28,7 @@ class NewPostForm extends Component {
 	
 			location: "",
 			availability: "",
-            rate: 0,
+            rate: 20,
 			
 			days: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
 			daysSelect: [],
@@ -210,7 +210,7 @@ class NewPostForm extends Component {
 	handleAcceptsPaidChange(e) {
 
 		if (e.target.value == "Yes"){
-			this.setState({paid: true, acceptsPaid: [e.target.value]});
+			this.setState({paid: true, acceptsPaid: [e.target.value], rate: 20});
 		} else if (e.target.value == "No"){
 			this.setState({paid: false, acceptsPaid: [e.target.value], rate: 0});
 		}
@@ -266,7 +266,7 @@ class NewPostForm extends Component {
           return false;
 		}
 		else if (this.state.acceptsPaid.length == 0){
-			alert("Please select whether you want free or paid tutoring");
+			alert("Please select whether you are offering free or paid tutoring");
 			return false;
 		}
         else if ((this.state.rate == "" || this.state.rate <= 0) && this.state.paid == true){
@@ -375,7 +375,7 @@ class NewPostForm extends Component {
 
 				{/* end Availiability */}
 
-                <p> Are you offering payment for tutoring? </p>
+                <p> Are you tutoring for pay? </p>
 				<Group
 			            title={''}
             			type={'radio'}
@@ -414,7 +414,7 @@ class NewPostForm extends Component {
 			      		title={''}
 						name={'rate'}
 		    			controlFunc={this.handleRateChange}
-		    			content={this.state.rate}
+						content={this.state.rate}
 		    			/>
 				</div>
 			);

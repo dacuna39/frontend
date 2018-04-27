@@ -7,6 +7,7 @@ import Button from 'components/Button';
 const ModalStyle = styled.div`
   background-color: #ccc;
   padding: 1em 2.3em;
+  border: 2px solid;
 `;
 
 class Modal extends React.Component {

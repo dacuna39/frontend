@@ -52,41 +52,60 @@ const Post = styled.div`
 	padding: 2em;
 `;
 
+const FixedCenter = styled.div`
+	position: fixed;
+`;
+
 export class StudentFeed extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
 	constructor(props) {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
 
-		if (this.refs.myRef) {
-		this.setState({
+		this.state = {
 			posts : [],
 			printPosts: [],
 
 			filterOptions: ["mySubjects","allSubjects"],
 			filter: ["mySubjects"],
 
-			isOpen: false, //whether the sign in modal is rendered
+			stars: ["1","2","3","4","5","6","7","8","9","10"],
+			starsSelected: [],
+			tutorToRate: {},
+
+			isOpen: false, //whether the new form modal is rendered
+			isRatingOpen: false,
+
             isLoading: true, //waits till component is finished loading so that buttons dont auto redirect
-		});
+		};
 
 		this.handleFilterSelect = this.handleFilterSelect.bind(this);
+		this.handleStarsSelect = this.handleStarsSelect.bind(this);
 
-		//this.componentDidMount = this.componentDidMount.bind(this);	
 		this.createPostsTable = this.createPostsTable.bind(this);
 		this.printPosts = this.printPosts.bind(this);
 		this.fetchPosts = this.fetchPosts.bind(this);
-		}
+		this.clickRating = this.clickRating.bind(this);
+		this.submitRating = this.submitRating.bind(this);
 	}
 
-	toggleModal = () => { //opens and closes the sign in modal
+	toggleModal = () => { //opens and closes the new form modal
 		this.setState({
 		  isOpen: !this.state.isOpen
 		});
 	}
 
+	toggleRatingModal = () => { //opens and closes the new form modal
+		this.setState({
+		  isRatingOpen: !this.state.isRatingOpen
+		});
+	}
+
 	handleFilterSelect(e) {
 		this.setState({filter: [e.target.value]}, () => console.log(this.state.filter));
+	}
+	handleStarsSelect(e) {
+		this.setState({starsSelected: [e.target.value]}, () => console.log(this.state.starsSelected));
 	}
 
 	componentDidMount(){
@@ -140,36 +159,62 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
         	win.document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the tutor.' + '<' + '/a>');
         	win.focus();
         })
-		  .catch(error => console.log('parsing failed', error));
+		.catch(error => console.log('parsing failed', error));
 	
 	}
 
-	submitRating(tutor) {
-		console.log("rating", tutor.rating);
+	clickRating(tutor) {
+		
+		var rating = JSON.parse(tutor.rating);
+		var id = this.props.userId;
 		var canRate = true;
+		console.log("rating: ", rating)
+		console.log("userid", id);
 
-		//var test = {"1":"3","2":"4"};
+		Object.keys(rating).forEach(function(key) { //search through keys to see if user has alrady rated
 
-		//check if student has already rated tutor			
-			var usersWhoRated = Object.keys(tutor.rating);
-			console.log("userid", this.props.userId);
-
-			console.log("object.keys()", usersWhoRated);
-			for (var i =0; i < usersWhoRated.length; i++){
-				if (usersWhoRated[i] == this.props.userId){
-					canRate = false;
-				}
-				console.log("looping");
+			if (key == id){
+				canRate = false;
 			}
+		});		
 
-			if(canRate == true){
-				console.log("can rate!");	
-			}
-			else{
-				console.log("already rated!");
-			}
+		if(canRate == true){
+			console.log("can rate!");
+			this.setState({ isRatingOpen: true, tutorToRate: tutor});
+		}
+		else{
+			alert("You already rated this tutor!");
+		}
+	}
 
-		//return json.stringify tutor.rating
+	submitRating(){
+		var tutor = this.state.tutorToRate;
+
+		var rate = JSON.parse(tutor.rating);
+		rate[this.props.userId] = this.state.starsSelected[0];
+
+		console.log("rating: ", rate);
+
+		tutor.rating = JSON.stringify(rate);
+		console.log("tutor ", tutor);
+
+		fetch(this.link + '/tutors/' + this.props.userId + "/addrating", { //post tutor with new rating to database :)
+			method: 'post',
+			headers: {
+			  'Accept': 'application/json',
+			  'Content-Type': 'application/json',	
+			},
+			body: JSON.stringify(tutor)
+		})
+		.then(response => {
+			if (response.status == 200){ //checks for ok response
+				alert("Rating Submitted!");		
+				this.setState({ tutorToRate: {}, isRatingOpen: false }); //clears the grabbed tutor var		
+			} else {
+				alert("An error has occured, please try again later");
+			}
+		})
+		.catch(error => console.log('parsing failed', error));
 	}
 
 	createPostsTable(){
@@ -233,7 +278,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 														<p> {avail} </p>
 														<p> {post.rate} {post.unit} </p>
 														<Button onClick={() => this.apply(post)}> Apply </Button>
-														<Button onClick={() => this.submitRating(tutor)}> Rate </Button>
+														<Button onClick={() => this.clickRating(tutor)}> Rate </Button>
 													</Post>							
 													<br />
 												</div>
@@ -252,7 +297,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 														<p> {avail} </p>
 														<p> {post.rate} {post.unit} </p>
 														<Button onClick={() => this.apply(post)}> Apply </Button>
-														<Button onClick={() => this.submitRating(tutor)}> Rate </Button>
+														<Button onClick={() => this.clickRating(tutor)}> Rate </Button>
 													</Post>							
 													<br />
 												</div>
@@ -276,7 +321,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 														<p> {avail} </p>
 														<p> Offering Free Tutoring </p>
 														<Button onClick={() => this.apply(post)}> Apply </Button>
-														<Button onClick={() => this.submitRating(tutor)}> Rate </Button>
+														<Button onClick={() => this.clickRating(tutor)}> Rate </Button>
 													</Post>							
 													<br />
 												</div>
@@ -295,7 +340,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 														<p> {avail} </p>
 														<p> Offering Free Tutoring </p>
 														<Button onClick={() => this.apply(post)}> Apply </Button>
-														<Button onClick={() => this.submitRating(tutor)}> Rate </Button>
+														<Button onClick={() => this.clickRating(tutor)}> Rate </Button>
 													</Post>							
 													<br />
 												</div>
@@ -308,7 +353,8 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 								else {
 									console.log("null tutor");
 								}
-							})// end then				
+							})// end then	
+							.catch(error => console.log('parsing failed', error));
 
 							this.setState({postsReady: true});
 					}//end check bad posts
@@ -387,7 +433,29 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
         	</CheckboxTableStyle>
 
 			<BodyWrapper>
+
 				<CenteredSection>
+
+				<FixedCenter>
+				<Modal show={this.state.isRatingOpen} onClose={this.toggleRatingModal}>
+					
+						<H1> Rate this tutor! </H1>
+						<br />
+						<p> Please rate this tutor based on likeability, or rate after you have received tutoring for a better review! </p>
+						<Group
+							title={''}
+							type={'radio'}
+							setName={'stars'}
+							controlFunc={this.handleStarsSelect}
+							options={this.state.stars}
+							selectedOptions={this.state.starsSelected}
+							 />
+
+						<Button onClick={this.submitRating}> Submit Rating </Button>
+
+				</Modal>
+				</FixedCenter>
+
 					<br />
 					<H1> Available Tutors </H1>
 					<Img src={Cap} alt="Graduation Cap"/>
