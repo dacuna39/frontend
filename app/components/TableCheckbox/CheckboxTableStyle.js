@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const CheckboxTableStyle = styled.table`
 	position: fixed;
-	margin-top: 5em;
+	margin-top: 1em;
 	left: 20px;
 	text-align: left;
 `

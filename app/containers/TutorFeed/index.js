@@ -57,13 +57,13 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
 
-		this.setState({
+		this.state = {
 			posts : [],
 			printPosts: [],
 
 			isOpen: false, //whether the sign in modal is rendered
             isLoading: true,    
-		});
+		};
 
 		this.componentDidMount = this.componentDidMount.bind(this);	
 		this.createPostsTable = this.createPostsTable.bind(this);

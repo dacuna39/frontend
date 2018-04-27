@@ -27,7 +27,7 @@ class NewPostForm extends Component {
 			
             location: "",
             availability: "",
-            rate: 0,
+            rate: 20,
 			
 			days: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
 			daysSelect: [],
@@ -207,7 +207,7 @@ class NewPostForm extends Component {
 
 	handleAcceptsPaidChange(e) {
 		if (e.target.value == "Yes"){
-			this.setState({paid: true, acceptsPaid: [e.target.value]});
+			this.setState({paid: true, acceptsPaid: [e.target.value], rate: 20});
 		} else if (e.target.value == "No"){
 			this.setState({paid: false, acceptsPaid: [e.target.value], rate: 0});
 		}
