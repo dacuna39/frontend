@@ -45,9 +45,9 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
 
-		this.setState({
+		this.state = {
 			userPosts : [],
-		});
+		};
 
 		this.componentDidMount = this.componentDidMount.bind(this);	
 		this.getPosts = this.getPosts.bind(this);

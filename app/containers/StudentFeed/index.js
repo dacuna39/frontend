@@ -215,6 +215,8 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 			}
 		})
 		.catch(error => console.log('parsing failed', error));
+
+		this.fetchPosts();
 	}
 
 	createPostsTable(){
@@ -246,7 +248,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 								}
 							})
 							.then( tutor => {
-								//console.log(tutor);
+
 								if (tutor != null && tutor != undefined){
 									//print out availiability neatly without special characters
 									var avail = "";
@@ -261,6 +263,27 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 									}
 									//console.log("avail", avail);
 
+									//calculate rating
+									var rate = JSON.parse(tutor.rating);
+									var rateKeys = Object.keys(rate);
+
+									var calcRating =0;
+									for (var i=1; i < rateKeys.length; i ++){ //skip first element because it is 0:0
+										calcRating += parseInt( rate[rateKeys[i]] );
+									}
+
+									if (calcRating <= 0) {
+										calcRating = "No Ratings Yet!";
+									}
+									else {
+										calcRating /= (rateKeys.length -1);
+										calcRating /= 2; //for 5 star system
+										calcRating = ("Rating: " + calcRating.toString() + " / " + "5");
+									}
+									console.log("calcRating", calcRating);
+									//console.log("rate: ", rate);
+									//end calculate rating
+
 									//if they accept paid
 									if (post.acceptsPaid){
 
@@ -272,6 +295,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 														<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
 														<p> Highest Degree: {tutor.degrees} </p> 
 														<p> LinkedIn: <a href={tutor.links} target="_blank"> {tutor.links} </a> </p>
+														<p> {calcRating} </p>
 														<hr />
 														<p> Subject: {post.subject} </p>
 														<p> Preferred Meeting Location: {post.location} </p>
@@ -291,6 +315,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 														<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
 														<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
 														<p> Highest Degree: {tutor.degrees} </p>
+														<p> {calcRating} </p>
 														<hr />
 														<p> Subject: {post.subject} </p>
 														<p> Preferred Meeting Location: {post.location} </p>
@@ -315,6 +340,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 														<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
 														<p> Highest Degree: {tutor.degrees} </p>
 														<p> LinkedIn: <a href={tutor.links} target="_blank"> {tutor.links} </a> </p>
+														<p> {calcRating} </p>
 														<hr />
 														<p> Subject: {post.subject} </p>
 														<p> Preferred Meeting Location: {post.location} </p>
@@ -334,6 +360,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 														<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
 														<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
 														<p> Highest Degree: {tutor.degrees} </p>
+														<p> {calcRating} </p>
 														<hr />
 														<p> Subject: {post.subject} </p>
 														<p> Preferred Meeting Location: {post.location} </p>
