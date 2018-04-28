@@ -408,7 +408,7 @@ class ProfileForm extends Component {
 				</td>
 				<td>
             	<LeftAlignSection>
-             		<p>LinkedIn link</p>
+             		<p>Professional Link</p>
             		<SingleInput
 						inputType={'text'}
 						title={''}
