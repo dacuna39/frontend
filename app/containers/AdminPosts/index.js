@@ -46,13 +46,25 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
     super(props);
     this.link = 'https://tutor-find.herokuapp.com';
 
+      this.setState({
+      posts : [],
+      printPosts: [],
+
+      isOpen: false, //whether the sign in modal is rendered
+      isLoading: true,    
+    });
+
     this.componentDidMount = this.componentDidMount.bind(this); 
     this.createPostsTable = this.createPostsTable.bind(this);
+    this.printPosts = this.printPosts.bind(this);
   }
 
   componentDidMount(){
-
     var allPosts = [];
+    var allStudents =[];
+    var allTutors =[];
+    var userInfo = [];
+    var postsReady = false;
 
     fetch(this.link + '/posts', {
       method: 'get',
@@ -61,24 +73,27 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
         'Content-Type': 'application/json', 
       }
     })
+    
     .then(response => response.json())
     .then(posts => {
 
       for (var i =0; i < posts.length; i++){
-        if (posts.length <= 60){// loads the 30 most recent posts
+        if (posts.length <= 100){// loads the 100 most recent posts, can change to load all
           allPosts.push(posts[i]);
         }
+        else {
+          break;
+        }
       }
-
-      this.setState({ posts: allPosts });
+      this.setState({ posts: allPosts, isLoading: false }, () => this.createPostsTable());
     })
     .catch(error => console.log('parsing failed', error));
-
-    this.setState({ isLoading: false });
   }
 
   getAllPosts(){
     var allPosts = [];
+    var allStudents =[];
+    var allTutors=[];
 
     fetch(this.link + '/posts', {
       method: 'get',
@@ -90,7 +105,7 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
     .then(response => response.json())
     .then(posts => {
       for (var i =0; i < posts.length; i++){
-        if (posts.length <= 60){
+        if (posts.length <= 100){ // loads the 100 most recent posts, can change to load all
           allPosts.push(posts[i]);
         }
       }
@@ -126,9 +141,10 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
     .catch(error => console.log('parsing failed', error))
   }
 
-  createPostsTable(){
+ createPostsTable(){
+  var returnPosts =[];
 
-    if (this.state != null && this.state.isLoading == false){
+     if (this.state != null && this.state.isLoading == false){
       
       if (this.state.posts.length != 0){
         return this.state.posts.map((post) => { 
@@ -136,61 +152,108 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
           //ensures that no glitcy posts crash the app :)
           if(post.postId != null && post.posterType != null && post.subject != null && post.location != null && post.availability != null
             && post.rate != null && post.unit != null) {
+/*
+            if (posterType="student") {
+              fetch(this.link + '/students/' + post.ownerId, {
+                method: 'get',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json', 
+                }
+              })
+              .then(response => {
+                if (response.status == 200){ //checks if user was found
+                  return response.json();
+                } else {
+                  return null;
+                }
+              })
+              .then(student => {
+                console.log(student);
+                if (student != null && student != undefined){
+                  var avail = "";
+                  for (var i =0; i < post.availability.length; i++){
+                    if (post.availability.charAt(i).match(/[a-zA-Z]/)){
+                      avail += post.availability.charAt(i);
+                    } else if (post.availability.charAt(i).match(/[,]/)){
+                      avail += " | ";
+                    } else {
+                      avail += " ";
+                    }
+                  }
+                  returnPosts.push (
+                    <div key={post.postId}>
+                     <Post>
+                        <p> Name: {student.legalFirstName}</p>
+                        <p> User Type: {post.posterType} &nbsp;&nbsp; Post Id: {post.postId} </p>
+                        <p> Subject: {post.subject} </p>
+                        <p> Location: {post.location} </p>
+                        <p> Availabilities: {avail} </p>
+                        <p> Rate: {post.rate} {post.unit} </p>
+                        <Button type="submit" onClick={() => {if(confirm('Delete this post?')){this.deletePost(post)}}}> Delete </Button>
+                      </Post>             
+                      <br />
+                     </div>
+                    );
+                }
+                  this.setState({printPosts: returnPosts});
+              }
+              else {
+                console.log("null student");
+                })
+              this.setState({postsReady: true});
 
-            if(post.posterType = 'student') {
-              //get students information
-              fetch(this.link + '/admin/' + post.ownerId, {
+            } else if (posterType = 'tutor'){
+                fetch(this.link + '/tutors/' + post.ownerId, {
                 method: 'get',
-                header: {
+                headers: {
                   'Accept': 'application/json',
                   'Content-Type': 'application/json', 
                 }
               })
               .then(response => {
-                  if (response.status == 200) {
-                    return response.json();
-                  }
-                  else {
-                    return null;
-                  }
-              })
-            }
-            else if(post.posterType = 'tutor') {
-              //get tutors information
-              fetch(this.link + '/admin/' + post.ownerId, {
-                method: 'get',
-                header: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json', 
+                if (response.status == 200){ //checks if user was found
+                  return response.json();
+                } else {
+                  return null;
                 }
               })
-              .then(response => {
-                  if (response.status == 200) {
-                    return response.json();
+              .then(tutor => {
+                console.log(tutor);
+                if (tutor != null && tutor != undefined){
+                  var avail = "";
+                  for (var i =0; i < post.availability.length; i++){
+                    if (post.availability.charAt(i).match(/[a-zA-Z]/)){
+                      avail += post.availability.charAt(i);
+                    } else if (post.availability.charAt(i).match(/[,]/)){
+                      avail += " | ";
+                    } else {
+                      avail += " ";
+                    }
                   }
-                  else {
-                    return null;
+                  returnPosts.push (
+                    <div key={post.postId}>
+                     <Post>
+                        <p> Name: {tutor.legalFirstName}</p>
+                        <p> User Type: {post.posterType} &nbsp;&nbsp; Post Id: {post.postId} </p>
+                        <p> Subject: {post.subject} </p>
+                        <p> Location: {post.location} </p>
+                        <p> Availabilities: {avail} </p>
+                        <p> Rate: {post.rate} {post.unit} </p>
+                        <Button type="submit" onClick={() => {if(confirm('Delete this post?')){this.deletePost(post)}}}> Delete </Button>
+                      </Post>             
+                      <br />
+                     </div>
+                    );
                   }
+                  this.setState({printPosts: returnPosts});
+              }
+              else {
+                console.log("null tutor");
               })
+              this.setState({postsReady: true});
             }
-            else {
-              fetch(this.link + '/admin/' + post.ownerId, {
-                method: 'get',
-                header: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json', 
-                }
-              })
-              .then(response => {
-                  if (response.status == 200) {
-                    return response.json();
-                  }
-                  else {
-                    return null;
-                  }
-              })
-            }
-          
+            */
               //print out availiability neatly without special characters
               var avail = "";
               for (var i =0; i < post.availability.length; i++){
@@ -203,24 +266,23 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
                 }
               }
 
-
-
               return (
                 <div key={post.postId}>
                   <Post>
-                    <h3> Name: {}</h3>
+
                     <p> User Type: {post.posterType} &nbsp;&nbsp; Post Id: {post.postId} </p>
-                    <p> Subject(s): {post.subject} </p>
+                    <p> Subject: {post.subject} </p>
                     <p> Location: {post.location} </p>
-                    <p> Times available: {avail} </p>
+                    <p> Availabilities: {avail} </p>
                     <p> Rate: {post.rate} {post.unit} </p>
-                    <Button type="submit" onClick={() => {if(confirm('Delete this post?')) {this.deletePost(post)}}}> Delete </Button>
+                    <Button type="submit" onClick={() => {if(confirm('Delete this post?')){this.deletePost(post)}}}> Delete </Button>
                   </Post>             
                   <br />
                 </div>
               );
           }
         }); //end posts.map
+        
       }
       else {
         return(
@@ -232,6 +294,20 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
         );
       }
     }//end check if state is null
+  }
+
+  printPosts(){
+    if (this.state.postsReady == true){
+      return this.state.printPosts;
+    } else {
+      return(
+        <div>
+          <br />
+          <h3> Could not load any posts! </h3>
+          <br />
+        </div>
+      );
+    }
   }
   
     render() {
@@ -263,8 +339,7 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
 
           {/* Load posts */}
           {this.createPostsTable()}
-          
-          <Button onClick={() => this.props.history.goBack()}> Back </Button>
+        
         </CenteredSection>
       </BodyWrapper>
         </div>
