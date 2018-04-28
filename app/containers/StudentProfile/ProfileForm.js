@@ -268,20 +268,54 @@ class ProfileForm extends Component {
 					console.log('formPayload: ', JSON.stringify(formPayload));
 				}
 			})
-			.catch(error => alert('parsing failed profile form', error))
+			.catch(error => alert('parsing failed profile form', error));
 
 		}// end if validating form
 	}// end handleformsubmit
 
 	deactivateAccount(){
 		if(window.confirm("Deleting your account cannot be undone. Are you sure?")){
-			this.setState({ 
-				major: "deleted", //because the form still validates before deleting the user, will change this
-				selectedSubjects: ["deleted"],
-				active: false 
-			});
-			this.handleFormSubmit();
-		}
+			
+			const payload = { //Json to be submitted
+				userId: this.props.userId,
+				userName: this.props.userName,
+				email: this.props.email,
+				salt: this.props.salt,
+				passhash: this.props.password,
+				userType: this.props.userType,
+				subjects: this.props.selectedSubjects,
+
+				legalFirstName: this.props.legalFirstName,
+				legalLastName: this.props.legalLastName,
+				img: this.props.img,
+				major: this.props.major,
+				minor: this.props.minor,
+				bio: this.props.bio,				
+
+				active: this.props.active,
+		  		creationDate: this.props.timestamp,
+			};
+
+			fetch(this.link + "/students/delete/" + this.props.userId.toString(), { //sends to deactivate user
+				method: 'post',
+				headers: {
+					'Accept': 'application/json',
+				  	'Content-Type': 'application/json',	
+				},
+				body: JSON.stringify(payload)					
+			})
+			.then(response => { //checks if user was found
+				if (response.status == 200){
+					console.log('formPayload: ', JSON.stringify(formPayload));
+					window.location.href = "/"; //goes back to homepage exiting session
+				} else {
+					alert("An error occurred, please try again later");
+					console.log('formPayload: ', JSON.stringify(formPayload));
+				}
+			})
+			.catch(error => alert('parsing failed profile form', error));
+
+		}//end confirm window
 	}
 
 	changePassword(){
@@ -345,7 +379,7 @@ class ProfileForm extends Component {
           	<CenteredSection>
 			  <p> Profile Picture </p>
 				  
-				  <Img src={img} alt="Profile Picture"> </Img>
+				  <Img src={img} alt="Profile Picture" />
 				 
 						  <Dropzone
 						  multiple={false}
