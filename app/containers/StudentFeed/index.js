@@ -276,12 +276,10 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 										calcRating = "No Ratings Yet!";
 									}
 									else {
-										calcRating /= (rateKeys.length -1);
-										calcRating /= 2; //for 5 star system
-										calcRating = ("Rating: " + calcRating.toString() + " / " + "5");
+										calcRating /= (rateKeys.length -1); //skip first element because it is 0:0
+										calcRating = ("Rating: " + calcRating.toString() + " / " + "10");
 									}
 									console.log("calcRating", calcRating);
-									//console.log("rate: ", rate);
 									//end calculate rating
 
 									//if they accept paid

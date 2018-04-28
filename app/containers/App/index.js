@@ -19,12 +19,10 @@ import HomePage from 'containers/HomePage/Loadable';
 import StudentProfile from 'containers/StudentProfile/Loadable';
 import StudentFeed from 'containers/StudentFeed/Loadable';
 import StudentPosts from 'containers/StudentPosts/Loadable';
-import StudentSignedInLandingPage from 'containers/StudentSignedInLandingPage/Loadable';
 
 import TutorProfile from 'containers/TutorProfile/Loadable';
 import TutorFeed from 'containers/TutorFeed/Loadable';
 import TutorPosts from 'containers/TutorPosts/Loadable';
-import TutorSignedInLandingPage from 'containers/TutorSignedInLandingPage/Loadable';
 
 import AdminFeed from 'containers/AdminFeed/Loadable';
 import AdminPosts from 'containers/AdminPosts/Loadable';
@@ -63,12 +61,11 @@ export default function App() {
     	<Route path="/StudentProfile" component={StudentProfile} />
     	<Route path="/StudentFeed" component={StudentFeed} />
     	<Route path="/StudentPosts" component={StudentPosts} />
-    	<Route path="/StudentSignedInLandingPage" component={StudentSignedInLandingPage} />
 
 	    <Route path="/TutorProfile" component={TutorProfile} />
     	<Route path="/TutorFeed" component={TutorFeed} />
     	<Route path="/TutorPosts" component={TutorPosts} />
-    	<Route path="/TutorSignedInLandingPage" component={TutorSignedInLandingPage} />
+
       <Route path="/AdminLogin" component={AdminLogin} />
 	    <Route path="/AdminFeed" component={AdminFeed} />
 	    <Route path="/AdminPosts" component={AdminPosts} />
