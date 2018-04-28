@@ -204,7 +204,8 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 					<h3> Here are your current active posts. Delete a post to stop receiving incoming tutoring requests </h3>
 					<hr /> <br />
 					{this.createPostsTable()}
-					
+
+					<Button onClick={() => this.props.history.goBack()}> Back </Button>
 				</CenteredSection>
 			</BodyWrapper>
       	</div>
