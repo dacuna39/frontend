@@ -294,7 +294,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 														<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
 														<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
 														<p> Highest Degree: {tutor.degrees} </p> 
-														<p> LinkedIn: <a href={tutor.links} target="_blank"> {tutor.links} </a> </p>
+														<p> Professional Link: <a href={tutor.links} target="_blank"> {tutor.links} </a> </p>
 														<p> {calcRating} </p>
 														<hr />
 														<p> Subject: {post.subject} </p>
@@ -339,7 +339,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 														<h3> {tutor.legalFirstName} {tutor.legalLastName} </h3>
 														<img src={tutor.img} width="150px" height="150px" alt="Profile Picture"/>
 														<p> Highest Degree: {tutor.degrees} </p>
-														<p> LinkedIn: <a href={tutor.links} target="_blank"> {tutor.links} </a> </p>
+														<p> Professional Link: <a href={tutor.links} target="_blank"> {tutor.links} </a> </p>
 														<p> {calcRating} </p>
 														<hr />
 														<p> Subject: {post.subject} </p>
@@ -418,8 +418,6 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
         	</Helmet>
 		
 			<HeaderFeed />
-
-			
 
 			<CheckboxTableStyle>
 				<Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button>

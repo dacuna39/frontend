@@ -12,7 +12,7 @@ export default defineMessages({
   },
   aboutMessage: {
     id: 'boilerplate.containers.HomePage.about.Message',
-    defaultMessage: 'TutorFind is a complimentary service developed by the graduating class of the computer science department at NDNU.  The website facilitates the initial mutual discovery and sharing of contact information with tutors and those seeking tutoring assistance.  Users can quickly find matches by filtering by the subject matter that they seek assistance on or offer assistance in.',
+    defaultMessage: 'TutorFind is a complimentary service developed by the graduating class of the computer science program at NDNU.  The website facilitates the initial mutual discovery and sharing of contact information with tutors and those seeking tutoring assistance.  Users can quickly find matches by filtering by the subject matter that they seek assistance on or offer assistance in.',
   },
   signUpHeader: {
     id: 'boilerplate.containers.HomePage.signUp.Header',

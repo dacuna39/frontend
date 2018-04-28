@@ -326,7 +326,6 @@ class NewPostForm extends Component {
 				   if (response.status == 200){ //checks for ok response
 					   alert("Success");		
 					   this.clearForm();
-					   //this.setState({ is })
 				   } else {
 					   alert("Error submitting post");
 				   }

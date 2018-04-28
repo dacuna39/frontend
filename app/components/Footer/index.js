@@ -35,9 +35,6 @@ function Footer() {
 			<ListItem>
 				<A href="mailto:info@tutorfind.com">tutorfindapp@gmail.com</A>
 			</ListItem>
-			<ListItem>
-				<p> (408) 123-2018 </p>
-			</ListItem>
 		  </List>
 		</section>
 	</Wrapper>

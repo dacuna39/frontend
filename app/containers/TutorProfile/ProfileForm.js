@@ -239,6 +239,7 @@ class ProfileForm extends Component {
 				salt: this.state.salt,
 				passhash: this.state.password,
 				userType: this.state.userType,
+				subjects: this.state.selectedSubjects,
 
 				legalFirstName: this.state.legalFirstName,
 				legalLastName: this.state.legalLastName,
@@ -246,7 +247,6 @@ class ProfileForm extends Component {
 				degrees: this.state.degrees,
 				links: this.state.links,
 				bio: this.state.bio,
-				subjects: this.state.selectedSubjects,
 
 				active: this.state.active,
 		  		timestamp: this.state.timestamp,
@@ -279,13 +279,48 @@ class ProfileForm extends Component {
 
 	deactivateAccount(){
 		if(window.confirm("Deleting your account cannot be undone. Are you sure?")){
-			this.setState({ 
-				major: "deleted", //because the form still validates before deleting the user, will change this
-				selectedSubjects: ["deleted"],
-				active: false 
-			});
-			this.handleFormSubmit();
-		}
+			
+			const payload = { //Json to be submitted
+				userId: this.props.userId,
+				userName: this.props.userName,
+				email: this.props.email,
+				salt: this.props.salt,
+				passhash: this.props.password,
+				userType: this.props.userType,
+				subjects: this.props.selectedSubjects,
+
+				legalFirstName: this.props.legalFirstName,
+				legalLastName: this.props.legalLastName,
+				img: this.props.img,
+				degrees: this.props.degrees,
+				links: this.props.links,
+				bio: this.props.bio,
+
+				active: this.props.active,
+		  		timestamp: this.props.timestamp,
+		  		rating: this.props.rating,
+			};
+
+			fetch(this.link + "/tutors/delete/" + this.props.userId.toString(), { //post profile updates to database :)
+				method: 'post',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json',	
+				},
+				body: JSON.stringify(formPayload)					
+			})
+			.then(response => { //checks if user was found
+				if (response.status == 200){
+					console.log('payload: ', JSON.stringify(payload));
+					window.location.href = "/"; //goes back to homepage exiting session
+				} else {
+					alert("An error occurred, please try again later");
+					console.log('formPayload: ', JSON.stringify(formPayload));
+				}
+			})
+			.catch(error => alert('parsing failed profile form', error));
+
+		}//end confirm window
 	}
 
 	changePassword(){
@@ -348,7 +383,7 @@ class ProfileForm extends Component {
           	<CenteredSection>
           		<p> Profile Picture </p>
 				  
-            	<Img src={img} alt="Profile Picture"> </Img>
+            	<Img src={img} alt="Profile Picture" /> 
 				
 						<Dropzone 
 						multiple={false}
