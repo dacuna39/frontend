@@ -195,8 +195,6 @@ fetchTutors() {
   }
 
 deleteStudent(student){
-    
-    student.active = false;
 
     fetch(this.link + "/students/" + student.userId, { //post profile updates to database :)
       method: 'post',
@@ -206,6 +204,7 @@ deleteStudent(student){
       },
       body: JSON.stringify(student)          
     })
+
     .then(response => { //checks if post was successful
       if (response.status == 200){
         console.log('student: ' + JSON.stringify(student));
@@ -220,8 +219,6 @@ deleteStudent(student){
   }
 
 deleteTutor(tutor){
-    
-    tutor.active = false;
 
     fetch(this.link + "/tutors/" + tutor.userId, { //post profile updates to database :)
       method: 'post',
