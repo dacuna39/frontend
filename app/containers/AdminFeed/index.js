@@ -32,7 +32,7 @@ import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
 import TableStyle from 'components/Table/TableStyle';
 import H1 from 'components/H1';
 import Table from './Table';
-import Header from 'components/Header';
+import HeaderAdminLoggedIn from 'components/HeaderAdminLoggedIn';
 import Button from 'components/Button';
 
 const BodyWrapper = styled.div`
@@ -139,8 +139,8 @@ fetchTutors() {
                 {"Name: " + student.legalFirstName + " "}
                 {student.legalLastName + " "}<br />
                 {"Type: " + student.userType + " "} 
-                <Button onClick={() => this.deleteStudent(student)}> Make Inactive </Button> 
-                <Button onClick={() => this.makeAdmin(student)}> Make Admin </Button>          
+                <Button type="submit" onClick={() => {if(confirm('Make Inactive?')){this.deleteStudent(student)}}}> Make Inactive </Button> 
+                <Button type="submit" onClick={() => {if(confirm('Make Admin?')){this.makeAdmin(student)}}}> Make Admin </Button>          
               <br /></p>
             </div>
           );
@@ -174,8 +174,8 @@ fetchTutors() {
                 {"Name: " + tutor.legalFirstName + " "}
                 {tutor.legalLastName + " "}<br />
                 {"Type: " + tutor.userType + " "} 
-                <Button onClick={() => this.deleteTutor(tutor)}> Make Inactive </Button> 
-                <Button onClick={() => this.makeAdmin(tutor)}> Make Admin </Button>          
+                <Button type="submit" onClick={() => {if(confirm('Make Inactive?')){this.deleteTutor(tutor)}}}> Make Inactive </Button> 
+                <Button type="submit" onClick={() => {if(confirm('Make Admin?')){this.makeAdmin(tutor)}}}> Make Admin </Button>          
               <br /></p>
             </div>
           );
@@ -195,8 +195,6 @@ fetchTutors() {
   }
 
 deleteStudent(student){
-    
-    student.active = false;
 
     fetch(this.link + "/students/" + student.userId, { //post profile updates to database :)
       method: 'post',
@@ -206,6 +204,7 @@ deleteStudent(student){
       },
       body: JSON.stringify(student)          
     })
+
     .then(response => { //checks if post was successful
       if (response.status == 200){
         console.log('student: ' + JSON.stringify(student));
@@ -220,8 +219,6 @@ deleteStudent(student){
   }
 
 deleteTutor(tutor){
-    
-    tutor.active = false;
 
     fetch(this.link + "/tutors/" + tutor.userId, { //post profile updates to database :)
       method: 'post',
@@ -304,9 +301,15 @@ makeAdmin(tutor){
       <title>Admin User Feed</title>
       <meta name="description" content="Description of Admin Feed" />
       </Helmet>
-       
+       <HeaderAdminLoggedIn />
 
    <CenteredSection>
+      <Button onClick={() => { // link to admin user posts
+            if (this.state.isLoading == false){
+              this.props.history.push("/AdminPosts");
+            }
+          }}> Users Posts </Button>
+          {/* end link to user posts */}
      <H1>Users</H1>
    </CenteredSection>
 
@@ -330,7 +333,7 @@ makeAdmin(tutor){
                 <title> AdminFeed </title>
                   <meta name="description" content="Description of AdminFeed" />
               </Helmet>
-          <Header />
+          <HeaderAdminLoggedIn />
           <CenteredSection>
             <br /> <H1> Loading... </H1> <br />
           </CenteredSection>
@@ -342,7 +345,10 @@ makeAdmin(tutor){
 function mapStateToProps(state) {
 
   return{
-
+      legalFirstName: state.legalFirstName,
+    legalLastName: state.legalLastName,
+    bio: state.bio,
+    degrees: state.degrees,
   }
 
 }
