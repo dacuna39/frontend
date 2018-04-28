@@ -284,6 +284,7 @@ class NewPostForm extends Component {
     }
 
     handleFormSubmit(e) {
+
 		e.preventDefault();
 		var availability = this.createAvailabilityString();
 
@@ -324,12 +325,14 @@ class NewPostForm extends Component {
 			   .then(response => {
 				   if (response.status == 200){ //checks for ok response
 					   alert("Success");		
-					   this.clearForm();			
+					   this.clearForm();
+					   //this.setState({ is })
 				   } else {
 					   alert("Error submitting post");
 				   }
 			   })
 		   }//end if validateForm
+
     }//end handleFormSubmit
 
     render() {

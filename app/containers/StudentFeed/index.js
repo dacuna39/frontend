@@ -386,12 +386,12 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 							this.setState({postsReady: true});
 					}//end check bad posts
 				});
-			}
+			}//end if posts.length != 0
 			else {
 				//return false;
 			}
 		}//end check if state is null
-	}
+	}//end createPostsTable
 
 	printPosts() {
 		if (this.state.postsReady == true){
@@ -411,7 +411,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		
 		if (this.state != null){
     	return (
-    	<div ref="myRef">
+    	<div>
         	<Helmet>
         	  <title> StudentFeed </title>
         	  <meta name="description" content="Description of StudentFeed" />
@@ -419,7 +419,11 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		
 			<HeaderFeed />
 
+			
+
 			<CheckboxTableStyle>
+				<Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button>
+			{/* Filter section
 			<tbody>	
          		<tr>
             		<th>
@@ -442,10 +446,9 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
             		<th><Button>Filter Subjects</Button></th>
 				</tr>
 				<tr>
-					<td> <Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button> </td>
+					<td> scroll to top button goes here </td>
 				</tr>
 				
-						{/*
 				<Group
 					title={''}
 					type={'radio'}
@@ -455,9 +458,11 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 					selectedOptions={this.state.filter}
 					 />
 				<Button>Filter Subjects</Button>
-				*/}
+				
 			</tbody>
-        	</CheckboxTableStyle>
+			*/}
+			</CheckboxTableStyle>
+			
 
 			<BodyWrapper>
 
@@ -498,15 +503,10 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 							{/* end make new post */}
 
 							{/* link to studentPost */}
-							<Button onClick={() => { // link to student's posts
-								if (this.state.isLoading == false){
-									this.props.history.push("/studentPosts");
-								}
-								}}> My Posts </Button>
-							{/* end link to studentPost */}					
+							<Button onClick={() => this.props.history.push("/studentPosts") }> My Posts </Button>				
 
 					{/* Load tutor posts */}
-						{this.printPosts()}
+					{this.printPosts()}
 					
 				</CenteredSection>
 			</BodyWrapper>
