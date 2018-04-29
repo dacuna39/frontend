@@ -189,12 +189,12 @@ class NewPostForm extends Component {
 		}
 		string += "}"
 		
-		console.log("string: ", string);
+		//console.log("string: ", string);
 		return string;
 	}
     
     handleRateChange(e) {
-		this.setState({ rate: e.target.value }, () => console.log("rate", this.state.rate));
+		this.setState({ rate: e.target.value });
     }
     
     handleGroupTutoringChange(e) {
@@ -312,7 +312,7 @@ class NewPostForm extends Component {
 				   active: true,		
 				   currentlySignedUp: 0,	
 			   };
-			   console.log("payload: " + JSON.stringify(payload));
+			   //console.log("payload: " + JSON.stringify(payload));
    
 			   fetch(this.link + '/posts', { //post entries to database :)
 				   method: 'put',

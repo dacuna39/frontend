@@ -23,7 +23,7 @@ import HeaderFeed from 'components/HeaderFeed';
 import Button from 'components/Button';
 import H1 from 'components/H1';
 import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
-//import TableStyle from 'components/Table/TableStyle';
+import GroupDown from 'components/FormComponents/GroupDown';
 import Group from 'components/FormComponents/CheckboxOrRadioGroup';
 
 import CenteredSection from './CenteredSection';
@@ -66,8 +66,8 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 			posts : [],
 			printPosts: [],
 
-			filterOptions: ["mySubjects","allSubjects"],
-			filter: ["mySubjects"],
+			filterOptions: ["All Subjects","My Subjects"],
+			filter: ["All Subjects"],
 
 			stars: ["1","2","3","4","5","6","7","8","9","10"],
 			starsSelected: [],
@@ -82,9 +82,10 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		this.handleFilterSelect = this.handleFilterSelect.bind(this);
 		this.handleStarsSelect = this.handleStarsSelect.bind(this);
 
+		this.fetchPosts = this.fetchPosts.bind(this);
 		this.createPostsTable = this.createPostsTable.bind(this);
 		this.printPosts = this.printPosts.bind(this);
-		this.fetchPosts = this.fetchPosts.bind(this);
+		
 		this.clickRating = this.clickRating.bind(this);
 		this.submitRating = this.submitRating.bind(this);
 	}
@@ -105,7 +106,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		this.setState({filter: [e.target.value]}, () => console.log(this.state.filter));
 	}
 	handleStarsSelect(e) {
-		this.setState({starsSelected: [e.target.value]}, () => console.log(this.state.starsSelected));
+		this.setState({starsSelected: [e.target.value]});
 	}
 
 	componentDidMount(){
@@ -142,7 +143,6 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 	}
 
 	apply(post){
-		console.log("applying");
 		
 		fetch('https://tutor-find.herokuapp.com/tutors/' + post.ownerId.toString())
       	.then(response => response.json()) //gets post owner from server
@@ -168,8 +168,8 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		var rating = JSON.parse(tutor.rating);
 		var id = this.props.userId;
 		var canRate = true;
-		console.log("rating: ", rating)
-		console.log("userid", id);
+		//console.log("rating: ", rating)
+		//console.log("userid", id);
 
 		Object.keys(rating).forEach(function(key) { //search through keys to see if user has alrady rated
 
@@ -179,7 +179,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		});		
 
 		if(canRate == true){
-			console.log("can rate!");
+			//console.log("can rate!");
 			this.setState({ isRatingOpen: true, tutorToRate: tutor});
 		}
 		else{
@@ -192,11 +192,10 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 
 		var rate = JSON.parse(tutor.rating);
 		rate[this.props.userId] = this.state.starsSelected[0];
-
-		console.log("rating: ", rate);
+		//console.log("rating: ", rate);
 
 		tutor.rating = JSON.stringify(rate);
-		console.log("tutor ", tutor);
+		//console.log("tutor ", tutor);
 
 		fetch(this.link + '/tutors/' + this.props.userId + "/addrating", { //post tutor with new rating to database :)
 			method: 'post',
@@ -207,9 +206,9 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 			body: JSON.stringify(tutor)
 		})
 		.then(response => {
-			if (response.status == 200){ //checks for ok response
-				alert("Rating Submitted!");		
-				this.setState({ tutorToRate: {}, isRatingOpen: false }); //clears the grabbed tutor var		
+			if (response.status == 200){ //checks for ok response		
+				this.setState({ tutorToRate: {}, isRatingOpen: false }); //clears the grabbed tutor var
+				alert("Rating Submitted!");	
 			} else {
 				alert("An error has occured, please try again later");
 			}
@@ -279,7 +278,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 										calcRating /= (rateKeys.length -1); //skip first element because it is 0:0
 										calcRating = ("Rating: " + calcRating.toString() + " / " + "10");
 									}
-									console.log("calcRating", calcRating);
+									//console.log("calcRating", calcRating);
 									//end calculate rating
 
 									//if they accept paid
@@ -376,7 +375,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 									this.setState({printPosts: returnPosts});
 								}//end if tutor != null
 								else {
-									console.log("null tutor");
+									//console.log("null tutor: post " + post.postId + " ownerId " + post.ownerId);
 								}
 							})// end then	
 							.catch(error => console.log('parsing failed', error));
@@ -397,9 +396,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		} else {
 			return(
 				<div>
-					<br />
-					<h3> Could not load any posts! </h3>
-					<br />
+					<br /> <h3> Could not load any posts! </h3> <br />
 				</div>
 			);
 		}
@@ -416,36 +413,11 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
         	</Helmet>
 		
 			<HeaderFeed />
-
+			
+			{/* sidebar: filter */}
 			<CheckboxTableStyle>
-				<Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button>
-			{/* Filter section
-			<tbody>	
-         		<tr>
-            		<th>
-						<input type="radio" id="classSubject" name="subject" value="mySubjects" 
-						onClick={() => { this.setState({filter: "mySubjects"}, () => console.log("filter", this.state.filter))}} />
 
-                		<label htmlFor="classSubject">   My subjects </label>
-            		</th>
-        		</tr>
-        		<tr>
-            		<th>
-						<input type="radio" id="classSubject" name="subject" value="allSubjects" //checked="true"
-						onClick={() => 
-							this.setState({filter: "allSubjects"}, () => {console.log("filter", this.state.filter)}) } />
-
-                		<label htmlFor="classSubject">   All subjects </label>
-            		</th>
-        		</tr>
-        		<tr>
-            		<th><Button>Filter Subjects</Button></th>
-				</tr>
-				<tr>
-					<td> scroll to top button goes here </td>
-				</tr>
-				
-				<Group
+				<GroupDown
 					title={''}
 					type={'radio'}
 					setName={'filter'}
@@ -454,11 +426,10 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 					selectedOptions={this.state.filter}
 					 />
 				<Button>Filter Subjects</Button>
-				
-			</tbody>
-			*/}
-			</CheckboxTableStyle>
+				<Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button>
 			
+			</CheckboxTableStyle>
+			{/* end sidebar */}
 
 			<BodyWrapper>
 

@@ -49,7 +49,6 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 			userPosts : [],
 		};
 
-		this.componentDidMount = this.componentDidMount.bind(this);	
 		this.getPosts = this.getPosts.bind(this);
 		this.createPostsTable = this.createPostsTable.bind(this);
 	}
@@ -65,7 +64,7 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 			}
 		})
 		.then(response => response.json())
-		.then(posts => {console.log("all posts: ", posts);
+		.then(posts => {//console.log("all posts: ", posts);
 
 			for (var i =0; i < posts.length; i++){
 				if (posts[i].ownerId == this.props.userId){
@@ -73,7 +72,7 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 				}
 			}
 
-			this.setState({ userPosts: onlyUsers }, () => console.log("user's posts: ", this.state.userPosts));
+			this.setState({ userPosts: onlyUsers });
 		})
 		.catch(error => console.log('parsing failed', error));
 	}
@@ -96,12 +95,12 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 		})
 		.then(response => { //checks if post was successful
 			if (response.status == 200){
-				console.log('post: ' + JSON.stringify(post));
+				//console.log('post: ' + JSON.stringify(post));
 				alert("Deleted!");
 				this.getPosts();
 			} else {
 				alert("An error occurred, please try again later");
-				console.log('formPayload: ' + JSON.stringify(formPayload));
+				//console.log('formPayload: ' + JSON.stringify(formPayload));
 			}
 		})
 		.catch(error => alert('parsing failed', error))
@@ -182,18 +181,14 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 		
 			<HeaderFeed />
 
+			{/* sidebar */}
 			<CheckboxTableStyle>
-				<tr>
-					<td>
-						<Button onClick={() => this.props.history.push("/studentFeed")}> Back to Feed </Button>
-					</td>
-				</tr>
-				<tr>
-					<td>
-					<Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button>
-					</td>
-				</tr>
+
+				<Button onClick={() => this.props.history.push("/tutorFeed")}> Back to Feed </Button>
+				<Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button>
+
 			</CheckboxTableStyle>
+			{/* end sidebar */}
 
 			<BodyWrapper>
 				<CenteredSection>

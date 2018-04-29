@@ -67,15 +67,19 @@ class SignInForm extends Component {
 			})
 			.then(response => {
 				if (response.status == 200){ //checks if user was found
-					console.log("Loggin in");
+					//console.log("Loggin in");
 					return response.json();
 				} else {
 					alert("Invalid login");
+					return null;
 				}
 			})
 			.then(data => { // loads data into store/props
-				this.props.loadProfile(data);			
-				return true;
+				if (data != null){
+					this.props.loadProfile(data);			
+					return true;
+				}
+				return false;
 			})
 			.then(doneLoading => { //once job is finished, go to profile page
 				if(doneLoading == true){
@@ -98,15 +102,18 @@ class SignInForm extends Component {
 			})
 			.then(response => { //checks if user was found
 				if (response.status == 200){
-					console.log("Loggin in");
+					//console.log("Loggin in");
 					return response.json();
 				} else {
 					alert("Invalid login");
 				}
 			})
 			.then(data => { // loads data into store/props
-				this.props.loadProfile(data);			
-				return true;
+				if (data != null){
+					this.props.loadProfile(data);			
+					return true;
+				}
+				return false;
 			})
 			.then(doneLoading => { //once job is finished, go to profile page
 				if(doneLoading == true){

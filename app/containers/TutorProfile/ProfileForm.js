@@ -33,7 +33,7 @@ class ProfileForm extends Component {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
 
-		console.log("props at profileform: ", this.props);
+		//console.log("props at profileform: ", this.props);
 
 		this.state = {
 			
@@ -159,19 +159,19 @@ class ProfileForm extends Component {
 		} else {
 			newSelectionArray = [...this.state.selectedSubjects, newSelection];
 		}
-		this.setState({ selectedSubjects: newSelectionArray }, () => console.log('subject selection', this.state.selectedSubjects));
+		this.setState({ selectedSubjects: newSelectionArray });
 	}
 
 	handlePasswordChange(e) {
-		this.setState({ enterPassword: e.target.value }, () => console.log('enterPassword:', this.state.enterPassword));
+		this.setState({ enterPassword: e.target.value });
 	}
 
 	handleNewPassChange(e) {
-		this.setState({ newPassword: e.target.value }, () => console.log('new password:', this.state.newPassword));
+		this.setState({ newPassword: e.target.value });
 	}
 
 	handleReenterPassChange(e) {
-		this.setState({ reenterPassword: e.target.value }, () => console.log('reenter password:', this.state.reenterPassword));
+		this.setState({ reenterPassword: e.target.value });
 	}
 	
 	/* validate forms */
@@ -182,11 +182,11 @@ class ProfileForm extends Component {
 
 		for(var i =0; i < subs.length; i++){ // removes bad elements in array
 			if(subs[i].includes("\\") || subs[i].includes("\"") || subs[i] == "NULL"){
-					subs.splice(i, 1);
-						i = -1;					
+				subs.splice(i, 1);
+				i = -1;					
 			}
 		}
-		this.setState({ selectedSubjects: subs }, () => console.log("subs", subs));
+		this.setState({ selectedSubjects: subs });
 
 		if(this.state.legalFirstName == ''){
 			alert('Please enter your first name');
@@ -263,13 +263,13 @@ class ProfileForm extends Component {
 			})
 			.then(response => { //checks if user was found
 				if (response.status == 200){
-					console.log('formPayload: ', JSON.stringify(formPayload));
+					//console.log('formPayload: ', JSON.stringify(formPayload));
 					this.props.loadProfile(formPayload); //update app state
 					alert("Saved!");
 					//return response.json();
 				} else {
 					alert("An error occurred, please try again later");
-					console.log('formPayload: ', JSON.stringify(formPayload));
+					//console.log('formPayload: ', JSON.stringify(formPayload));
 				}
 			})
 			.catch(error => console.log('parsing failed', error));
@@ -311,11 +311,11 @@ class ProfileForm extends Component {
 			})
 			.then(response => { //checks if user was found
 				if (response.status == 200){
-					console.log('payload: ', JSON.stringify(payload));
+					//console.log('payload: ', JSON.stringify(payload));
 					window.location.href = "/"; //goes back to homepage exiting session
 				} else {
 					alert("An error occurred, please try again later");
-					console.log('formPayload: ', JSON.stringify(formPayload));
+					//console.log('formPayload: ', JSON.stringify(formPayload));
 				}
 			})
 			.catch(error => alert('parsing failed profile form', error));
@@ -342,19 +342,19 @@ class ProfileForm extends Component {
 			})
 			.then(response => { 
 				if (response.status == 200){ 
-					console.log('payload: ', JSON.stringify(payload)); 
+					//console.log('payload: ', JSON.stringify(payload)); 
 					alert("Password Changed!"); 
 					//return response.json();
 					return true;
 				}
 				else if (response.status == 404) { 
-					console.log('payload: ', JSON.stringify(payload)); 
+					//console.log('payload: ', JSON.stringify(payload)); 
 					alert("Incorrect password, please try again"); 
 					return false;
 				}
 				else { 
 					alert("An error occurred, please try again later"); 
-					console.log('payload: ', JSON.stringify(payload)); 
+					//console.log('payload: ', JSON.stringify(payload)); 
 					return false;
 				}
 			})

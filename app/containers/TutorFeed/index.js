@@ -23,7 +23,7 @@ import HeaderFeed from 'components/HeaderFeed';
 import Button from 'components/Button';
 import H1 from 'components/H1';
 import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
-//import TableStyle from 'components/Table/TableStyle';
+import GroupDown from 'components/FormComponents/GroupDown';
 
 import CenteredSection from './CenteredSection';
 import Modal from './Modal';
@@ -61,11 +61,16 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 			posts : [],
 			printPosts: [],
 
+			filterOptions: ["All Subjects","My Subjects"],
+			filter: ["All Subjects"],
+
 			isOpen: false, //whether the sign in modal is rendered
             isLoading: true,    
 		};
 
-		this.componentDidMount = this.componentDidMount.bind(this);	
+		this.handleFilterSelect = this.handleFilterSelect.bind(this);
+
+		this.fetchPosts = this.fetchPosts.bind(this);
 		this.createPostsTable = this.createPostsTable.bind(this);
 		this.printPosts = this.printPosts.bind(this);
 	}
@@ -76,8 +81,15 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 		});
 	}
 
-	componentDidMount(){
+	handleFilterSelect(e) {
+		this.setState({filter: [e.target.value]}, () => console.log(this.state.filter));
+	}
 
+	componentDidMount(){
+		this.fetchPosts();
+	}
+
+	fetchPosts() {
 		var allPosts = [];
 		var userInfo = [];
 		var postsReady = false;
@@ -104,11 +116,9 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 			this.setState({ posts: allPosts, isLoading: false }, () => this.createPostsTable());
 		})
 		.catch(error => console.log('parsing failed', error));
-
 	}
 
 	apply(post){
-		console.log("applying");
 		
 		fetch('https://tutor-find.herokuapp.com/students/' + post.ownerId.toString())
       	.then(response => response.json()) //gets post owner from server
@@ -208,7 +218,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 									this.setState({printPosts: returnPosts});
 								}//end if student != null
 								else {
-									console.log("null student");
+									//console.log("null tutor: post " + post.postId + " ownerId " + post.ownerId);
 								}
 							})// end then				
 
@@ -228,9 +238,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 		} else {
 			return(
 				<div>
-					<br />
-					<h3> Could not load any posts! </h3>
-					<br />
+					<br /> <h3> Could not load any posts! </h3> <br />
 				</div>
 			);
 		}
@@ -248,33 +256,10 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 		
 			<HeaderFeed />
 
-			<CheckboxTableStyle>		
-         		<tr>
-            		<th>
-						<input type="radio" id="classSubject" name="subject" value="mySubjects" 
-						onClick={() => { this.setState({filter: "mySubjects"}, () => console.log("filter", this.state.filter))}} />
+			{/* sidebar: filter */}
+			<CheckboxTableStyle>
 
-                		<label htmlFor="classSubject">   My subjects </label>
-            		</th>
-        		</tr>
-        		<tr>
-            		<th>
-						<input type="radio" id="classSubject" name="subject" value="allSubjects" //checked="true"
-						onClick={() => 
-							this.setState({filter: "allSubjects"}, () => {console.log("filter", this.state.filter)}) } />
-
-                		<label htmlFor="classSubject">   All subjects </label>
-            		</th>
-        		</tr>
-        		<tr>
-            		<th><Button>Filter Subjects</Button></th>
-				</tr>
-				<tr>
-					<td> <Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button> </td>
-				</tr>
-				
-				{/*
-				<Group
+				<GroupDown
 					title={''}
 					type={'radio'}
 					setName={'filter'}
@@ -283,8 +268,10 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 					selectedOptions={this.state.filter}
 					 />
 				<Button>Filter Subjects</Button>
-				*/}
-        	</CheckboxTableStyle>
+				<Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button>
+			
+			</CheckboxTableStyle>
+			{/* end sidebar */}
 
 			<BodyWrapper>
 				<CenteredSection>
