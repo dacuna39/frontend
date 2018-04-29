@@ -49,7 +49,7 @@ class SignUpForm extends Component {
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.validateForm = this.validateForm.bind(this);
 		
-		console.log("Props at signupform: ",this.props);
+		//console.log("Props at signupform: ",this.props);
 	}
 
 	handleFirstNameChange(e) {
@@ -147,7 +147,7 @@ class SignUpForm extends Component {
 					active: true,
 					creationDate: Math.floor(Date.now()/1000),						
 				};
-				console.log('studentPayload' + JSON.stringify(studentPayload));
+				//console.log('studentPayload' + JSON.stringify(studentPayload));
 
 				/* start the put method */
 		
@@ -161,16 +161,16 @@ class SignUpForm extends Component {
 				})
 				.then(response => {
 					if (response.status == 200){ //checks if user was found
-						console.log("success");
+						//console.log("success");
 						this.props.loadProfile(studentPayload);
 						return true;
 					} else if (response.status == 400){
-						console.log("fail, username/email taken");
+						//console.log("fail, username/email taken");
 						alert("That email/username is already taken, please try another");
 						return false;
 					} 
 					else {
-						console.log("non status 400 fail");
+						//console.log("non status 400 fail");
 						alert("Error signing Up, please try again later or contact us for help");
 						return false;
 					}
@@ -191,7 +191,7 @@ class SignUpForm extends Component {
 							})
 							.then(response => {
 								if (response.status == 200){ //checks if user was found
-									console.log("user found, this should always work");
+									//console.log("user found, this should always work");
 									return response.json();
 								} else {
 									alert("Invalid login after posting new user");
@@ -241,7 +241,7 @@ class SignUpForm extends Component {
 					timestamp: Math.floor(Date.now()/1000),
 					ratings: "{1:5}",
 				};
-				console.log('tutorPayload' + JSON.stringify(tutorPayload));
+				//console.log('tutorPayload' + JSON.stringify(tutorPayload));
 				
 				/* start the put method */
 
@@ -255,16 +255,16 @@ class SignUpForm extends Component {
 				})
 				.then(response => {
 					if (response.status == 200){ //checks if user was found
-						console.log("success");
+						//console.log("success");
 						this.props.loadProfile(tutorPayload);
 						return true;
 					} else if (response.status == 400){
-						console.log("fail, username/email taken");
+						//console.log("fail, username/email taken");
 						alert("That email/username is already taken, please try another");
 						return false;
 					} 
 					else {
-						console.log("non status 400 fail");
+						//console.log("non status 400 fail");
 						alert("Error signing Up, please try again later or contact us for help");
 						return false;
 					}
@@ -285,7 +285,7 @@ class SignUpForm extends Component {
 						})
 						.then(response => {
 							if (response.status == 200){ //checks if user was found
-								console.log("user found, this should always work");
+								//console.log("user found, this should always work");
 								return response.json();
 							} else {
 								alert("Invalid login after posting new user");

@@ -58,10 +58,9 @@ export default function (state=
                 state.links = action.payload.links;
                 state.timestamp = action.payload.timestamp;
                 state.rating = action.payload.rating;
-
             }
 
-            console.log("updated state: ", state);
+            //console.log("updated state: ", state);
             return state;
 
     }
