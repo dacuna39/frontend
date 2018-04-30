@@ -65,6 +65,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		this.state = {
 			posts : [],
 			printPosts: [],
+			postsReady: false,
 
 			filterOptions: ["All Subjects","My Subjects"],
 			filter: ["All Subjects"],
@@ -82,7 +83,6 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		this.handleFilterSelect = this.handleFilterSelect.bind(this);
 		this.handleStarsSelect = this.handleStarsSelect.bind(this);
 
-		this.fetchPosts = this.fetchPosts.bind(this);
 		this.createPostsTable = this.createPostsTable.bind(this);
 		this.printPosts = this.printPosts.bind(this);
 		
@@ -103,21 +103,56 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 	}
 
 	handleFilterSelect(e) {
-		this.setState({filter: [e.target.value]}, () => console.log(this.state.filter));
+		this.setState({filter: [e.target.value]});
 	}
 	handleStarsSelect(e) {
 		this.setState({starsSelected: [e.target.value]});
 	}
 
 	componentDidMount(){
-			this.fetchPosts();
+			this.fetchAllPosts();
 	}
 
-	fetchPosts() {
+	filterButtonClick = () => {
+		if(this.state.filter == "All Subjects"){
+			this.fetchAllPosts();
+		}
+		else if (this.state.filter == "My Subjects"){
+			this.filterPosts();
+		}
+	}
+
+	filterPosts = () => {
+		var allPosts = [];
+		var userInfo = [];
+
+		fetch(this.link + '/posts/subject/' + this.props.subjects, {
+			method: 'get',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',	
+			}
+		})
+		.then(response => response.json())
+		.then(posts => {
+
+			for (var i =0; i < posts.length; i++){
+				if (i <= 25 && posts[i].posterType == "tutor"){// loads the 25 most recent posts
+					allPosts.push(posts[i]);
+				}
+				else{
+					break;
+				}
+			}
+			this.setState({ posts: allPosts, isLoading: false, postsReady: false}, () => this.createPostsTable());
+		})
+		.catch(error => console.log('parsing failed', error));
+	}
+
+	fetchAllPosts = () => {
 
 		var allPosts = [];
 		var userInfo = [];
-		var postsReady = false;
 
 		fetch(this.link + '/posts?type=tutor', {
 			method: 'get',
@@ -137,7 +172,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 					break;
 				}
 			}
-			this.setState({ posts: allPosts, isLoading: false }, () => this.createPostsTable());
+			this.setState({ posts: allPosts, isLoading: false, postsReady: false}, () => this.createPostsTable());
 		})
 		.catch(error => console.log('parsing failed', error));
 	}
@@ -215,7 +250,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		})
 		.catch(error => console.log('parsing failed', error));
 
-		this.fetchPosts();
+		this.fetchAllPosts();
 	}
 
 	createPostsTable(){
@@ -372,7 +407,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 										}//end check for links
 										
 									}									
-									this.setState({printPosts: returnPosts});
+									this.setState({printPosts: returnPosts, postsReady: true});
 								}//end if tutor != null
 								else {
 									//console.log("null tutor: post " + post.postId + " ownerId " + post.ownerId);
@@ -380,7 +415,6 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 							})// end then	
 							.catch(error => console.log('parsing failed', error));
 
-							this.setState({postsReady: true});
 					}//end check bad posts
 				});
 			}//end if posts.length != 0
@@ -392,11 +426,14 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 
 	printPosts() {
 		if (this.state.postsReady == true){
+			
 			return this.state.printPosts;
 		} else {
 			return(
 				<div>
-					<br /> <h3> Could not load any posts! </h3> <br />
+					<br /> <h3> Could not find any posts! </h3>
+						<h3> Try adding more subjects in your profile or search for all subjects on the left sidebar! </h3>
+					<br />
 				</div>
 			);
 		}
@@ -425,7 +462,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 					options={this.state.filterOptions}
 					selectedOptions={this.state.filter}
 					 />
-				<Button>Filter Subjects</Button>
+				<Button onClick={this.filterButtonClick} >Filter Subjects</Button>
 				<Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button>
 			
 			</CheckboxTableStyle>
@@ -505,6 +542,7 @@ function mapStateToProps(state) {
 		legalLastName: state.legalLastName,
 		bio: state.bio,
 		major: state.major,
+		subjects: state.subjects,
 	}
 }
 

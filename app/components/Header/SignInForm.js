@@ -7,10 +7,12 @@ import { connect } from 'react-redux'
 import SingleInput from '../FormComponents/SingleInput';
 import Select from 'components/FormComponents/Select';
 import Radio from 'components/FormComponents/CheckboxOrRadioGroup';
-
+import LoadingIcon from 'components/LoadingIndicator';
 import Button from 'components/Button';
+
 import CenteredSection from './CenteredSection';
 import SubmitInput from './SubmitInput';
+import Wrapper from './Wrapper';
 
 //actions
 import {loadProfile} from './loadProfile';
@@ -25,6 +27,8 @@ class SignInForm extends Component {
 			password: '',
 			accountOptions: ['Student','Tutor'],
 			accountSelection: [],
+
+			showLoadingIcon: false,
 		};
 
 		this.handleUserNameChange = this.handleUserNameChange.bind(this);
@@ -48,6 +52,8 @@ class SignInForm extends Component {
 
 	handleFormSubmit(e) { //validates and submits the form to the server
 		e.preventDefault();
+
+		this.setState({ showLoadingIcon: true });
 
 		const formPayload = {
 			userName: this.state.userName,
@@ -83,11 +89,11 @@ class SignInForm extends Component {
 			})
 			.then(doneLoading => { //once job is finished, go to profile page
 				if(doneLoading == true){
-					this.props.history.push("/studentFeed");					
+					this.props.history.push("/studentFeed");			
 				}				
 			})
 			.catch(error => console.log('parsing failed', error));
-			
+
 		}// end student post
 
 		//Tutor post
@@ -123,6 +129,18 @@ class SignInForm extends Component {
 			.catch(error => console.log('parsing failed', error));
 		}
 		//end tutor post
+		this.setState({ showLoadingIcon: false });
+	}
+
+	renderLoadingIcon = () => {
+		if (this.state.showLoadingIcon == true){
+			return (
+				<LoadingIcon />
+			);
+		}
+		else {
+			return null;
+		}
 	}
 
 	render() {
@@ -155,7 +173,9 @@ class SignInForm extends Component {
 					name={'password'}
 					controlFunc={this.handlePasswordChange}
 					content={this.state.password}
-					placeholder={'Password'} />		
+					placeholder={'Password'} />	
+				
+				{this.renderLoadingIcon()}
 				<p>			
 				<SubmitInput
 					type="submit"
@@ -163,6 +183,7 @@ class SignInForm extends Component {
 					/>
 				</p>
 			</form>
+			
 			</article>
 		);
 	}

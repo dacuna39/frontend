@@ -155,7 +155,7 @@ class ProfileForm extends Component {
 			newSelectionArray = [...this.state.selectedSubjects, newSelection];
 		}
 
-		this.setState({ selectedSubjects: newSelectionArray });
+		this.setState({ selectedSubjects: newSelectionArray }, () => console.log(this.state.selectedSubjects));
 	}
 
 	handlePasswordChange(e) {
@@ -175,7 +175,7 @@ class ProfileForm extends Component {
 		var subs = this.state.selectedSubjects;
 
 		for(var i =0; i < subs.length; i++){ // removes bad elements in array
-			if(subs[i].includes("\\") || subs[i].includes("\"") || subs[i] == "NULL"){
+			if(subs[i].includes("\\") || subs[i].includes("\"") || subs[i] == "NULL" || subs[i].length == 0){
 				subs.splice(i, 1);
 				i = -1;
 			}
@@ -194,10 +194,6 @@ class ProfileForm extends Component {
 			alert('Please enter a major');
 			return false;
 		}
-		else if(this.state.bio == ''){
-			alert('Please write a bio. Express yourself!');
-			return false;
-		}		
 		else if(this.state.selectedSubjects.length == 0){
 			alert('Please select at least one subject you need help with');
 			return false;
