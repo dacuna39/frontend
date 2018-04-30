@@ -101,7 +101,11 @@ class SignUpForm extends Component {
 			alert('Please enter your email');
 			return false;
 		}
-		else if(this.state.password.length < 6){
+		else if ( !this.state.email.includes("@student.ndnu.edu") && this.state.accountSelection == "Student"){
+			alert('Students must enter an NDNU email');
+			return false;
+		}
+		else if (this.state.password.length < 6){
 			alert('Password must be at least 6 characters long');
 			return false;
 		}

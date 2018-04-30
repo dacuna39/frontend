@@ -181,7 +181,7 @@ class ProfileForm extends Component {
 		var subs = this.state.selectedSubjects;
 
 		for(var i =0; i < subs.length; i++){ // removes bad elements in array
-			if(subs[i].includes("\\") || subs[i].includes("\"") || subs[i] == "NULL"){
+			if(subs[i].includes("\\") || subs[i].includes("\"") || subs[i] == "NULL" || subs[i].length == 0){
 				subs.splice(i, 1);
 				i = -1;					
 			}
