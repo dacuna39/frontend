@@ -111,12 +111,12 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 		})
 		.then(response => response.json())
 		.then(posts => {
-
+			//console.log(posts);
 			for (var i =0; i < posts.length; i++){
 				if (i <= 25 && posts[i].posterType == "student"){// loads the 25 most recent posts
 					allPosts.push(posts[i]);
 				}
-				else{
+				else if (i > 25){
 					break;
 				}
 			}

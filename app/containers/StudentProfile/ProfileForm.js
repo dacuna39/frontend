@@ -155,7 +155,7 @@ class ProfileForm extends Component {
 			newSelectionArray = [...this.state.selectedSubjects, newSelection];
 		}
 
-		this.setState({ selectedSubjects: newSelectionArray }, () => console.log(this.state.selectedSubjects));
+		this.setState({ selectedSubjects: newSelectionArray });
 	}
 
 	handlePasswordChange(e) {

@@ -165,10 +165,10 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		.then(posts => {
 
 			for (var i =0; i < posts.length; i++){
-				if (i <= 25){// loads the 25 most recent posts
+				if (i <= 25 && posts[i].posterType == "tutor"){// loads the 25 most recent posts
 					allPosts.push(posts[i]);
 				}
-				else{
+				else if (i > 25){
 					break;
 				}
 			}
