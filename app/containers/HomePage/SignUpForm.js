@@ -175,13 +175,17 @@ class SignUpForm extends Component {
 						return true;
 					} else if (response.status == 400){
 						//console.log("fail, username/email taken");
-						alert("That email/username is already taken, please try another");
-						return false;
+						this.setState({ showLoadingIcon: false }, () => {
+							alert("That email/username is already taken, please try another");
+							return false;
+						});
 					} 
 					else {
 						//console.log("non status 400 fail");
-						alert("Error signing Up, please try again later or contact us for help");
-						return false;
+						this.setState({ showLoadingIcon: false }, () => {
+							alert("Error signing Up, please try again later or contact us for help");
+							return false;
+						});
 					}
 				})
 				.catch(error => console.log('parsing failed at making new user', error))
@@ -274,13 +278,17 @@ class SignUpForm extends Component {
 						return true;
 					} else if (response.status == 400){
 						//console.log("fail, username/email taken");
-						alert("That email/username is already taken, please try another");
-						return false;
+						this.setState({ showLoadingIcon: false }, () => {
+							alert("That email/username is already taken, please try another");
+							return false;
+						});
 					} 
 					else {
 						//console.log("non status 400 fail");
-						alert("Error signing Up, please try again later or contact us for help");
-						return false;
+						this.setState({ showLoadingIcon: false }, () => {
+							alert("Error signing Up, please try again later or contact us for help");
+							return false;
+						});
 					}
 				})
 				.catch(error => console.log('parsing failed at making new user', error))
