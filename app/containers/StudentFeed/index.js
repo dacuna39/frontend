@@ -427,7 +427,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 	printPosts() {
 		if (this.state.postsReady == true){			
 			
-			var sortedPosts = this.state.printPosts.sort((a,b) => a.key > b.key); //sorts to most recent posts first
+			var sortedPosts = this.state.printPosts.sort((a,b) => a.key < b.key); //sorts to most recent posts first
 			//console.log("Sorted post", sortedPosts);
 			return sortedPosts.map((post) => {
 				return post;

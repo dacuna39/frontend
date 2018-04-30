@@ -10,6 +10,7 @@ import SingleInput from 'components/FormComponents/SingleInput';
 import Select from 'components/FormComponents/Select';
 import Button from 'components/Button';
 import Radio from 'components/FormComponents/CheckboxOrRadioGroup';
+import LoadingIcon from 'components/LoadingIndicator';
 
 import CenteredSection from './CenteredSection';
 import Form from './Form';
@@ -36,6 +37,8 @@ class SignUpForm extends Component {
 			confirmPassword: '',
 			accountOptions: ['Student','Tutor'],
 			accountSelection: [],
+
+			showLoadingIcon: false,
 		};
 
 		this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -124,6 +127,8 @@ class SignUpForm extends Component {
 
 		if(this.validateForm()){
 
+			this.setState({ showLoadingIcon: true });
+
 			const loginPayload = { //for "login" after making a new user to get the userId made in the database
 				userName: this.state.userName,
 				passhash: this.state.password
@@ -207,8 +212,13 @@ class SignUpForm extends Component {
 							})
 							.then(doneLoading => { //once job is finished, go to profile page
 								if(doneLoading == true){
-									this.props.history.push("/studentProfile");					
-								}								
+									this.setState({ showLoadingIcon: false }, () => {
+										this.props.history.push("/studentProfile");	
+									});				
+								}
+								else {
+									this.setState({ showLoadingIcon: false });
+								}						
 							})
 
 						}// end if put student was success
@@ -301,8 +311,13 @@ class SignUpForm extends Component {
 						})
 						.then(doneLoading => { //once job is finished, go to profile page
 							if(doneLoading == true){
-								this.props.history.push("/tutorProfile");					
-							}								
+								this.setState({ showLoadingIcon: false }, () => {
+									this.props.history.push("/tutorProfile");	
+								});				
+							}
+							else {
+								this.setState({ showLoadingIcon: false });
+							}											
 						})
 
 					}// end if put tutor was success
@@ -312,6 +327,17 @@ class SignUpForm extends Component {
 
 		}// end if validateForm()
 	}//end handleformsubmit()
+
+	renderLoadingIcon = () => {
+		if (this.state.showLoadingIcon == true){
+			return (
+				<LoadingIcon />
+			);
+		}
+		else {
+			return null;
+		}
+	}
 
 	render() {
 		return (
@@ -368,6 +394,8 @@ class SignUpForm extends Component {
 					controlFunc={this.handleConfirmPasswordChange}
 					content={this.state.confirmPassword}
 					placeholder={'Confirm Password'} />
+
+				{this.renderLoadingIcon()}
 				<p>
 					<SubmitInput
 							type="submit"
