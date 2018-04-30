@@ -6,6 +6,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { withRouter } from "react-router-dom";
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import CenteredSection from './CenteredSection';
 import ProfileForm from './ProfileForm';
@@ -26,11 +27,17 @@ const BodyWrapper = styled.div`
 
 class TutorProfile extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
-  // Since state and props are static,
-  // there's no need to re-render this component
-  shouldComponentUpdate() {
-    return false;
-  }
+  validateForm = () => {
+
+		if(this.props.legalFirstName == '' || this.props.legalLastName == '' ||
+			(this.props.major == "" && this.props.userType == "student") ||
+			(this.props.degrees == "" && this.props.userType == "tutor") ||
+			this.props.subjects.length == 0) {
+				alert('Please save your information before continuing');
+				return false;
+		}
+		return true;
+	}
 
   render() {
 
@@ -52,9 +59,9 @@ class TutorProfile extends React.Component { // eslint-disable-line react/prefer
             <ProfileForm /> 
 
             <Button onClick={() => { // link to student's posts
-								//if (this.state.isLoading == false){
+								if (this.validateForm()){
 									this.props.history.push("/tutorFeed");
-								//}
+								}
 								}}> Go To Feed </Button>
           </CenteredSection>
         </BodyWrapper>
@@ -63,4 +70,31 @@ class TutorProfile extends React.Component { // eslint-disable-line react/prefer
   }
 }
 
-export default withRouter(TutorProfile);
+function mapStateToProps(state) {
+	return{
+		userId: state.userId,
+		userName: state.userName,
+		email: state.email,
+		password: state.password,
+		salt: state.salt,
+		userType: state.userType,
+
+		legalFirstName: state.legalFirstName,
+		legalLastName: state.legalLastName,
+		bio: state.bio,
+		img: state.img,
+    active: state.active,
+    subjects: state.subjects,
+
+		major: state.major, //student props
+		minor: state.minor,
+		creationDate: state.creationDate,
+
+		degrees: state.degrees, //tutor props
+		links: state.links,
+		timestamp: state.timestamp,
+		ratings: state.ratings,
+	}
+}
+
+export default withRouter( connect(mapStateToProps)(TutorProfile) );

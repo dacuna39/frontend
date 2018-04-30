@@ -268,9 +268,15 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 
 	printPosts(){
 		if (this.state.postsReady == true){
-			console.log("posts", this.state.printPosts);
-			return this.state.printPosts;
+
+			var sortedPosts = this.state.printPosts.sort((a,b) => a.key > b.key); //sorts to most recent posts first
+			//console.log("Sorted post", sortedPosts);
+			return sortedPosts.map((post) => {
+				return post;
+			});//end map
+
 		} else {
+
 			return(
 				<div>
 					<br /> <h3> Could not find any posts! </h3>
