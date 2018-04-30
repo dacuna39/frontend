@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { withRouter } from "react-router-dom";
 
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
 import SingleInput from '../FormComponents/SingleInput';
 import Select from 'components/FormComponents/Select';
@@ -88,9 +88,14 @@ class SignInForm extends Component {
 				return false;
 			})
 			.then(doneLoading => { //once job is finished, go to profile page
-				if(doneLoading == true){
-					this.props.history.push("/studentFeed");			
-				}				
+				if (doneLoading == true){
+					this.setState({ showLoadingIcon: false }, () => {
+						this.props.history.push("/studentFeed");
+					});			
+				}
+				else {
+					this.setState({ showLoadingIcon: false });
+				}					
 			})
 			.catch(error => console.log('parsing failed', error));
 
@@ -122,14 +127,18 @@ class SignInForm extends Component {
 				return false;
 			})
 			.then(doneLoading => { //once job is finished, go to profile page
-				if(doneLoading == true){
-					this.props.history.push("/tutorFeed");					
-				}				
+				if (doneLoading == true){
+					this.setState({ showLoadingIcon: false }, () => {
+						this.props.history.push("/tutorFeed");
+					});							
+				}
+				else {
+					this.setState({ showLoadingIcon: false });
+				}			
 			})
 			.catch(error => console.log('parsing failed', error));
 		}
 		//end tutor post
-		this.setState({ showLoadingIcon: false });
 	}
 
 	renderLoadingIcon = () => {
@@ -203,6 +212,7 @@ function mapStateToProps(state) {
 		bio: state.bio,
 		img: state.img,
 		active: state.active,
+		subjects: state.subjects,
 
 		major: state.major, //student props
 		minor: state.minor,

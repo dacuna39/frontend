@@ -19,8 +19,6 @@ class HeaderProfile extends React.Component { // eslint-disable-line react/prefe
 
 	constructor(props) {
 		super(props);
-
-		this.redirectToFeed = this.redirectToFeed.bind(this);
 	}
 
 	componentDidMount(){
@@ -30,7 +28,10 @@ class HeaderProfile extends React.Component { // eslint-disable-line react/prefe
 		}
 	}
 
-	redirectToFeed() {
+	redirectToFeed = () => {
+
+		if (this.validateForm()) {
+
 			if (this.props.userType == "admin") {
 					this.props.history.push("/AdminPosts");
 			}
@@ -40,6 +41,19 @@ class HeaderProfile extends React.Component { // eslint-disable-line react/prefe
 			else if (this.props.userType == "tutor"){
 					this.props.history.push("/tutorFeed");	
 			}
+		}
+	}
+
+	validateForm = () => {
+
+		if(this.props.legalFirstName == '' || this.props.legalLastName == '' ||
+			(this.props.major == "" && this.props.userType == "student") ||
+			(this.props.degrees == "" && this.props.userType == "tutor") ||
+			this.props.subjects.length == 0) {
+				alert('Please save your information before continuing');
+				return false;
+		}
+		return true;
 	}
 
   render() {
@@ -68,6 +82,14 @@ function mapStateToProps(state) {
 	return{
 		userId: state.userId,
 		userType: state.userType,
+
+		legalFirstName: state.legalFirstName,
+		legalLastName: state.legalLastName,
+
+		major: state.major,
+		degrees: state.degrees,
+
+		subjects: state.subjects,
 	}
 }
 
