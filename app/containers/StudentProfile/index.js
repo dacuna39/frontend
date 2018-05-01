@@ -62,9 +62,9 @@ class StudentProfile extends React.Component { // eslint-disable-line react/pref
             <ProfileForm /> 
 
             <Button onClick={() => { // link to student's posts
-							  if (this.validateForm()){
+							  //if (this.validateForm()){
 									this.props.history.push("/studentFeed");
-								}
+								//}
 						}}> Go To Feed </Button>
           </CenteredSection>
         </BodyWrapper>
