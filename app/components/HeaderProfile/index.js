@@ -30,7 +30,7 @@ class HeaderProfile extends React.Component { // eslint-disable-line react/prefe
 
 	redirectToFeed = () => {
 
-		if (this.validateForm()) {
+		//if (this.validateForm()) {
 
 			if (this.props.userType == "admin") {
 					this.props.history.push("/AdminPosts");
@@ -41,14 +41,19 @@ class HeaderProfile extends React.Component { // eslint-disable-line react/prefe
 			else if (this.props.userType == "tutor"){
 					this.props.history.push("/tutorFeed");	
 			}
-		}
+		//}
 	}
 
 	validateForm = () => {
 
+		// this is faulty!
+		// because even though props is updated, this component doesn't receive the new updates as seen in this console.log
+		// console.log("props", this.props)
+		// will have to find a way to update this component with the updated props!
+
 		if(this.props.legalFirstName == '' || this.props.legalLastName == '' ||
-			(this.props.major == "" && this.props.userType == "student") ||
-			(this.props.degrees == "" && this.props.userType == "tutor") ||
+			(this.props.major == undefined && this.props.degrees.length == 0) ||
+			(this.props.major.length == 0 && this.props.degrees == undefined) ||
 			this.props.subjects.length == 0) {
 				alert('Please save your information before continuing');
 				return false;
