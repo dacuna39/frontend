@@ -59,9 +59,9 @@ class TutorProfile extends React.Component { // eslint-disable-line react/prefer
             <ProfileForm /> 
 
             <Button onClick={() => { // link to student's posts
-								if (this.validateForm()){
+								//if (this.validateForm()){
 									this.props.history.push("/tutorFeed");
-								}
+								//}
 								}}> Go To Feed </Button>
           </CenteredSection>
         </BodyWrapper>
