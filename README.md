@@ -1,6 +1,6 @@
 # NDNU Senior Project Spring 2018
 
-Contributors: Dr. John Youssefi, Sean Coleman, Chris McAfee, Adam Hardy, Amjad, Bryan, Diego, Karl, Katie, Sashin, Steven Morganstern, Tiffany
+Contributors: Adam Hardy, Amjad, Bryan, Diego, Karl, Katie, Sashin, Steven Morganstern, Tiffany
 
 # Information For Updates
 
