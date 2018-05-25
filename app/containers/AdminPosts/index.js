@@ -46,17 +46,13 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
     super(props);
     this.link = 'https://tutor-find.herokuapp.com';
 
-      this.setState({
-      posts : [],
-      printPosts: [],
+      this.state = {
+        posts : [],
+        printPosts: [],
 
-      isOpen: false, //whether the sign in modal is rendered
-      isLoading: true,    
-    });
-
-    this.componentDidMount = this.componentDidMount.bind(this); 
-    this.createPostsTable = this.createPostsTable.bind(this);
-    this.printPosts = this.printPosts.bind(this);
+        isOpen: false, //whether the sign in modal is rendered
+        isLoading: true,    
+    };
   }
 
   componentDidMount(){
@@ -90,7 +86,7 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
     .catch(error => console.log('parsing failed', error));
   }
 
-  getAllPosts(){
+  getAllPosts = () => {
     var allPosts = [];
     var allStudents =[];
     var allTutors=[];
@@ -116,7 +112,7 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
     this.setState({isLoading: false});
   }
 
-  deletePost(post){
+  deletePost = (post) => {
     
     post.active = false;
 
@@ -141,7 +137,7 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
     .catch(error => console.log('parsing failed', error))
   }
 
- createPostsTable(){
+ createPostsTable = () => {
   var returnPosts =[];
 
      if (this.state != null && this.state.isLoading == false){
@@ -296,7 +292,7 @@ export class AdminPosts extends React.Component { // eslint-disable-line react/p
     }//end check if state is null
   }
 
-  printPosts(){
+  printPosts = () => {
     if (this.state.postsReady == true){
       return this.state.printPosts;
     } else {

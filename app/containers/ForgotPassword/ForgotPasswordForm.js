@@ -47,22 +47,16 @@ class ForgotPasswordForm extends Component {
 			accountOptions: ['Student','Tutor'],
 			accountSelection: ''
 		};
-
-		this.handleAccountOptionSelect = this.handleAccountOptionSelect.bind(this);
-		this.handleEmailChange = this.handleEmailChange.bind(this);
-		this.handleFormSubmit = this.handleFormSubmit.bind(this);
-		this.validateForm = this.validateForm.bind(this);
-		
 	}
 
-	handleAccountOptionSelect(e) {
+	handleAccountOptionSelect = (e) => {
 		this.setState({ accountSelection: e.target.value }, () => console.log('accountType:', this.state.accountSelection));
 	}
-	handleEmailChange(e) {
+	handleEmailChange = (e) => {
 		this.setState({ email: e.target.value }, console.log(this.state.email));
 	}
 
-	validateForm(){
+	validateForm = () => {
 		if(this.state.accountSelection == ''){
 			alert('Please select an account type');
 			return false;
@@ -76,7 +70,7 @@ class ForgotPasswordForm extends Component {
 		}
 	}
 
-	handleFormSubmit(e) {
+	handleFormSubmit = (e) => {
 
 		e.preventDefault();
 
@@ -85,7 +79,6 @@ class ForgotPasswordForm extends Component {
 					//forgot password submit for student
 			if(this.state.accountSelection == 'Student'){
 
-					
 
 					console.log(this.link + '/forgotpassword/student/' + this.state.email);
 					fetch(this.link + '/forgotpassword/student/' + this.state.email + '/', { //Get 200/404 response from endpoint

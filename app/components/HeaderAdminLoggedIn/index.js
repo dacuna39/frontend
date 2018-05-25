@@ -22,8 +22,6 @@ class HeaderAdminLoggedIn extends React.Component { // eslint-disable-line react
 	
 	constructor(props) {
 		super(props);
-
-		this.redirectToFeed = this.redirectToFeed.bind(this);
 	}
 
 	componentDidMount(){
@@ -33,7 +31,7 @@ class HeaderAdminLoggedIn extends React.Component { // eslint-disable-line react
 		}
 	}
 
-	redirectToFeed() {
+	redirectToFeed = () => {
 			if (this.props.userType == "admin"){
 					this.props.history.push("/AdminPosts");	
 			} 

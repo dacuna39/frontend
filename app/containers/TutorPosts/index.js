@@ -48,12 +48,13 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 		this.state = {
 			userPosts : [],
 		};
-
-		this.getPosts = this.getPosts.bind(this);
-		this.createPostsTable = this.createPostsTable.bind(this);
 	}
 
-	getPosts(){
+	componentDidMount(){
+		this.getPosts();
+	}
+
+	getPosts = () => {
 		var onlyUsers = [];
 
 		fetch(this.link + '/posts?type=tutor', {
@@ -77,11 +78,7 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 		.catch(error => console.log('parsing failed', error));
 	}
 
-	componentDidMount(){
-		this.getPosts();
-	}
-
-	deletePost(post){
+	deletePost = (post) => {
 		
 		post.active = false;
 
@@ -106,7 +103,7 @@ export class TutorPosts extends React.Component { // eslint-disable-line react/p
 		.catch(error => alert('parsing failed', error))
 	}
 
-	createPostsTable(){
+	createPostsTable = () => {
 
 		if(this.state != null){
 

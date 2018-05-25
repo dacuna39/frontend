@@ -64,34 +64,16 @@ class ProfileForm extends Component {
 			newPassword: "",
 			reenterPassword: "",
 		};
-
-		this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
-		this.handleLastNameChange = this.handleLastNameChange.bind(this);
-		this.handlePictureChange = this.handlePictureChange.bind(this);
-		this.handleMajorChange = this.handleMajorChange.bind(this);
-		this.handleMinorChange = this.handleMinorChange.bind(this);
-		this.handleBioChange = this.handleBioChange.bind(this);
-		this.handleSubjectSelection = this.handleSubjectSelection.bind(this);
-
-		this.handlePasswordChange = this.handlePasswordChange.bind(this);
-		this.handleNewPassChange = this.handleNewPassChange.bind(this);
-		this.handleReenterPassChange = this.handleReenterPassChange.bind(this);
-
-		this.validateForm = this.validateForm.bind(this);
-		this.validatePassChange = this.validatePassChange.bind(this);
-		this.handleFormSubmit = this.handleFormSubmit.bind(this);
-		this.deactivateAccount = this.deactivateAccount.bind(this);
-		this.changePassword = this.changePassword.bind(this);
 	}
 
-	onImageDrop(files) {
+	onImageDrop = (files) => {
 		this.setState({
 		  uploadedFile: files[0]
 		}, () => { this.handleImageUpload(files[0]) } );
 		
 	  }
 
-	  handleImageUpload(file) {
+	  handleImageUpload = (file) => {
 		let upload = request.post(CLOUDINARY_UPLOAD_URL)
 							.field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
 							.field('file', file);
@@ -127,26 +109,26 @@ class ProfileForm extends Component {
 
 	/* handle variable changes */
 
-	handleFirstNameChange(e) {
+	handleFirstNameChange = (e) => {
 		this.setState({ legalFirstName: e.target.value });
 	}
-	handleLastNameChange(e) {
+	handleLastNameChange = (e) => {
 		this.setState({ legalLastName: e.target.value });
 	}
-	handlePictureChange(e) {
+	handlePictureChange = (e) => {
 		this.setState({ img: e.target.value });
 	}
-	handleMajorChange(e) {
+	handleMajorChange = (e) => {
 		this.setState({ major: e.target.value });
 	}
-	handleMinorChange(e) {
+	handleMinorChange = (e) => {
 		this.setState({ minor: e.target.value });
 	}
-	handleBioChange(e) {
+	handleBioChange = (e) => {
 		this.setState({ bio: e.target.value });
 	}
 
-	handleSubjectSelection(e) {
+	handleSubjectSelection = (e) => {
 		const newSelection = e.target.value;
 		let newSelectionArray;
 		if(this.state.selectedSubjects.indexOf(newSelection) > -1) {
@@ -158,19 +140,19 @@ class ProfileForm extends Component {
 		this.setState({ selectedSubjects: newSelectionArray });
 	}
 
-	handlePasswordChange(e) {
+	handlePasswordChange = (e) => {
 		this.setState({ enterPassword: e.target.value });
 	}
-	handleNewPassChange(e) {
+	handleNewPassChange = (e) => {
 		this.setState({ newPassword: e.target.value });
 	}
-	handleReenterPassChange(e) {
+	handleReenterPassChange = (e) => {
 		this.setState({ reenterPassword: e.target.value });
 	}
 	
 	/* validate forms */
 
-	validateForm(){
+	validateForm = () => {
 
 		var subs = this.state.selectedSubjects;
 
@@ -203,7 +185,7 @@ class ProfileForm extends Component {
 		}
 	}
 
-	validatePassChange() {
+	validatePassChange = () => {
 
 		if (this.state.newPassword.length < 6){
 			alert('Password must be at least 6 characters long');
@@ -220,7 +202,7 @@ class ProfileForm extends Component {
 
 	/* submit form */
 
-	handleFormSubmit(e) {
+	handleFormSubmit = (e) => {
 		e.preventDefault();
 
 		if(this.validateForm()){
@@ -269,7 +251,7 @@ class ProfileForm extends Component {
 		}// end if validating form
 	}// end handleformsubmit
 
-	deactivateAccount(){
+	deactivateAccount = () => {
 		if(window.confirm("Deleting your account cannot be undone. Are you sure?")){
 			
 			const payload = { //Json to be submitted
@@ -314,7 +296,7 @@ class ProfileForm extends Component {
 		}//end confirm window
 	}
 
-	changePassword(){
+	changePassword = () => {
  
 		if (this.validatePassChange()){ 
 

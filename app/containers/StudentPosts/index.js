@@ -48,13 +48,13 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 		this.state = {
 			userPosts : [],
 		};
-
-		this.componentDidMount = this.componentDidMount.bind(this);	
-		this.getPosts = this.getPosts.bind(this);
-		this.createPostsTable = this.createPostsTable.bind(this);
 	}
 
-	getPosts(){
+	componentDidMount(){
+		this.getPosts();
+	}
+	
+	getPosts = () => {
 		var onlyUsers = [];
 
 		fetch(this.link + '/posts?type=student', {
@@ -78,11 +78,7 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 		.catch(error => console.log('parsing failed', error));
 	}
 
-	componentDidMount(){
-		this.getPosts();
-	}
-
-	deletePost(post){
+	deletePost = (post) => {
 		
 		post.active = false;
 
@@ -107,7 +103,7 @@ export class StudentPosts extends React.Component { // eslint-disable-line react
 		.catch(error => console.log('parsing failed', error))
 	}
 
-	createPostsTable(){
+	createPostsTable = () => {
 
 		if (this.state != null){
 			

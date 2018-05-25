@@ -28,8 +28,6 @@ class Table extends Component {
       email: '',
       userName: ''
     };
-
-    this.applyButton = this.applyButton.bind(this);
   }
 
 componentDidMount() { //loads user from heroku
@@ -50,7 +48,7 @@ componentDidMount() { //loads user from heroku
       })
   }
 
-applyButton() { //loads user from heroku
+applyButton = () => { //loads user from heroku
     fetch('https://tutor-find.herokuapp.com/students/' + this.state.ownerId.toString())
       .then(res => res.json())
       .then(data => {
@@ -60,7 +58,7 @@ applyButton() { //loads user from heroku
         });
       })
 
-alert(this.state.email);
+    alert(this.state.email);
       var email = this.state.email;
       var subject = "A Tutor is interested in your listing!"
       var body = "Hello, I'm interested! Please let me know if you'd like to connect."

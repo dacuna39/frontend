@@ -19,8 +19,6 @@ class HeaderFeed extends React.Component { // eslint-disable-line react/prefer-s
 
 	constructor(props) {
 		super(props);
-
-		this.redirectToProfile = this.redirectToProfile.bind(this);
 	}
 
 	componentDidMount(){
@@ -30,7 +28,7 @@ class HeaderFeed extends React.Component { // eslint-disable-line react/prefer-s
 		}
 	}
 
-	redirectToProfile() {
+	redirectToProfile = () => {
 			if (this.props.userType == "student"){
 					this.props.history.push("/studentProfile");	
 			} 
