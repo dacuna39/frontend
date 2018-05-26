@@ -68,11 +68,6 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 			isOpen: false, //whether the sign in modal is rendered
             isLoading: true,    
 		};
-
-		this.handleFilterSelect = this.handleFilterSelect.bind(this);
-
-		this.createPostsTable = this.createPostsTable.bind(this);
-		this.printPosts = this.printPosts.bind(this);
 	}
 
 	toggleModal = () => { //opens and closes the sign in modal
@@ -81,7 +76,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 		});
 	}
 
-	handleFilterSelect(e) {
+	handleFilterSelect = (e) => {
 		this.setState({filter: [e.target.value]});
 	}
 
@@ -153,7 +148,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 		.catch(error => console.log('parsing failed', error));
 	}
 
-	apply(post){
+	apply = (post) => {
 		
 		fetch('https://tutor-find.herokuapp.com/students/' + post.ownerId.toString())
       	.then(response => response.json()) //gets post owner from server
@@ -173,7 +168,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
       	.catch(error => console.log('parsing failed', error));
 	}
 
-	createPostsTable(){
+	createPostsTable = () => {
 		var returnPosts =[];
 
 		if (this.state != null && this.state.isLoading == false){
@@ -266,7 +261,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 		}//end check if state is null
 	}
 
-	printPosts(){
+	printPosts = () => {
 		if (this.state.postsReady == true){
 
 			var sortedPosts = this.state.printPosts.sort((a,b) => a.key < b.key); //sorts to most recent posts first

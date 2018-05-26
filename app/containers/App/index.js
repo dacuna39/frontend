@@ -13,6 +13,8 @@ import { Switch, Route } from 'react-router-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
+import Cookies from 'universal-cookie';
+
 /**import containers*/
 import HomePage from 'containers/HomePage/Loadable';
 
@@ -46,6 +48,8 @@ const AppWrapper = styled.div`
 `;
 
 var store = createStore(userReducer);
+
+const cookies = new Cookies();
 
 export default function App() {
 

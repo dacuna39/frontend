@@ -40,50 +40,38 @@ class SignUpForm extends Component {
 
 			showLoadingIcon: false,
 		};
-
-		this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
-		this.handleLastNameChange = this.handleLastNameChange.bind(this);
-		this.handleUserNameChange = this.handleUserNameChange.bind(this);
-		this.handleEmailChange = this.handleEmailChange.bind(this);
-		this.handlePasswordChange = this.handlePasswordChange.bind(this);
-		this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
-		this.handleAccountOptionSelect = this.handleAccountOptionSelect.bind(this);
-
-		this.handleFormSubmit = this.handleFormSubmit.bind(this);
-		this.validateForm = this.validateForm.bind(this);
-		
 		//console.log("Props at signupform: ",this.props);
 	}
 
-	handleFirstNameChange(e) {
+	handleFirstNameChange = (e) => {
 		this.setState({ legalFirstName: e.target.value });
 	}
 
-	handleLastNameChange(e) {
+	handleLastNameChange = (e) => {
 		this.setState({ legalLastName: e.target.value });
 	}
 
-	handleUserNameChange(e) {
+	handleUserNameChange = (e) => {
 		this.setState({ userName: e.target.value });
 	}
 
-	handleEmailChange(e) {
+	handleEmailChange = (e) => {
 		this.setState({ email: e.target.value });
 	}
 	
-	handlePasswordChange(e) {
+	handlePasswordChange = (e) => {
 		this.setState({ password: e.target.value });
 	}
 
-	handleConfirmPasswordChange(e) {
+	handleConfirmPasswordChange = (e) => {
 		this.setState({ confirmPassword: e.target.value });
 	}
 
-	handleAccountOptionSelect(e) {
+	handleAccountOptionSelect = (e) => {
 		this.setState({ accountSelection: [e.target.value] });
 	}
 
-	validateForm(){
+	validateForm = () => {
 		if(this.state.accountSelection == ''){
 			alert('Please select an account type');
 			return false;
@@ -121,7 +109,7 @@ class SignUpForm extends Component {
 		}
 	}
 
-	handleFormSubmit(e) {
+	handleFormSubmit = (e) => {
 
 		e.preventDefault();
 
@@ -446,4 +434,3 @@ function matchDispatchToProps(dispatch) {
 }
 
 export default withRouter( connect(mapStateToProps, matchDispatchToProps)(SignUpForm) );
-

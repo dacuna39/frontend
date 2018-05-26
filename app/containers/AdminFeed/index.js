@@ -50,18 +50,13 @@ export class AdminFeed extends React.Component { // eslint-disable-line react/pr
     super(props);
     this.link = 'https://tutor-find.herokuapp.com';
 
-    this.setState({
+    this.state = {
       students : [],
       tutors : [],
 
       isOpen: false, //whether the sign in modal is rendered
       isLoading: true,    
-    });
-
-    this.componentDidMount = this.componentDidMount.bind(this); 
-    this.createStudentsTable = this.createStudentsTable.bind(this);
-    this.fetchTutors = this.fetchTutors.bind(this);
-    this.fetchStudents = this.fetchStudents.bind(this);
+    };
   }
 
   toggleModal = () => { //opens and closes the sign in modal
@@ -72,11 +67,11 @@ export class AdminFeed extends React.Component { // eslint-disable-line react/pr
 
 
   componentDidMount(){
-    this.fetchStudents();
-    this.fetchTutors();
+      this.fetchStudents();
+      this.fetchTutors();
   }
 
-fetchStudents() {
+fetchStudents = () => {
   var allStudents = [];
 
     fetch(this.link + '/students', {
@@ -101,7 +96,7 @@ fetchStudents() {
     this.setState({ isLoading: false });
 }
 
-fetchTutors() {
+fetchTutors = () => {
   var allTutors = [];
 
   fetch(this.link + '/tutors', {
@@ -124,7 +119,7 @@ fetchTutors() {
   this.setState({ isLoading: false });
 }
 
-  createStudentsTable(){
+createStudentsTable = () => {
 
     if (this.state != null && this.state.students != null){
       
@@ -140,7 +135,7 @@ fetchTutors() {
                 {student.legalLastName + " "}<br />
                 {"Type: " + student.userType + " "} 
                 <Button type="submit" onClick={() => {if(confirm('Make Inactive?')){this.deleteStudent(student)}}}> Make Inactive </Button> 
-                <Button type="submit" onClick={() => {if(confirm('Make Admin?')){this.makeAdmin(student)}}}> Make Admin </Button>          
+                <Button type="submit" onClick={() => {if(confirm('Make Admin?')){this.makeStudentAdmin(student)}}}> Make Admin </Button>          
               <br /></p>
             </div>
           );
@@ -159,7 +154,7 @@ fetchTutors() {
     }//end check if state is null
   }
 
-  createTutorsTable(){
+  createTutorsTable = () => {
 
     if (this.state != null && this.state.tutors != null){
       
@@ -175,7 +170,7 @@ fetchTutors() {
                 {tutor.legalLastName + " "}<br />
                 {"Type: " + tutor.userType + " "} 
                 <Button type="submit" onClick={() => {if(confirm('Make Inactive?')){this.deleteTutor(tutor)}}}> Make Inactive </Button> 
-                <Button type="submit" onClick={() => {if(confirm('Make Admin?')){this.makeAdmin(tutor)}}}> Make Admin </Button>          
+                <Button type="submit" onClick={() => {if(confirm('Make Admin?')){this.makeTutorAdmin(tutor)}}}> Make Admin </Button>          
               <br /></p>
             </div>
           );
@@ -194,7 +189,7 @@ fetchTutors() {
     }//end check if state is null
   }
 
-deleteStudent(student){
+deleteStudent = (student) => {
 
     fetch(this.link + "/students/" + student.userId, { //post profile updates to database :)
       method: 'post',
@@ -218,7 +213,7 @@ deleteStudent(student){
     .catch(error => console.log('parsing failed', error))
   }
 
-deleteTutor(tutor){
+deleteTutor = (tutor) => {
 
     fetch(this.link + "/tutors/" + tutor.userId, { //post profile updates to database :)
       method: 'post',
@@ -241,7 +236,7 @@ deleteTutor(tutor){
     .catch(error => console.log('parsing failed', error))
   }
 
-makeAdmin(student){
+makeStudentAdmin = (student) => {
 
       const payload = {
         userId: student.userId,
@@ -269,7 +264,7 @@ makeAdmin(student){
       .catch(error => console.log('parsing failed', error))
 }
 
-makeAdmin(tutor){
+makeTutorAdmin = (tutor) => {
   tutor.active = false;
 
       fetch(this.link + "/admin/updateUserType/" + tutor.userId, { //post profile updates to database :)
@@ -323,9 +318,9 @@ makeAdmin(tutor){
   </CenteredSection>
     
 
-</div>
+  </div>
     );
-}
+  }
     else {
       return (
         <div>

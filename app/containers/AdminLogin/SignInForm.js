@@ -26,27 +26,21 @@ class SignInForm extends Component {
 			accountOptions: ['admin'],
 			accountSelection: ['admin'],
 		};
-
-		this.handleUserNameChange = this.handleUserNameChange.bind(this);
-		this.handlePasswordChange = this.handlePasswordChange.bind(this);
-		this.handleAccountOptionSelect = this.handleAccountOptionSelect.bind(this);
-
-		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 	}
 	
-	handleUserNameChange(e) {
+	handleUserNameChange = (e) => {
 		this.setState({ userName: e.target.value });
 	}
 	
-	handlePasswordChange(e) {
+	handlePasswordChange = (e) => {
 		this.setState({ password: e.target.value });
 	}
 
-	handleAccountOptionSelect(e) {
+	handleAccountOptionSelect = (e) => {
 		this.setState({ accountSelection: [e.target.value]});
 	}
 
-	handleFormSubmit(e) { //validates and submits the form to the server
+	handleFormSubmit = (e) => { //validates and submits the form to the server
 		e.preventDefault();
 
 		const formPayload = {

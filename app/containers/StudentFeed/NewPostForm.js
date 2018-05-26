@@ -58,64 +58,43 @@ class NewPostForm extends Component {
 
 			booleanOptions: ["Yes", "No"],
         };
-
-		this.handleSubjectChange = this.handleSubjectChange.bind(this);
-        this.handleLocationChange = this.handleLocationChange.bind(this);
-        this.handleAvailabilityChange = this.handleAvailabilityChange.bind(this);
-		this.handleDaysSelect = this.handleDaysSelect.bind(this);
-		this.handleRateChange = this.handleRateChange.bind(this);
-		this.handleGroupTutoringChange = this.handleGroupTutoringChange.bind(this);
-		this.handleAcceptsPaidChange = this.handleAcceptsPaidChange.bind(this);
-		
-		this.handleMondayChange = this.handleMondayChange.bind(this);
-		this.handleTuesdayChange = this.handleTuesdayChange.bind(this);
-		this.handleWednesdayChange = this.handleWednesdayChange.bind(this);
-		this.handleThursdayChange = this.handleThursdayChange.bind(this);
-		this.handleFridayChange = this.handleFridayChange.bind(this);
-		this.handleSaturdayChange = this.handleSaturdayChange.bind(this);
-		this.handleSundayChange = this.handleSundayChange.bind(this);
-
-		this.createAvailabilityString = this.createAvailabilityString.bind(this);
-		this.clearForm = this.clearForm.bind(this);
-        this.handleFormSubmit = this.handleFormSubmit.bind(this);
-		this.validateForm = this.validateForm.bind(this);
     };
 
-    handleSubjectChange(e) {
+    handleSubjectChange = (e) => {
 		  this.setState({ subject: [e.target.value] });
 	}
     
-    handleLocationChange(e) {
+    handleLocationChange = (e) => {
 		  this.setState({ location: e.target.value });
     }
     
-    handleAvailabilityChange(e) {
+    handleAvailabilityChange = (e) => {
 		  this.setState({ availability: e.target.value });
 	}
 
-	handleMondayChange(e) {
+	handleMondayChange = (e) => {
 		this.setState({ monday: [e.target.value]});
 	}
-	handleTuesdayChange(e) {
+	handleTuesdayChange = (e) => {
 		this.setState({ tuesday: [e.target.value]});
 	} 
-	handleWednesdayChange(e) {
+	handleWednesdayChange = (e) => {
 		this.setState({ wednesday: [e.target.value]});
 	} 
-	handleThursdayChange(e) {
+	handleThursdayChange = (e) => {
 		this.setState({ thursday: [e.target.value] });
 	} 
-	  handleFridayChange(e) {
+	  handleFridayChange = (e) => {
 		this.setState({ friday: [e.target.value] });
 	}
-	handleSaturdayChange(e) {
+	handleSaturdayChange = (e) => {
 		this.setState({ saturday: [e.target.value] });
 	}
-	handleSundayChange(e) {
+	handleSundayChange = (e) => {
 		this.setState({ sunday: [e.target.value] });
   	}
 	
-	handleDaysSelect(e) {
+	handleDaysSelect = (e) => {
 		const newSelection = e.target.value;
 		let newSelectionArray;
 		if(this.state.daysSelect.indexOf(newSelection) > -1) { //remove
@@ -150,7 +129,7 @@ class NewPostForm extends Component {
 		//this.setState({ daysSelect: newSelectionArray }); 		
 	}
 
-	createAvailabilityString() {
+	createAvailabilityString = () => {
 		var t = [];
 
 		for (var j=0; j < this.state.daysSelect.length; j++){ //gets the appropriate time for each day selected
@@ -193,11 +172,11 @@ class NewPostForm extends Component {
 		return string;
 	}
     
-    handleRateChange(e) {
+    handleRateChange = (e) => {
 		this.setState({ rate: e.target.value });
     }
     
-    handleGroupTutoringChange(e) {
+    handleGroupTutoringChange = (e) => {
 		if (e.target.value == "Yes"){
 			this.setState({groups: true, acceptsGroupTutoring: [e.target.value]});
 		} else if (e.target.value == "No"){
@@ -205,7 +184,7 @@ class NewPostForm extends Component {
 		}
 	}
 
-	handleAcceptsPaidChange(e) {
+	handleAcceptsPaidChange = (e) => {
 		if (e.target.value == "Yes"){
 			this.setState({paid: true, acceptsPaid: [e.target.value], rate: 20});
 		} else if (e.target.value == "No"){
@@ -213,7 +192,7 @@ class NewPostForm extends Component {
 		}
 	}
 	
-	clearForm(){
+	clearForm = () => {
 		this.setState({
 			subject: [],
 	
@@ -248,7 +227,7 @@ class NewPostForm extends Component {
 		})
 	}
 
-    validateForm(availability) {
+    validateForm = (availability) => {
 
         if ( this.state.subject[0] == ""){
           alert("Please select a subject");
@@ -283,7 +262,7 @@ class NewPostForm extends Component {
         }
     }
 
-    handleFormSubmit(e) {
+    handleFormSubmit = (e) => {
 
 		e.preventDefault();
 		var availability = this.createAvailabilityString();
@@ -401,7 +380,7 @@ class NewPostForm extends Component {
         )
 	}
 
-	renderRateInput() {
+	renderRateInput = () => {
 		if (this.state.paid){
 			return (
 				<div>
@@ -418,7 +397,7 @@ class NewPostForm extends Component {
 		}
 	}
 
-	renderTimeOptions() {
+	renderTimeOptions = () => {
 		var options = [];
 		var i = 0;
 

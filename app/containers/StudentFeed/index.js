@@ -79,15 +79,6 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 
             isLoading: true, //waits till component is finished loading so that buttons dont auto redirect
 		};
-
-		this.handleFilterSelect = this.handleFilterSelect.bind(this);
-		this.handleStarsSelect = this.handleStarsSelect.bind(this);
-
-		this.createPostsTable = this.createPostsTable.bind(this);
-		this.printPosts = this.printPosts.bind(this);
-		
-		this.clickRating = this.clickRating.bind(this);
-		this.submitRating = this.submitRating.bind(this);
 	}
 
 	toggleModal = () => { //opens and closes the new form modal
@@ -102,10 +93,10 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		});
 	}
 
-	handleFilterSelect(e) {
+	handleFilterSelect = (e) => {
 		this.setState({filter: [e.target.value]});
 	}
-	handleStarsSelect(e) {
+	handleStarsSelect = (e) => {
 		this.setState({starsSelected: [e.target.value]});
 	}
 
@@ -177,7 +168,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		.catch(error => console.log('parsing failed', error));
 	}
 
-	apply(post){
+	apply = (post) => {
 		
 		fetch('https://tutor-find.herokuapp.com/tutors/' + post.ownerId.toString())
       	.then(response => response.json()) //gets post owner from server
@@ -198,7 +189,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 	
 	}
 
-	clickRating(tutor) {
+	clickRating = (tutor) => {
 		
 		var rating = JSON.parse(tutor.rating);
 		var id = this.props.userId;
@@ -222,7 +213,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		}
 	}
 
-	submitRating(){
+	submitRating = () => {
 		var tutor = this.state.tutorToRate;
 
 		var rate = JSON.parse(tutor.rating);
@@ -253,7 +244,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		this.fetchAllPosts();
 	}
 
-	createPostsTable(){
+	createPostsTable = () => {
 		var returnPosts =[];
 
 		if (this.state != null && this.state.isLoading == false){
@@ -424,7 +415,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		}//end check if state is null
 	}//end createPostsTable
 
-	printPosts() {
+	printPosts = () => {
 		if (this.state.postsReady == true){			
 			
 			var sortedPosts = this.state.printPosts.sort((a,b) => a.key < b.key); //sorts to most recent posts first
