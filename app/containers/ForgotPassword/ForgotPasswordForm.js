@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-//import request from "../../../node_modules/superagent/superagent"; uninstall this dependency!!!
+import Cookies from 'universal-cookie';
 
 import SingleInput from 'components/FormComponents/SingleInput';
 import Select from 'components/FormComponents/Select';
@@ -35,8 +35,6 @@ const SubmitInput = styled.input`
   }
 `;
 
-//form css
-
 class ForgotPasswordForm extends Component {
 	constructor(props) {
 		super(props);
@@ -50,10 +48,10 @@ class ForgotPasswordForm extends Component {
 	}
 
 	handleAccountOptionSelect = (e) => {
-		this.setState({ accountSelection: e.target.value }, () => console.log('accountType:', this.state.accountSelection));
+		this.setState({ accountSelection: e.target.value });
 	}
 	handleEmailChange = (e) => {
-		this.setState({ email: e.target.value }, console.log(this.state.email));
+		this.setState({ email: e.target.value });
 	}
 
 	validateForm = () => {
@@ -74,65 +72,69 @@ class ForgotPasswordForm extends Component {
 
 		e.preventDefault();
 
+		console.log('cookie', document.cookie);
+
 		if(this.validateForm()){
 
 					//forgot password submit for student
 			if(this.state.accountSelection == 'Student'){
 
 
-					console.log(this.link + '/forgotpassword/student/' + this.state.email);
-					fetch(this.link + '/forgotpassword/student/' + this.state.email + '/', { //Get 200/404 response from endpoint
+					//console.log(this.link + '/forgotpassword/student/' + this.state.email);
+				fetch(this.link + '/forgotpassword/student/' + this.state.email + '/', { //Get 200/404 response from endpoint
 					method: 'get',
 					headers: {
 					  //"Content-type": "application/x-www-form-urlencoded",
 					  //'Access-Control-Allow-Origin':'*',
 					  'Accept': 'application/json',
 					  'Content-Type': 'application/json',	
-					},
-									
+					},					
 				}) // close fetch
 				.then(response => {
-				if (response.status == 200){ //email found, endpoint has already sent email with link
-					console.log("Password changed for student");
-					alert("Please check your email for further instructions.");
-					//return message successfull;
-				} else {
-					console.log("Password did not change");
-					alert("Invalid email"); //if no 200 response, alert invalid
-				}
+					if (response.status == 200){ //email found, endpoint has already sent email with link
+						//console.log("Password changed for student");
+						alert("Please check your email for further instructions.");
+						cookies.set('uniqueKey', response.json().uniqueKey, { path: '/' });
+					} else {
+						//console.log("Password did not change");
+						alert("Invalid email"); //if no 200 response, alert invalid
+					}
 				})
 				.catch(error => console.log('parsing failed', error))
-							}// end student forgot password
+
+			}// end student forgot password
 
 
 			//forgot password submit for tutor
 			else if (this.state.accountSelection == 'Tutor'){
-					
-
-					console.log(this.link + '/forgotpassword/tutor/' + this.state.email);
 				
 				fetch(this.link + '/forgotpassword/tutor/' + this.state.email + '/', { //get 200/404 response from endpoint
 					method: 'get',
 					headers: {
-					  //"Content-type": "application/x-www-form-urlencoded",
-					  //'Access-Control-Allow-Origin':'*',
 					  'Accept': 'application/json',
-					  'Content-Type': 'application/json',	
-					},			
+					  'content-type': 'application/json',	
+					  'credentials': 'include',
+					  //'Access-Control-Expose-Headers': 'Set-Cookie',
+					},
 				})
 				.then(response => {
-				if (response.status == 200){ //checks if email was found, if found, endpoint has already sent email with link
-					console.log("Password changed for tutor");
-					alert("Please check your email for further instructions.");
-					//return successfull message
-				} else {
-					console.log("Password did not change"); 
-					alert("Invalid email");  //if no email found, alert invalid
-				}
-			})
+					
+					if (response.status == 200){ //checks if email was found, if found, endpoint has already sent email with link
+						//console.log("Password changed for tutor");
+						alert("Please check your email for further instructions.");
+						console.log(response.headers.get('Set-Cookie'));
+						return response.headers;
+					} else {
+						//console.log("Password did not change"); 
+						alert("Invalid email");  //if no email found, alert invalid
+					}
+				})
+				.then( headers => console.log(headers.get('Set-Cookie')))
 				.catch(error => console.log('parsing failed', error))
 			}//end tutor forgot password
+
 		}// end if validateForm()
+		console.log('cookie', document.cookie);
 	}//end handleformsubmit()
 
 	render() {

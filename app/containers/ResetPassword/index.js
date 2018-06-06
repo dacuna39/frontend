@@ -33,6 +33,43 @@ const BodyWrapper = styled.span`
 `;
 
 export default class ResetPassword extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  
+  constructor(props) {
+		super(props);
+    
+    this.valid = false;
+  }
+
+  componentDidMount() {
+
+    //gets current url and only saves the cookie string
+    var cookieString = window.location.href;
+    cookieString.replace('www.tutor-find.me/resetpassword/','');
+
+    fetch('www.tutor-find.me/forgotpassword/' + cookieString, {
+			method: 'get',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',	
+			}
+		})
+		.then(response => {
+      if (response.status == 200){ //checks if link is valid
+        this.valid = true;
+        return response.json();
+      } else {
+        return null;
+      }
+    })
+    .then( result => {
+      if (this.valid == true){
+        cookies.set('newPassWord', )
+      }
+
+    })
+    .catch(error => console.log('parsing failed', error));
+  }
+  
   render() {
     return (
       <article>
@@ -46,6 +83,9 @@ export default class ResetPassword extends React.Component { // eslint-disable-l
         <BodyWrapper>
           <CenteredSection>
             <H1> Reset Password </H1>
+
+            <p> Your new password is </p>
+            <p> You can now log in with your new password. Go to your profile and scroll down to change password if you want to make your password your own again! </p>
           </CenteredSection>
           
         </BodyWrapper>
