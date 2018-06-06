@@ -76,7 +76,7 @@ export default function App() {
 	    <Route path="/AdminPosts" component={AdminPosts} />
     
 	    <Route path="/ForgotPassword" component={ForgotPassword} />
-      <Route path="/ResetPassword" component={ResetPassword} />
+      <Route path="/ResetPassword/" component={ResetPassword} />
 	    <Route path="/LoggedOut" component={LoggedOut} />
         <Route path="" component={NotFoundPage} />
       </Switch>
