@@ -84,22 +84,24 @@ class ForgotPasswordForm extends Component {
 				fetch(this.link + '/forgotpassword/student/' + this.state.email + '/', { //Get 200/404 response from endpoint
 					method: 'get',
 					headers: {
-					  //"Content-type": "application/x-www-form-urlencoded",
-					  //'Access-Control-Allow-Origin':'*',
 					  'Accept': 'application/json',
 					  'Content-Type': 'application/json',	
+					  'credentials': 'include',
 					},					
 				}) // close fetch
 				.then(response => {
-					if (response.status == 200){ //email found, endpoint has already sent email with link
-						//console.log("Password changed for student");
+					
+					if (response.status == 200){ //checks if email was found, if found, endpoint has already sent email with link
+						//console.log("Password changed for tutor");
 						alert("Please check your email for further instructions.");
-						cookies.set('uniqueKey', response.json().uniqueKey, { path: '/' });
+						console.log(response);
+						return response.headers;
 					} else {
-						//console.log("Password did not change");
-						alert("Invalid email"); //if no 200 response, alert invalid
+						//console.log("Password did not change"); 
+						alert("Invalid email");  //if no email found, alert invalid
 					}
 				})
+				.then( headers => console.log(headers.get('Set-Cookie')))
 				.catch(error => console.log('parsing failed', error))
 
 			}// end student forgot password

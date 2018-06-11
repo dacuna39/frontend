@@ -34,38 +34,40 @@ const BodyWrapper = styled.span`
 
 export default class ResetPassword extends React.Component { // eslint-disable-line react/prefer-stateless-function
   
-  constructor(props) {
+  	constructor(props) {
 		super(props);
-    
-    this.valid = false;
-  }
+
+		this.state = {
+			newPassword: ''
+		};
+  	}
 
   componentDidMount() {
 
     //gets current url and only saves the cookie string
-    var cookieString = window.location.href;
-    cookieString.replace('www.tutor-find.me/resetpassword/','');
+    var uniqueURL = window.location.href;
+    uniqueURL.replace('resetpassword','forgotpassword');
+    console.log('uniqueURL', uniqueURL);
 
-    fetch('www.tutor-find.me/forgotpassword/' + cookieString, {
-			method: 'get',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',	
-			}
-		})
-		.then(response => {
-      if (response.status == 200){ //checks if link is valid
-        this.valid = true;
-        return response.json();
-      } else {
-        return null;
-      }
+    fetch(uniqueURL, {
+		method: 'get',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',	
+		}
+	})
+	.then(response => {
+      	if (response.status == 200){ //checks if link is valid
+        	return response.json();
+      	} else {
+        	return null;
+      	}
     })
     .then( result => {
-      if (this.valid == true){
-        cookies.set('newPassWord', )
-      }
-
+      	if (result != null){
+			console.log(result);
+			//this.setState({ newPassword: res }, console.log(result);
+      	}
     })
     .catch(error => console.log('parsing failed', error));
   }
