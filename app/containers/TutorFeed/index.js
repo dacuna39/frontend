@@ -24,6 +24,7 @@ import Button from 'components/Button';
 import H1 from 'components/H1';
 import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
 import GroupDown from 'components/FormComponents/GroupDown';
+import PostStudent from 'components/PostStudent';
 
 import CenteredSection from './CenteredSection';
 import Modal from './Modal';
@@ -158,7 +159,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
         	var subject = "A Tutor is interested in your listing!";
         	var body = "Hello, I'm interested! Please let me know if you'd like to connect.";
 			body +=   "    Name: " + this.props.legalFirstName + " " + this.props.legalLastName + 
-					  "    Highest degree: " + this.props.degrees + "    Bio: "+ this.props.bio;
+					  "    Highest degree: " + this.props.degrees;
         	                 
         	var win = window.open("", "emailLink", "width=300,height=100");
         	win.document.close();
@@ -196,9 +197,12 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 								}
 							})
 							.then( student => {
-								//console.log(student);
+								//console.log('student', student);
+								//console.log('post', post)
+
 								if (student != null && student != undefined){
-									//print out availiability neatly without special characters
+
+									/* make availability string */
 									var avail = "";
 									for (var i =0; i < post.availability.length; i++){
 										if (post.availability.charAt(i).match(/[a-zA-Z]/)){
@@ -209,51 +213,40 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 											avail += " ";
 										}
 									}
-									//console.log("avail", avail);
 
-									if (post.acceptsPaid){
+									/* make hourly rate string */
+									var rateString = 'Requesting Free Tutoring';
 
-										returnPosts.push (
-											<div key={post.postId}>
-												<Post>
-													<h3> {student.legalFirstName} {student.legalLastName} </h3>
-													<img src={student.img} width="150px" height="150px" alt="Profile Picture"/>
-													<p> Major: {student.major} </p> <hr />
-													<p> Subject: {post.subject} </p>
-													<p> Preferred Meeting Location: {post.location} </p>
-													<p> {avail} </p>
-													<p> {post.rate} {post.unit} </p>
-													<Button onClick={() => this.apply(post)}> Apply </Button>
-												</Post>							
-												<br />
-											</div>
-										);
-									} else {
-										returnPosts.push (
-											<div key={post.postId}>
-												<Post>
-													<h3> {student.legalFirstName} {student.legalLastName} </h3>
-													<img src={student.img} width="150px" height="150px" alt="Profile Picture" />
-													<p> Major: {student.major} </p> <hr />
-													<p> Subject: {post.subject} </p>
-													<p> Preferred Meeting Location: {post.location} </p>
-													<p> {avail} </p>
-													<p> Requesting Free Tutoring </p>
-													<Button onClick={() => this.apply(post)}> Apply </Button>
-												</Post>							
-												<br />
-											</div>
-										);
+									if (post.acceptsPaid == true) {
+										rateString = post.rate + ' ' + post.unit;
 									}
+
+									returnPosts.push (
+										<PostStudent
+											postId={post.postId}
+											firstName={student.legalFirstName}
+											lastName={student.legalLastName}
+											img={student.img}
+											major={student.major}
+
+											subject={post.subject}
+											location={post.location}
+											availability={avail}
+											rate={post.rate + ' ' + post.unit}
+											applyFunc={() => {this.apply(post)}}
+										/>
+									)
+
 									this.setState({printPosts: returnPosts, postsReady: true});
 								}//end if student != null
 								else {
 									//console.log("null tutor: post " + post.postId + " ownerId " + post.ownerId);
 								}
-							})// end then				
+								//return true;
+							})// end then
 
 					}//end check bad posts
-				});
+				});//end map posts
 			}
 			else {
 				//return false;
@@ -263,11 +256,16 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 
 	printPosts = () => {
 		if (this.state.postsReady == true){
+			console.log('printposts', this.state.printPosts);
 
+			/*
 			var sortedPosts = this.state.printPosts.sort((a,b) => a.key < b.key); //sorts to most recent posts first
-			//console.log("Sorted post", sortedPosts);
-			return sortedPosts.map((post) => {
-				return post;
+			console.log("Sorted post", sortedPosts);
+			*/
+			return this.state.printPosts.map((post) => {
+				return (
+					<div> {post} <br /> </div>
+				);
 			});//end map
 
 		} else {
