@@ -28,6 +28,7 @@ import PostStudent from 'components/PostStudent';
 
 import CenteredSection from './CenteredSection';
 import Modal from './Modal';
+import ModalFixed from './ModalFixed';
 import NewPostForm from './NewPostForm';
 import Img from './Img';
 import Wrapper from './Wrapper';
@@ -57,8 +58,9 @@ const ExpandedPost = styled.div`
 	position: fixed
 	border: 2px solid;
 	border-color: FFB71C;
-	width: auto;
-	height: auto;
+	left: 20px;
+	width: 500px;
+	height: 500px;
 	background: #EEECE9;
 	text-align: center;
 	padding: 2em;
@@ -78,12 +80,15 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 			filterOptions: ["All Subjects","My Subjects"],
 			filter: ["All Subjects"],
 
-			isOpen: false, //whether the sign in modal is rendered
-            isLoading: true,    
+			isOpen: false, //whether the new post modal is rendered
+
+			expandPostRender: false, //whether the expanded post is rendered
+			student: {firstName: '', lastName: '', img: '', major:''},
+			post: {subject: '', availability: '', location: '', rate: ''},
 		};
 	}
 
-	toggleModal = () => { //opens and closes the sign in modal
+	toggleModal = () => { //opens and closes the new post modal
 		this.setState({
 		  isOpen: !this.state.isOpen
 		});
@@ -132,7 +137,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 					break;
 				}
 			}
-			this.setState({ posts: allPosts, isLoading: false, postsReady: false}, () => this.createPostsTable());
+			this.setState({ posts: allPosts, postsReady: false}, () => this.createPostsTable());
 		})
 		.catch(error => console.log('parsing failed', error));
 	}
@@ -160,7 +165,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 				}
 			}
 
-			this.setState({ posts: allPosts, isLoading: false, postsReady: false }, () => this.createPostsTable());
+			this.setState({ posts: allPosts, postsReady: false }, () => this.createPostsTable());
 		})
 		.catch(error => console.log('parsing failed', error));
 	}
@@ -172,7 +177,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 	createPostsTable = () => {
 		var returnPosts =[];
 
-		if (this.state != null && this.state.isLoading == false){
+		if (this.state != null){
 			
 			if (this.state.posts.length != 0){
 				return this.state.posts.map((post) => {	//for each post...
@@ -233,7 +238,14 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 											location={post.location}
 											availability={avail}
 											rate={rateString}
-											expandPostFunc={() => {this.expandPost(post)}} // might also need student
+											expandPostFunc={() => {
+												this.expandPost(student, {subject: post.subject,
+																		  location: post.location,
+																		  availability: avail,
+																		  rate: rateString,
+																		  ownerId: post.ownerId,
+																		})
+												}}
 											applyFunc={() => {this.apply(post)}}
 										/>
 									)
@@ -243,7 +255,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 							})// end then
 					}//end check bad posts
 				});//end map posts
-			}
+			}//end if posts.length > 0
 		}//end check if state is null
 	}
 
@@ -260,9 +272,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 					<div> {post} </div>
 				);
 			});//end map
-
 		} else {
-
 			return(
 				<CenteredSection>
 					<br /> <h3> Could not find any posts! </h3>
@@ -277,41 +287,36 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 	 * expand post and apply methods 
 	 */
 
-	expandPost = (post) => {
-		var show = true;
+	expandPost = (student, post) => {
+		//console.log(student);
+		//console.log(post);
 
-		if (show) {
-			console.log('show is true');
-			return (
-				<ExpandedPost onClick={() => {show = false}}>
-					<p> hi </p>
-				</ExpandedPost>
-			);
-		}
-		else {
-			console.log('show is false');
-			return null;
-		}
+		this.setState({
+			expandPostRender: true,
+			student: student,
+			post: post,
+		});
 	}
 
-	apply = (post) => {
-		
-		fetch('https://tutor-find.herokuapp.com/students/' + post.ownerId.toString())
-      	.then(response => response.json()) //gets post owner from server
-		.then(owner => owner.email) //gets owner's email	  
-      	.then(mail => { //on success
-        	var email = mail;
-        	var subject = "A Tutor is interested in your listing!";
-        	var body = "Hello, I'm interested! Please let me know if you'd like to connect.";
-			body +=   "    Name: " + this.props.legalFirstName + " " + this.props.legalLastName + 
-					  "    Highest degree: " + this.props.degrees;
-        	                 
-        	var win = window.open("", "emailLink", "width=300,height=100");
-        	win.document.close();
-        	win.document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the student.' + '<' + '/a>');
-        	win.focus();
-        })
-      	.catch(error => console.log('parsing failed', error));
+	apply = () => {
+		if (this.state.post.length != 0){
+			fetch('https://tutor-find.herokuapp.com/students/' + this.state.post.ownerId.toString())
+      		.then(response => response.json()) //gets post owner from server
+			.then(owner => owner.email) //gets owner's email	  
+      		.then(mail => { //on success
+        		var email = mail;
+        		var subject = "A Tutor is interested in your listing!";
+        		var body = "Hello, I'm interested! Please let me know if you'd like to connect.";
+				body +=   "    Name: " + this.props.legalFirstName + " " + this.props.legalLastName + 
+						  "    Highest degree: " + this.props.degrees;
+			
+        		var win = window.open("", "emailLink", "width=300,height=100");
+        		win.document.close();
+        		win.document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the student.' + '<' + '/a>');
+        		win.focus();
+        	})
+      		.catch(error => console.log('parsing failed', error));
+		}
 	}
 	
   	render() {
@@ -335,7 +340,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 					options={this.state.filterOptions}
 					selectedOptions={this.state.filter}
 					 />
-				<Button onClick={this.filterButtonClick} >Filter Subjects</Button>
+				<Button onClick={this.filterButtonClick} > Filter Subjects </Button>
 				<Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button>
 			
 			</CheckboxTableStyle>
@@ -358,12 +363,22 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 					{/* end make new post */}
 
 					{/* link to tutorPost */}
-					<Button onClick={() => { // link to student's posts
-						if (this.state.isLoading == false){
-							this.props.history.push("/tutorPosts");
-						}
-						}}> My Posts </Button>
-					{/* end link to tutorPost */}
+					<Button onClick={() => this.props.history.push("/tutorPosts")}> My Posts </Button>
+
+					{/* render expanded post modal */}
+					<ModalFixed show={this.state.expandPostRender} onClose={() => this.setState({expandPostRender: false})}>
+						<h3> {this.state.student.legalFirstName} {this.state.student.legalLastName} </h3>
+						<img src={this.state.student.img} width="150px" height="150px" alt="Profile Picture"/>
+						<p> Major: {this.state.student.major} </p>
+						<hr />
+						<p> Subject: {this.state.post.subject} </p>
+						<p> Preferred Meeting Location: {this.state.post.location} </p>
+						<p> {this.state.post.availability} </p>
+						<p> {this.state.post.rate} </p>
+						<Button onClick={this.apply}> Apply </Button>
+					</ModalFixed>
+					{/* end render expanded post modal */}
+
 				</CenteredSection>
 			</BodyWrapper>
 
@@ -377,55 +392,6 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 					{this.printPosts()}
 				</FeedContainer>
 			</Wrapper>
-
-
-			{/*
-			<CheckboxTableStyle>
-
-				<GroupDown
-					title={''}
-					type={'radio'}
-					setName={'filter'}
-					controlFunc={this.handleFilterSelect}
-					options={this.state.filterOptions}
-					selectedOptions={this.state.filter}
-					 />
-				<Button onClick={this.filterButtonClick} >Filter Subjects</Button>
-				<Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button>
-			
-			</CheckboxTableStyle>
-			{/* end sidebar *
-
-			<BodyWrapper>
-				<CenteredSection>
-					<br />
-					<H1> Available Students </H1>
-					<Img src={Cap} alt="Graduation Cap"/>
-					<h3> These students are looking for tutors! Find a student that you want to tutor and click apply to email them. </h3>
-					<hr />
-							{/* make a new post *
-							<Button onClick={this.toggleModal}> New Post </Button>
-
-							<Modal show={this.state.isOpen} onClose={this.toggleModal}>
-								<H1> New Post </H1>
-								<NewPostForm />
-							</Modal>
-							{/* end make new post *
-
-							{/* link to tutorPost *
-							<Button onClick={() => { // link to student's posts
-								if (this.state.isLoading == false){
-									this.props.history.push("/tutorPosts");
-								}
-								}}> My Posts </Button>
-							{/* end link to tutorPost *
-
-						{/* Load student posts *
-						{this.printPosts()}
-					
-				</CenteredSection>
-			</BodyWrapper>
-			*/}
       	</div>
     	);
 	  }
