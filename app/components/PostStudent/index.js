@@ -6,13 +6,16 @@ import Button from 'components/Button';
 const Post = styled.div`
 	border: 2px solid;
 	border-color: FFB71C;
-	width: auto;
-	height: auto;
+	width: 200px;
+	height: 350px;
 	background: #EEECE9;
 	text-align: center;
-	padding: 2em;
+	padding: 1em;
+	float: left;
+	margin: 1em;
 `;
 
+/*
 const PostStudent = (props) => (
 	<Post className="post" key={props.postId}>
         <h3> {props.firstName} {props.lastName} </h3>
@@ -26,6 +29,16 @@ const PostStudent = (props) => (
 		<Button onClick={props.applyFunc}> Apply </Button>
 	</Post>
 );
+*/
+
+const PostStudent = (props) => (
+	<Post className="post" key={props.postId} onClick={props.expandPostFunc}>
+		<h3> {props.firstName} {props.lastName} </h3>
+		<img src={props.img} width="150px" height="150px" alt="Profile Picture"/>
+		<p> Subject: {props.subject} </p>
+		<p> {props.rate} </p>
+	</Post>
+);
 
 PostStudent.propTypes = {
 	postId: React.PropTypes.number.isRequired,
@@ -37,6 +50,8 @@ PostStudent.propTypes = {
 	location: React.PropTypes.string.isRequired,
 	availability: React.PropTypes.string.isRequired,
 	rate: React.PropTypes.string.isRequired,
+	expandPostFunc: React.PropTypes.func.isRequired,
+
 	applyFunc: React.PropTypes.func.isRequired,
 };
 

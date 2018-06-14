@@ -30,6 +30,7 @@ import CenteredSection from './CenteredSection';
 import Modal from './Modal';
 import NewPostForm from './NewPostForm';
 import Img from './Img';
+import Wrapper from './Wrapper';
 
 import Cap from 'components/Images/graduation-cap.png';
 
@@ -42,11 +43,22 @@ const BodyWrapper = styled.div`
   flex-direction: column;
 `;
 
-const Post = styled.div`
+const FilterContainer = styled.div`
+	width: 18%;
+	background-color: #eee;
+`;
+
+const FeedContainer = styled.div`
+	width: 82%;
+	background-color: #ddd;
+`;
+
+const ExpandedPost = styled.div`
+	position: fixed
 	border: 2px solid;
 	border-color: FFB71C;
-	width: 100%;
-	height: 100%;
+	width: auto;
+	height: auto;
 	background: #EEECE9;
 	text-align: center;
 	padding: 2em;
@@ -84,6 +96,10 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 	componentDidMount(){
 		this.fetchAllPosts();
 	}
+
+	/* 
+	 * Fetch & filter methods 
+	 */
 
 	filterButtonClick = () => {
 		if(this.state.filter == "All Subjects"){
@@ -149,25 +165,9 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 		.catch(error => console.log('parsing failed', error));
 	}
 
-	apply = (post) => {
-		
-		fetch('https://tutor-find.herokuapp.com/students/' + post.ownerId.toString())
-      	.then(response => response.json()) //gets post owner from server
-		.then(owner => owner.email) //gets owner's email	  
-      	.then(mail => { //on success
-        	var email = mail;
-        	var subject = "A Tutor is interested in your listing!";
-        	var body = "Hello, I'm interested! Please let me know if you'd like to connect.";
-			body +=   "    Name: " + this.props.legalFirstName + " " + this.props.legalLastName + 
-					  "    Highest degree: " + this.props.degrees;
-        	                 
-        	var win = window.open("", "emailLink", "width=300,height=100");
-        	win.document.close();
-        	win.document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the student.' + '<' + '/a>');
-        	win.focus();
-        })
-      	.catch(error => console.log('parsing failed', error));
-	}
+	/* 
+	 * Create and render posts methods 
+	 */
 
 	createPostsTable = () => {
 		var returnPosts =[];
@@ -232,24 +232,17 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 											subject={post.subject}
 											location={post.location}
 											availability={avail}
-											rate={post.rate + ' ' + post.unit}
+											rate={rateString}
+											expandPostFunc={() => {this.expandPost(post)}} // might also need student
 											applyFunc={() => {this.apply(post)}}
 										/>
 									)
 
 									this.setState({printPosts: returnPosts, postsReady: true});
 								}//end if student != null
-								else {
-									//console.log("null tutor: post " + post.postId + " ownerId " + post.ownerId);
-								}
-								//return true;
 							})// end then
-
 					}//end check bad posts
 				});//end map posts
-			}
-			else {
-				//return false;
 			}
 		}//end check if state is null
 	}
@@ -264,20 +257,61 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 			*/
 			return this.state.printPosts.map((post) => {
 				return (
-					<div> {post} <br /> </div>
+					<div> {post} </div>
 				);
 			});//end map
 
 		} else {
 
 			return(
-				<div>
+				<CenteredSection>
 					<br /> <h3> Could not find any posts! </h3>
 						<h3> Try adding more subjects in your profile or search for all posts on the right sidebar! </h3>
 					<br />
-				</div>
+				</CenteredSection>
 			);
 		}
+	}
+
+	/* 
+	 * expand post and apply methods 
+	 */
+
+	expandPost = (post) => {
+		var show = true;
+
+		if (show) {
+			console.log('show is true');
+			return (
+				<ExpandedPost onClick={() => {show = false}}>
+					<p> hi </p>
+				</ExpandedPost>
+			);
+		}
+		else {
+			console.log('show is false');
+			return null;
+		}
+	}
+
+	apply = (post) => {
+		
+		fetch('https://tutor-find.herokuapp.com/students/' + post.ownerId.toString())
+      	.then(response => response.json()) //gets post owner from server
+		.then(owner => owner.email) //gets owner's email	  
+      	.then(mail => { //on success
+        	var email = mail;
+        	var subject = "A Tutor is interested in your listing!";
+        	var body = "Hello, I'm interested! Please let me know if you'd like to connect.";
+			body +=   "    Name: " + this.props.legalFirstName + " " + this.props.legalLastName + 
+					  "    Highest degree: " + this.props.degrees;
+        	                 
+        	var win = window.open("", "emailLink", "width=300,height=100");
+        	win.document.close();
+        	win.document.write( '<a href="mailto:' + email + '?subject=' + subject + '&body=' + body + '">' + 'Click here to email the student.' + '<' + '/a>');
+        	win.focus();
+        })
+      	.catch(error => console.log('parsing failed', error));
 	}
 	
   	render() {
@@ -292,9 +326,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 		
 			<HeaderFeed />
 
-			{/* sidebar: filter */}
 			<CheckboxTableStyle>
-
 				<GroupDown
 					title={''}
 					type={'radio'}
@@ -316,28 +348,84 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 					<Img src={Cap} alt="Graduation Cap"/>
 					<h3> These students are looking for tutors! Find a student that you want to tutor and click apply to email them. </h3>
 					<hr />
-							{/* make a new post */}
+					{/* make a new post */}
+					<Button onClick={this.toggleModal}> New Post </Button>
+
+					<Modal show={this.state.isOpen} onClose={this.toggleModal}>
+						<H1> New Post </H1>
+						<NewPostForm />
+					</Modal>
+					{/* end make new post */}
+
+					{/* link to tutorPost */}
+					<Button onClick={() => { // link to student's posts
+						if (this.state.isLoading == false){
+							this.props.history.push("/tutorPosts");
+						}
+						}}> My Posts </Button>
+					{/* end link to tutorPost */}
+				</CenteredSection>
+			</BodyWrapper>
+
+			<Wrapper>
+				<FilterContainer>
+					
+				</FilterContainer>
+				
+				<FeedContainer>
+					{/* Load student posts */}
+					{this.printPosts()}
+				</FeedContainer>
+			</Wrapper>
+
+
+			{/*
+			<CheckboxTableStyle>
+
+				<GroupDown
+					title={''}
+					type={'radio'}
+					setName={'filter'}
+					controlFunc={this.handleFilterSelect}
+					options={this.state.filterOptions}
+					selectedOptions={this.state.filter}
+					 />
+				<Button onClick={this.filterButtonClick} >Filter Subjects</Button>
+				<Button onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })} }> Back To Top </Button>
+			
+			</CheckboxTableStyle>
+			{/* end sidebar *
+
+			<BodyWrapper>
+				<CenteredSection>
+					<br />
+					<H1> Available Students </H1>
+					<Img src={Cap} alt="Graduation Cap"/>
+					<h3> These students are looking for tutors! Find a student that you want to tutor and click apply to email them. </h3>
+					<hr />
+							{/* make a new post *
 							<Button onClick={this.toggleModal}> New Post </Button>
 
 							<Modal show={this.state.isOpen} onClose={this.toggleModal}>
 								<H1> New Post </H1>
 								<NewPostForm />
 							</Modal>
-							{/* end make new post */}
+							{/* end make new post *
 
-							{/* link to tutorPost */}
+							{/* link to tutorPost *
 							<Button onClick={() => { // link to student's posts
 								if (this.state.isLoading == false){
 									this.props.history.push("/tutorPosts");
 								}
 								}}> My Posts </Button>
-							{/* end link to tutorPost */}
+							{/* end link to tutorPost *
 
-						{/* Load student posts */}
+						{/* Load student posts *
 						{this.printPosts()}
 					
 				</CenteredSection>
 			</BodyWrapper>
+			*/}
       	</div>
     	);
 	  }
