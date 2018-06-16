@@ -46,12 +46,10 @@ const BodyWrapper = styled.div`
 
 const FilterContainer = styled.div`
 	width: 18%;
-	background-color: #eee;
 `;
 
 const FeedContainer = styled.div`
 	width: 82%;
-	background-color: #ddd;
 `;
 
 const ExpandedPost = styled.div`
@@ -129,7 +127,8 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 		.then(response => response.json())
 		.then(posts => {
 			//console.log(posts);
-			for (var i =0; i < posts.length; i++){
+			for (var i =0; i < posts.
+				length; i++){
 				if (i <= 25 && posts[i].posterType == "student"){// loads the 25 most recent posts
 					allPosts.push(posts[i]);
 				}
@@ -246,13 +245,13 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 																		  ownerId: post.ownerId,
 																		})
 												}}
-											applyFunc={() => {this.apply(post)}}
 										/>
 									)
 
 									this.setState({printPosts: returnPosts, postsReady: true});
 								}//end if student != null
-							})// end then
+							})//end then
+							.catch(error => console.log('parsing failed', error));
 					}//end check bad posts
 				});//end map posts
 			}//end if posts.length > 0
@@ -263,10 +262,9 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 		if (this.state.postsReady == true){
 			console.log('printposts', this.state.printPosts);
 
-			/*
-			var sortedPosts = this.state.printPosts.sort((a,b) => a.key < b.key); //sorts to most recent posts first
-			console.log("Sorted post", sortedPosts);
-			*/
+			//var sortedPosts = this.state.printPosts.sort((a,b) => a.key < b.key); //sorts to most recent posts first
+			//console.log("Sorted post", sortedPosts);
+
 			return this.state.printPosts.map((post) => {
 				return (
 					<div> {post} </div>
@@ -288,9 +286,6 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 	 */
 
 	expandPost = (student, post) => {
-		//console.log(student);
-		//console.log(post);
-
 		this.setState({
 			expandPostRender: true,
 			student: student,
@@ -299,7 +294,6 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 	}
 
 	apply = () => {
-		if (this.state.post.length != 0){
 			fetch('https://tutor-find.herokuapp.com/students/' + this.state.post.ownerId.toString())
       		.then(response => response.json()) //gets post owner from server
 			.then(owner => owner.email) //gets owner's email	  
@@ -316,7 +310,6 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
         		win.focus();
         	})
       		.catch(error => console.log('parsing failed', error));
-		}
 	}
 	
   	render() {
@@ -384,7 +377,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 
 			<Wrapper>
 				<FilterContainer>
-					
+					{/* placeholder that reserves space for the fixed filter component*/}
 				</FilterContainer>
 				
 				<FeedContainer>

@@ -30,7 +30,10 @@ PostStudent.propTypes = {
 	firstName: React.PropTypes.string.isRequired,
 	lastName: React.PropTypes.string.isRequired,
 	img: React.PropTypes.string.isRequired,
-	major: React.PropTypes.string.isRequired,
+	degrees: React.PropTypes.string.isRequired,
+	links: React.PropTypes.string,
+	rating: React.PropTypes.string.isRequired,
+
 	subject: React.PropTypes.string.isRequired,
 	location: React.PropTypes.string.isRequired,
 	availability: React.PropTypes.string.isRequired,
