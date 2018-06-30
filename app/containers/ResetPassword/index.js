@@ -48,14 +48,12 @@ export default class ResetPassword extends React.Component { // eslint-disable-l
 
     //gets current url and only saves the cookie string
 
-    //var str = 'resetpassword';
-    //console.log( str.replace('reset','forgot' ) );
-
     var uniqueURL = window.location.href;
-    var newUrl = uniqueURL.replace('reset','forgot');
-    //console.log('newURL', newUrl);
+    var uniqueKey = uniqueURL.replace('www.tutor-find.me/resetpassword/','');
+    console.log('uniqueKey', uniqueKey);
+    
 
-    fetch(newUrl, {
+    fetch('https://tutor-find.herokuapp.com/forgotpassword/' + uniqueKey, {
 		method: 'get',
 		headers: {
 			'Accept': 'application/json',
