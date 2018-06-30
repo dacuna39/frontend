@@ -35,7 +35,9 @@ const BodyWrapper = styled.span`
 export default class ResetPassword extends React.Component { // eslint-disable-line react/prefer-stateless-function
   
   	constructor(props) {
-		super(props);
+    super(props);
+    
+    
 
 		this.state = {
 			newPassword: ''
@@ -45,11 +47,15 @@ export default class ResetPassword extends React.Component { // eslint-disable-l
   componentDidMount() {
 
     //gets current url and only saves the cookie string
-    var uniqueURL = window.location.href;
-    uniqueURL.replace('resetpassword','forgotpassword');
-    console.log('uniqueURL', uniqueURL);
 
-    fetch(uniqueURL, {
+    //var str = 'resetpassword';
+    //console.log( str.replace('reset','forgot' ) );
+
+    var uniqueURL = window.location.href;
+    var newUrl = uniqueURL.replace('reset','forgot');
+    //console.log('newURL', newUrl);
+
+    fetch(newUrl, {
 		method: 'get',
 		headers: {
 			'Accept': 'application/json',
@@ -65,8 +71,8 @@ export default class ResetPassword extends React.Component { // eslint-disable-l
     })
     .then( result => {
       	if (result != null){
-			console.log(result);
-			//this.setState({ newPassword: res }, console.log(result);
+			    //console.log(result);
+			    this.setState({ newPassword: result }, console.log(result));
       	}
     })
     .catch(error => console.log('parsing failed', error));
@@ -86,7 +92,7 @@ export default class ResetPassword extends React.Component { // eslint-disable-l
           <CenteredSection>
             <H1> Reset Password </H1>
 
-            <p> Your new password is </p>
+            <p> Your new password is {this.state.newPassword}</p>
             <p> You can now log in with your new password. Go to your profile and scroll down to change password if you want to make your password your own again! </p>
           </CenteredSection>
           
