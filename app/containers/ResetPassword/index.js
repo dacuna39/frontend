@@ -50,8 +50,8 @@ export default class ResetPassword extends React.Component { // eslint-disable-l
 
     var uniqueURL = window.location.href;
     var uniqueKey = uniqueURL.replace('www.tutor-find.me/resetpassword/','');
-    console.log('uniqueKey', uniqueKey);
-    
+    //var uniqueKey = uniqueURL.replace('http://localhost:3000/resetpassword/',''); for testing locally
+    //console.log('uniqueKey', uniqueKey);
 
     fetch('https://tutor-find.herokuapp.com/forgotpassword/' + uniqueKey, {
 		method: 'get',
@@ -61,8 +61,9 @@ export default class ResetPassword extends React.Component { // eslint-disable-l
 		}
 	})
 	.then(response => {
-      	if (response.status == 200){ //checks if link is valid
-        	return response.json();
+        if (response.status == 200){ //checks if link is valid
+          //console.log('response', response)
+        	return response.text();
       	} else {
         	return null;
       	}
@@ -70,7 +71,7 @@ export default class ResetPassword extends React.Component { // eslint-disable-l
     .then( result => {
       	if (result != null){
 			    //console.log(result);
-			    this.setState({ newPassword: result }, console.log(result));
+			    this.setState({ newPassword: result });
       	}
     })
     .catch(error => console.log('parsing failed', error));
