@@ -10,4 +10,15 @@ describe('<Header />', () => {
     );
     expect(renderedComponent.find('div').length).toEqual(1);
   });
+
+  it('should have the sign in button', () =>{
+    const renderedComponent = shallow(
+      <Header />
+    );
+    expect(renderedComponent.contains(
+      <section>
+				<Button onClick={this.toggleModal}> Sign In </Button>
+			</section>
+    )).tobe(true);
+  });
 });

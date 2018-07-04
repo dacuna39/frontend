@@ -197,7 +197,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 
 	clickRating = () => {
 		
-		console.log(this.state.tutor);
+		//console.log(this.state.tutor);
 		var rating = JSON.parse(this.state.tutor.rating);
 		var id = this.props.userId;
 		var canRate = true;
@@ -210,7 +210,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 		});
 
 		if(canRate == true){
-			console.log("can rate!");
+			//console.log("can rate!");
 			this.setState({ isRatingOpen: true, expandPostOpen: false, tutorToRate: this.state.tutor });
 		}
 		else{

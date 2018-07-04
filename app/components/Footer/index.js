@@ -1,10 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import A from 'components/A';
-import LocaleToggle from 'containers/LocaleToggle';
+//import LocaleToggle from 'containers/LocaleToggle';
 import Wrapper from './Wrapper';
 import messages from './messages';
 import H2 from 'components/H2';
