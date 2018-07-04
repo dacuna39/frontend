@@ -49,7 +49,7 @@ export default class ResetPassword extends React.Component { // eslint-disable-l
     //gets current url and only saves the cookie string
 
     var uniqueURL = window.location.href;
-    var uniqueKey = uniqueURL.replace('www.tutor-find.me/resetpassword/','');
+    var uniqueKey = uniqueURL.replace('http://www.tutor-find.me/resetpassword/','');
     //var uniqueKey = uniqueURL.replace('http://localhost:3000/resetpassword/',''); for testing locally
     //console.log('uniqueKey', uniqueKey);
 

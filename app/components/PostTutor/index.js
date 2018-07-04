@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Button from 'components/Button';
 
 const Post = styled.div`
 	border: 2px solid;
@@ -25,20 +24,20 @@ const PostStudent = (props) => (
 	</Post>
 );
 
-PostStudent.propTypes = {
-	postId: React.PropTypes.number.isRequired,
-	firstName: React.PropTypes.string.isRequired,
-	lastName: React.PropTypes.string.isRequired,
-	img: React.PropTypes.string.isRequired,
-	degrees: React.PropTypes.string.isRequired,
-	links: React.PropTypes.string,
-	rating: React.PropTypes.string.isRequired,
+PostStudent.PropTypes = {
+	postId: PropTypes.number.isRequired,
+	firstName: PropTypes.string.isRequired,
+	lastName: PropTypes.string.isRequired,
+	img: PropTypes.string.isRequired,
+	degrees: PropTypes.string.isRequired,
+	links: PropTypes.string,
+	rating: PropTypes.string.isRequired,
 
-	subject: React.PropTypes.string.isRequired,
-	location: React.PropTypes.string.isRequired,
-	availability: React.PropTypes.string.isRequired,
-	rate: React.PropTypes.string.isRequired,
-	expandPostFunc: React.PropTypes.func.isRequired,
+	subject: PropTypes.string.isRequired,
+	location: PropTypes.string.isRequired,
+	availability: PropTypes.string.isRequired,
+	rate: PropTypes.string.isRequired,
+	expandPostFunc: PropTypes.func.isRequired,
 };
 
 export default PostStudent;
