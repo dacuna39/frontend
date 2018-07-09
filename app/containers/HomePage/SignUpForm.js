@@ -4,22 +4,15 @@ import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 
-import styled from 'styled-components';
-
 import SingleInput from 'components/FormComponents/SingleInput';
-import Select from 'components/FormComponents/Select';
-import Button from 'components/Button';
 import Radio from 'components/FormComponents/CheckboxOrRadioGroup';
 import LoadingIcon from 'components/LoadingIndicator';
 
-import CenteredSection from './CenteredSection';
 import Form from './Form';
 import SubmitInput from './SubmitInput';
 
 //actions
 import {loadProfile} from './loadProfile';
-
-import profile from './default_profile_pic.jpg';
 
 class SignUpForm extends Component {
 	constructor(props) {
@@ -347,7 +340,7 @@ class SignUpForm extends Component {
 				options={this.state.accountOptions}
 				selectedOptions={this.state.accountSelection}				
 				/>
-			</p>		
+			</p>
 				<SingleInput
 					inputType={'text'}
 					title={''}

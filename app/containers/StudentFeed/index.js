@@ -479,7 +479,7 @@ export class StudentFeed extends React.Component { // eslint-disable-line react/
 					{/* end make new post */}
 
 					{/* link to studentPost */}
-					<Button onClick={() => this.props.history.push("/studentPosts") }> My Posts </Button>				
+					<Button onClick={() => this.props.history.push("/studentPosts") }> My Posts </Button>
 
 					{/* render expanded post modal */}
 					<ModalFixed show={this.state.expandPostOpen} onClose={() => this.setState({expandPostOpen: false})}>

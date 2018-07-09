@@ -4,13 +4,21 @@
 
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { IntlProvider } from 'react-intl';
 
-import ReposList from 'components/ReposList';
 import { HomePage, mapDispatchToProps } from '../index';
-import { changeUsername } from '../actions';
-import { loadRepos } from '../../App/actions';
 
+describe('<HomePage />', () => {
+
+  it('should have the sign up form component', () => {
+    const renderedComponent = shallow(
+      <HomePage />
+    );
+    expect(renderedComponent.contains(
+      <SignUpForm /> 
+    )).toEqual(true);
+  })
+
+/*
 describe('<HomePage />', () => {
   it('should render the repos list', () => {
     const renderedComponent = shallow(
@@ -100,4 +108,6 @@ describe('<HomePage />', () => {
       });
     });
   });
+*/
 });
+
