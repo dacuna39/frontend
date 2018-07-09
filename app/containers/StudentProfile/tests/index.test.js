@@ -1,10 +1,13 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
+import React from 'react';
+import { shallow } from 'enzyme';
 
-// import { StudentProfile } from '../index';
+import { StudentProfile } from '../index';
 
 describe('<StudentProfile />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+  it('should render the profile form component', () => {
+    const renderedComponent = shallow(<StudentProfile />);
+    expect(renderedComponent.contains(
+      <ProfileForm /> 
+    )).toEqual(false);
   });
 });

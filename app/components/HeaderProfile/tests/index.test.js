@@ -24,6 +24,6 @@ describe('<HeaderProfile />', () => {
 				<Button href="/loggedOut"> Sign Out </Button>
 				</TD>
 			</table>
-    )).tobe(true);
+    )).toBe(true);
   });
 });
