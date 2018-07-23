@@ -5,44 +5,28 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
+//import { FormattedMessage } from 'react-intl';
 import { withRouter } from "react-router-dom";
-import injectSaga from 'utils/injectSaga';
-import makeSelectAdminInbox from './selectors';
-import saga from './saga';
-import messages from './messages';
+//import messages from './messages';
 import styled from 'styled-components';
 import CenteredSection from './CenteredSection';
-import Input from './Input';
-import Section from './Section';
-import injectReducer from 'utils/injectReducer';
-import makeSelectTutorSendRequests from './selectors';
-import reducer from './reducer';
-import Wrapper from './Wrapper';
-import Form from './Form';
+//import Input from './Input';
+//import Section from './Section';
+//import reducer from './reducer';
+//import Wrapper from './Wrapper';
+//import Form from './Form';
 import Img from './Img';
 import graduationcap from './images/graduation-cap.png';
 // import Table from 'components/Table';
-import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
-import TableStyle from 'components/Table/TableStyle';
+//import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
+//import TableStyle from 'components/Table/TableStyle';
 import H1 from 'components/H1';
-import Table from './Table';
+//import Table from './Table';
 import HeaderAdminLoggedIn from 'components/HeaderAdminLoggedIn';
 import Button from 'components/Button';
-
-const BodyWrapper = styled.div`
-  max-width: calc(1000px + 16px * 2);
-  margin: 0 auto;
-  display: flex;
-  min-height: 100%;
-  padding: 0 16px;
-  flex-direction: column;
-`;
 
 export class AdminFeed extends React.Component { // eslint-disable-line react/prefer-stateless-function
   

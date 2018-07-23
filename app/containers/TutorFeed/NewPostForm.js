@@ -6,10 +6,10 @@ import SingleInput from 'components/FormComponents/SingleInput';
 import Group from 'components/FormComponents/CheckboxOrRadioGroup';
 import GroupDown from 'components/FormComponents/GroupDown';
 
-import CenteredSection from './CenteredSection';
+//import CenteredSection from './CenteredSection';
 import Form from './Form';
 import SubmitInput from './SubmitInput';
-import Modal from './Modal';
+//import Modal from './Modal';
 
 import jsonSubjects from 'components/subjects.json';
 

@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { withRouter } from "react-router-dom";
@@ -14,12 +14,10 @@ import styled from 'styled-components';
 import HeaderAdminLoggedIn from 'components/HeaderAdminLoggedIn';
 import Button from 'components/Button';
 import H1 from 'components/H1';
-import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
+//import CheckboxTableStyle from 'components/TableCheckbox/CheckboxTableStyle';
 //import TableStyle from 'components/Table/TableStyle';
 
 import CenteredSection from './CenteredSection';
-import Img from './Img';
-
 
 const BodyWrapper = styled.div`
   max-width: calc(1000px + 16px * 2);

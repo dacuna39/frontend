@@ -1,15 +1,9 @@
 import React, {Component} from 'react';
 import { withRouter } from "react-router-dom";
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 
-import SingleInput from '../FormComponents/SingleInput';
-import Select from 'components/FormComponents/Select';
-import Radio from 'components/FormComponents/CheckboxOrRadioGroup';
-
-import Button from 'components/Button';
-import CenteredSection from './CenteredSection';
+import SingleInput from 'components/FormComponents/SingleInput';
 import SubmitInput from './SubmitInput';
 
 //actions

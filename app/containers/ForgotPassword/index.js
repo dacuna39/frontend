@@ -16,16 +16,6 @@ import H1 from 'components/H1';
   
 export default class ForgotPassword extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
-	constructor() {
-    super();
-  }
-
-  // Since state and props are static,
-  // there's no need to re-render this component
-  shouldComponentUpdate() {
-    return false;
-  }
-
   render() {
     return (
       <article>

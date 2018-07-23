@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import Cookies from 'universal-cookie';
+//import Cookies from 'universal-cookie';
 
 import SingleInput from 'components/FormComponents/SingleInput';
 import Select from 'components/FormComponents/Select';
-import Button from 'components/Button';
+//import Button from 'components/Button';
 
-import CenteredSection from './CenteredSection';
-import Form from './Form';
+//import CenteredSection from './CenteredSection';
+//import Form from './Form';
 
 //button css
 const SubmitInput = styled.input`
