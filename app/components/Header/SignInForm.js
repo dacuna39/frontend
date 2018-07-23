@@ -5,14 +5,14 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import SingleInput from '../FormComponents/SingleInput';
-import Select from 'components/FormComponents/Select';
+//import Select from 'components/FormComponents/Select';
 import Radio from 'components/FormComponents/CheckboxOrRadioGroup';
 import LoadingIcon from 'components/LoadingIndicator';
-import Button from 'components/Button';
+//import Button from 'components/Button';
 
-import CenteredSection from './CenteredSection';
+//import CenteredSection from './CenteredSection';
 import SubmitInput from './SubmitInput';
-import Wrapper from './Wrapper';
+//import Wrapper from './Wrapper';
 
 //actions
 import {loadProfile} from './loadProfile';

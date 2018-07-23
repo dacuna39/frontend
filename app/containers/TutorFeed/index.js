@@ -13,7 +13,7 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { withRouter } from "react-router-dom";
@@ -50,18 +50,6 @@ const FilterContainer = styled.div`
 
 const FeedContainer = styled.div`
 	width: 82%;
-`;
-
-const ExpandedPost = styled.div`
-	position: fixed
-	border: 2px solid;
-	border-color: FFB71C;
-	left: 20px;
-	width: 500px;
-	height: 500px;
-	background: #EEECE9;
-	text-align: center;
-	padding: 2em;
 `;
 
 export class TutorFeed extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -179,7 +167,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 		if (this.state != null){
 			
 			if (this.state.posts.length != 0){
-				return this.state.posts.map((post) => {	//for each post...
+				return this.state.posts.map((post, index) => {	//for each post...
 					
 					//ensures that no glitcy posts crash the app :)
 					if(post.subject != null && post.location != null && post.availability != null
@@ -227,6 +215,7 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 
 									returnPosts.push (
 										<PostStudent
+											key={index}
 											postId={post.postId}
 											firstName={student.legalFirstName}
 											lastName={student.legalLastName}
@@ -260,14 +249,14 @@ export class TutorFeed extends React.Component { // eslint-disable-line react/pr
 
 	printPosts = () => {
 		if (this.state.postsReady == true){
-			console.log('printposts', this.state.printPosts);
+			//console.log('printposts', this.state.printPosts);
 
 			//var sortedPosts = this.state.printPosts.sort((a,b) => a.key < b.key); //sorts to most recent posts first
 			//console.log("Sorted post", sortedPosts);
 
-			return this.state.printPosts.map((post) => {
+			return this.state.printPosts.map((post, index) => {
 				return (
-					<div> {post} </div>
+					<div key={index}> {post} </div>
 				);
 			});//end map
 		} else {

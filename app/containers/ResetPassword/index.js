@@ -7,17 +7,17 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+//import PropTypes from 'prop-types';
+//import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
+//import { createStructuredSelector } from 'reselect';
+//import { compose } from 'redux';
 import styled from 'styled-components';
 
-import injectReducer from 'utils/injectReducer';
-import makeSelectResetPassword from './selectors';
-import reducer from './reducer';
-import Section from './Section';
+//import injectReducer from 'utils/injectReducer';
+//import makeSelectResetPassword from './selectors';
+//import reducer from './reducer';
+//import Section from './Section';
 import CenteredSection from './CenteredSection';
 
 import Header from 'components/Header';
@@ -34,15 +34,13 @@ const BodyWrapper = styled.span`
 
 export default class ResetPassword extends React.Component { // eslint-disable-line react/prefer-stateless-function
   
-  	constructor(props) {
+  constructor(props) {
     super(props);
-    
-    
 
 		this.state = {
 			newPassword: ''
 		};
-  	}
+  }
 
   componentDidMount() {
 

@@ -1,16 +1,6 @@
 import React, {Component} from 'react';
-import styled from 'styled-components';
 
-import SingleInput from 'components/FormComponents/SingleInput';
-import TextArea from 'components/FormComponents/TextArea';
-//import Button from 'components/Button';
-
-import CenteredSection from './CenteredSection';
-import Form from './Form';
-//import Input from './Input'; delete the file!
 import TableStyle from 'components/Table/TableStyle';
-import Button from 'components/Button';
-
 
 class Table extends Component {
   constructor(props) {

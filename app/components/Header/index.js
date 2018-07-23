@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
 
-import { BindActionCreators } from 'redux';
-import { connect } from 'react-redux'
+//import { BindActionCreators } from 'redux';
+//import { connect } from 'react-redux'
 
 import Img from './Img';
 import Wrapper from './Wrapper';

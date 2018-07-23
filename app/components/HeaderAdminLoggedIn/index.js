@@ -2,15 +2,15 @@ import React from 'react';
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-import { BindActionCreators } from 'redux';
+//import { BindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 
 import Img from './Img';
 import Wrapper from './Wrapper';
 import Button from 'components/Button';
-import CenteredSection from './CenteredSection';
-import H1 from 'components/H1';
-import AdminLogin from 'containers/AdminLogin';
+//import CenteredSection from './CenteredSection';
+//import H1 from 'components/H1';
+//import AdminLogin from 'containers/AdminLogin';
 
 import logo from './tutorfindlogo.png';
 
