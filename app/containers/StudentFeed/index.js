@@ -17,7 +17,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { withRouter } from "react-router-dom";
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 import HeaderFeed from 'components/HeaderFeed';
 import Button from 'components/Button';

@@ -51,7 +51,7 @@ class HeaderFeed extends React.Component { // eslint-disable-line react/prefer-s
 				<Button onClick={this.redirectToProfile}> Edit Profile </Button>
 				</TD>
 				<TD>
-				<Button href="/loggedOut"> Sign Out </Button>
+				<Button onClick={() => localStorage.clear()} href="/loggedOut"> Sign Out </Button>
 				</TD>
 			</tbody>
 			</table>

@@ -13,8 +13,6 @@ import { Switch, Route } from 'react-router-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-import Cookies from 'universal-cookie';
-
 /**import containers*/
 import HomePage from 'containers/HomePage/Loadable';
 
@@ -34,8 +32,6 @@ import ForgotPassword from 'containers/ForgotPassword/Loadable';
 import ResetPassword from 'containers/ResetPassword/Loadable';
 import LoggedOut from 'containers/LoggedOut/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-
-
 /**import containers end*/
 
 /**import component*/
@@ -43,47 +39,54 @@ import Footer from 'components/Footer';
 /**import component end*/
 
 import userReducer from './userReducer';
+import StateLoader from "./StateLoader";
 
 const AppWrapper = styled.div`
   min-width: calc((1200px + 16px * 2) * .55);
 `;
 
-var store = createStore(userReducer);
+const stateLoader = new StateLoader();
 
-const cookies = new Cookies();
+var store = createStore(userReducer, stateLoader.loadState());
+
+store.subscribe(() => {
+  stateLoader.saveState(store.getState());
+});
 
 export default function App() {
 
   return (
     <Provider store={store}>
-    <AppWrapper>
-      <Helmet titleTemplate="" defaultTitle="TutorFind">
-        <meta name="description" content="A web app to connect students and teachers for improved learning" />
-      </Helmet>
-    
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-    	<Route path="/StudentProfile" component={StudentProfile} />
-    	<Route path="/StudentFeed" component={StudentFeed} />
-    	<Route path="/StudentPosts" component={StudentPosts} />
+      {/*<PersistGate loading={null} persistor={persistor}>*/}
+        <AppWrapper>
+          <Helmet titleTemplate="" defaultTitle="TutorFind">
+            <meta name="description" content="A web app to connect students and teachers for improved learning" />
+          </Helmet>
 
-	    <Route path="/TutorProfile" component={TutorProfile} />
-    	<Route path="/TutorFeed" component={TutorFeed} />
-    	<Route path="/TutorPosts" component={TutorPosts} />
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route path="/StudentProfile" component={StudentProfile} />
+            <Route path="/StudentFeed" component={StudentFeed} />
+            <Route path="/StudentPosts" component={StudentPosts} />
 
-      <Route path="/AdminLogin" component={AdminLogin} />
-	    <Route path="/AdminFeed" component={AdminFeed} />
-	    <Route path="/AdminPosts" component={AdminPosts} />
-    
-	    <Route path="/ForgotPassword" component={ForgotPassword} />
-      <Route path="/ResetPassword/" component={ResetPassword} />
-	    <Route path="/LoggedOut" component={LoggedOut} />
-        <Route path="" component={NotFoundPage} />
-      </Switch>
-    
-      <Footer />
-    
-    </AppWrapper>
+            <Route path="/TutorProfile" component={TutorProfile} />
+            <Route path="/TutorFeed" component={TutorFeed} />
+            <Route path="/TutorPosts" component={TutorPosts} />
+
+            <Route path="/AdminLogin" component={AdminLogin} />
+            <Route path="/AdminFeed" component={AdminFeed} />
+            <Route path="/AdminPosts" component={AdminPosts} />
+
+            <Route path="/ForgotPassword" component={ForgotPassword} />
+            <Route path="/ResetPassword/" component={ResetPassword} />
+            <Route path="/LoggedOut" component={LoggedOut} />
+            <Route path="" component={NotFoundPage} />
+          </Switch>
+
+          <Footer />
+
+        </AppWrapper>
+      {/*</PersistGate>*/}
     </Provider>
   );
 }

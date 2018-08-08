@@ -74,7 +74,7 @@ class HeaderProfile extends React.Component { // eslint-disable-line react/prefe
 				<Button onClick={this.redirectToFeed}> Feed </Button>
 				</TD>
 				<TD>
-				<Button href="/loggedOut"> Sign Out </Button>
+				<Button onClick={() => localStorage.clear()} href="/loggedOut"> Sign Out </Button>
 				</TD>
 			</table>
 		</Wrapper> 
