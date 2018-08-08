@@ -1,22 +1,12 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
-import styled from "styled-components";
-
-//import { BindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 
 import Img from './Img';
 import Wrapper from './Wrapper';
 import Button from 'components/Button';
-//import CenteredSection from './CenteredSection';
-//import H1 from 'components/H1';
-//import AdminLogin from 'containers/AdminLogin';
 
 import logo from './tutorfindlogo.png';
-
-const TD = styled.td`
-		padding: 0 .5em;
-`;
 
 class HeaderAdminLoggedIn extends React.Component { // eslint-disable-line react/prefer-stateless-function
 	
@@ -56,7 +46,7 @@ class HeaderAdminLoggedIn extends React.Component { // eslint-disable-line react
 			
 			{/* Sign Out Button */}
 			<section>
-				<Button href="/AdminLogin"> Sign Out </Button>
+				<Button onClick={() => localStorage.clear()} href="/AdminLogin"> Sign Out </Button>
 			</section>
 		</Wrapper> 
 		

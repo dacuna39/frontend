@@ -1,31 +1,5 @@
-export default function (state=
+export default function (state= {}, action) {
     
-    {
-        userId: 0,
-		userName: "userName",
-		email: "default@tutorfind.com",
-		password: "default",
-		salt: "",
-        userType: [],
-        subjects: [],
-        
-        legalFirstName: "first",
-        legalLastName: "last",
-        bio: "",
-		img: "https:d30y9cdsu7xlg0.cloudfront.net/png/1095867-200.png",
-		active: true,
-
-		major: "", //student props
-		minor: "",
-		creationDate: 100000000000000,
-
-		degrees: "", //tutor props
-		links: "",
-		timestamp: 100000000000000,
-		rating: {"0":"0"}
-    }
-
-    , action){
     switch(action.type) {
         
         case "UPDATE_PROFILE":
