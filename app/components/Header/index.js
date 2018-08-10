@@ -34,6 +34,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
 			{/* Logo */}
 			<section>
 					{/* <Img src={logo} onClick={this.props.history.push("/")} alt="Tutorfind - Logo" /> */}
+
 					<Img src={logo} alt="Tutorfind - Logo" />
 			</section>
 			

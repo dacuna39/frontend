@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 //import withRouter from 'react-router-dom';
 
@@ -17,7 +17,7 @@ let arraySubjects = eval(jsonSubjects.arraySubjects);
 
 class NewPostForm extends Component {
 
-    constructor(props) {
+	constructor(props) {
 		super(props);
 		this.link = 'https://tutor-find.herokuapp.com';
 
@@ -25,15 +25,15 @@ class NewPostForm extends Component {
 
 			subject: [],
 			subjects: arraySubjects,
-	
+
 			location: "",
 			availability: "",
-            rate: 20,
-			
-			days: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+			rate: 20,
+
+			days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
 			daysSelect: [],
-			
-			times: ["Morning","Afternoon","Night"],
+
+			times: ["Morning", "Afternoon", "Night"],
 			timeSelect: [],
 
 			monday: [],
@@ -50,42 +50,42 @@ class NewPostForm extends Component {
 			saturdayShow: false,
 			sunday: [],
 			sundayShow: false,
-            
+
 			acceptsGroupTutoring: [],
 			groups: false,
 
-            acceptsPaid: [],
+			acceptsPaid: [],
 			paid: false,
 
 			booleanOptions: ["Yes", "No"],
-        };
-    };
+		};
+	};
 
-    handleSubjectChange = (e) => {
-		  this.setState({ subject: [e.target.value] });
+	handleSubjectChange = (e) => {
+		this.setState({ subject: [e.target.value] });
 	}
-    
-    handleLocationChange = (e) => {
-		  this.setState({ location: e.target.value });
-    }
-    
-    handleAvailabilityChange = (e) => {
-		  this.setState({ availability: e.target.value });
+
+	handleLocationChange = (e) => {
+		this.setState({ location: e.target.value });
+	}
+
+	handleAvailabilityChange = (e) => {
+		this.setState({ availability: e.target.value });
 	}
 
 	handleMondayChange = (e) => {
-		this.setState({ monday: [e.target.value]});
+		this.setState({ monday: [e.target.value] });
 	}
 	handleTuesdayChange = (e) => {
-		this.setState({ tuesday: [e.target.value]});
-	} 
+		this.setState({ tuesday: [e.target.value] });
+	}
 	handleWednesdayChange = (e) => {
-		this.setState({ wednesday: [e.target.value]});
-	} 
+		this.setState({ wednesday: [e.target.value] });
+	}
 	handleThursdayChange = (e) => {
 		this.setState({ thursday: [e.target.value] });
-	} 
-	  handleFridayChange = (e) => {
+	}
+	handleFridayChange = (e) => {
 		this.setState({ friday: [e.target.value] });
 	}
 	handleSaturdayChange = (e) => {
@@ -93,118 +93,118 @@ class NewPostForm extends Component {
 	}
 	handleSundayChange = (e) => {
 		this.setState({ sunday: [e.target.value] });
-  	}
-	
+	}
+
 	handleDaysSelect = (e) => {
 		const newSelection = e.target.value;
 		let newSelectionArray;
-		if(this.state.daysSelect.indexOf(newSelection) > -1) { //remove
+		if (this.state.daysSelect.indexOf(newSelection) > -1) { //remove
 			newSelectionArray = this.state.daysSelect.filter(s => s !== newSelection)
 		} else {//add
 			newSelectionArray = [...this.state.daysSelect, newSelection];
 		}
-		
-		switch (e.target.value){
-				case "Monday":
-					this.setState({ mondayShow: !this.state.mondayShow, daysSelect: newSelectionArray});
-					break;
-				case "Tuesday":
-					this.setState({ tuesdayShow: !this.state.tuesdayShow, daysSelect: newSelectionArray});
-					break;
-				case "Wednesday":
-					this.setState({ wednesdayShow: !this.state.wednesdayShow, daysSelect: newSelectionArray});
-					break;
-				case "Thursday":
-					this.setState({ thursdayShow: !this.state.thursdayShow, daysSelect: newSelectionArray});
-					break;
-				case "Friday":
-					this.setState({ fridayShow: !this.state.fridayShow, daysSelect: newSelectionArray});
-					break;
-				case "Saturday":
-					this.setState({ saturdayShow: !this.state.saturdayShow, daysSelect: newSelectionArray});
-					break;
-				case "Sunday":
-					this.setState({ sundayShow: !this.state.sundayShow, daysSelect: newSelectionArray});
-					break;					
-		} 
+
+		switch (e.target.value) {
+			case "Monday":
+				this.setState({ mondayShow: !this.state.mondayShow, daysSelect: newSelectionArray });
+				break;
+			case "Tuesday":
+				this.setState({ tuesdayShow: !this.state.tuesdayShow, daysSelect: newSelectionArray });
+				break;
+			case "Wednesday":
+				this.setState({ wednesdayShow: !this.state.wednesdayShow, daysSelect: newSelectionArray });
+				break;
+			case "Thursday":
+				this.setState({ thursdayShow: !this.state.thursdayShow, daysSelect: newSelectionArray });
+				break;
+			case "Friday":
+				this.setState({ fridayShow: !this.state.fridayShow, daysSelect: newSelectionArray });
+				break;
+			case "Saturday":
+				this.setState({ saturdayShow: !this.state.saturdayShow, daysSelect: newSelectionArray });
+				break;
+			case "Sunday":
+				this.setState({ sundayShow: !this.state.sundayShow, daysSelect: newSelectionArray });
+				break;
+		}
 		//this.setState({ daysSelect: newSelectionArray }); 		
 	}
 
 	createAvailabilityString = () => {
 		var t = [];
 
-		for (var j=0; j < this.state.daysSelect.length; j++){ //gets the appropriate time for each day selected
-			if(this.state.daysSelect[j] == "Monday" && this.state.monday.length != 0){
+		for (var j = 0; j < this.state.daysSelect.length; j++) { //gets the appropriate time for each day selected
+			if (this.state.daysSelect[j] == "Monday" && this.state.monday.length != 0) {
 				t.push(this.state.monday);
 			}
-			else if(this.state.daysSelect[j] == "Tuesday" && this.state.tuesday.length != 0){
+			else if (this.state.daysSelect[j] == "Tuesday" && this.state.tuesday.length != 0) {
 				t.push(this.state.tuesday);
 			}
-			else if(this.state.daysSelect[j] == "Wednesday" && this.state.wednesday.length != 0){
+			else if (this.state.daysSelect[j] == "Wednesday" && this.state.wednesday.length != 0) {
 				t.push(this.state.wednesday);
 			}
-			else if(this.state.daysSelect[j] == "Thursday" && this.state.thursday.length != 0){
+			else if (this.state.daysSelect[j] == "Thursday" && this.state.thursday.length != 0) {
 				t.push(this.state.thursday);
 			}
-			else if(this.state.daysSelect[j] == "Friday" && this.state.friday.length != 0){
+			else if (this.state.daysSelect[j] == "Friday" && this.state.friday.length != 0) {
 				t.push(this.state.friday);
 			}
-			else if(this.state.daysSelect[j] == "Saturday" && this.state.saturday.length != 0){
+			else if (this.state.daysSelect[j] == "Saturday" && this.state.saturday.length != 0) {
 				t.push(this.state.saturday);
 			}
-			else if(this.state.daysSelect[j] == "Sunday" && this.state.sunday.length != 0){
+			else if (this.state.daysSelect[j] == "Sunday" && this.state.sunday.length != 0) {
 				t.push(this.state.sunday);
 			}
 		}
 
 		var string = "{"
-		for (var i =0; i < this.state.daysSelect.length; i++){
-			if (t[i] != undefined){
+		for (var i = 0; i < this.state.daysSelect.length; i++) {
+			if (t[i] != undefined) {
 
 				string += "\"" + this.state.daysSelect[i] + "\":\"" + t[i] + "\"";
-				if (this.state.daysSelect[i+1] != undefined && t[i+1] != undefined){
+				if (this.state.daysSelect[i + 1] != undefined && t[i + 1] != undefined) {
 					string += ",";
 				}
 			}
 		}
 		string += "}"
-		
+
 		console.log("string: ", string);
 		return string;
 	}
-    
+
 	handleRateChange = (e) => {
 		this.setState({ rate: e.target.value }, () => console.log("rate", this.state.rate));
-    }
-    
-    handleGroupTutoringChange = (e) => {
+	}
 
-		if (e.target.value == "Yes"){
-			this.setState({groups: true, acceptsGroupTutoring: [e.target.value]});
-		} else if (e.target.value == "No"){
-			this.setState({groups: false, acceptsGroupTutoring: [e.target.value]});
+	handleGroupTutoringChange = (e) => {
+
+		if (e.target.value == "Yes") {
+			this.setState({ groups: true, acceptsGroupTutoring: [e.target.value] });
+		} else if (e.target.value == "No") {
+			this.setState({ groups: false, acceptsGroupTutoring: [e.target.value] });
 		}
 	}
 
-	handleAcceptsPaidChange = (e) =>  {
+	handleAcceptsPaidChange = (e) => {
 
-		if (e.target.value == "Yes"){
-			this.setState({paid: true, acceptsPaid: [e.target.value], rate: 20});
-		} else if (e.target.value == "No"){
-			this.setState({paid: false, acceptsPaid: [e.target.value], rate: 0});
+		if (e.target.value == "Yes") {
+			this.setState({ paid: true, acceptsPaid: [e.target.value], rate: 20 });
+		} else if (e.target.value == "No") {
+			this.setState({ paid: false, acceptsPaid: [e.target.value], rate: 0 });
 		}
 	}
-	
+
 	clearForm = () => {
 		this.setState({
 			subject: [],
-	
-            location: "",
-            availability: "",
-            acceptsPaid: true,
-            rate: 20,
+
+			location: "",
+			availability: "",
+			acceptsPaid: true,
+			rate: 20,
 			//unit: "dollars/hour",
-			
+
 			daysSelect: [],
 			timeSelect: [],
 
@@ -224,101 +224,101 @@ class NewPostForm extends Component {
 			sundayShow: false,
 
 			rateShow: false,
-            
+
 			acceptsGroupTutoring: [],
 			groups: false,
 		})
 	}
 
-    validateForm = (availability) => {
+	validateForm = (availability) => {
 
-        if ( this.state.subject[0] == ""){
-          alert("Please select a subject");
-          return false;
-        }
-        else if (this.state.location == ""){
-          alert("Please enter a location (or state on-line tutoring");
-          return false;
-        }
-        else if (availability == ""){
-          alert("Please enter you availability (e.g. Days and hours available)");
-          return false;
+		if (this.state.subject[0] == "") {
+			alert("Please select a subject");
+			return false;
 		}
-		else if (this.state.acceptsPaid.length == 0){
+		else if (this.state.location == "") {
+			alert("Please enter a location (or state on-line tutoring");
+			return false;
+		}
+		else if (availability == "") {
+			alert("Please enter you availability (e.g. Days and hours available)");
+			return false;
+		}
+		else if (this.state.acceptsPaid.length == 0) {
 			alert("Please select whether you are offering free or paid tutoring");
 			return false;
 		}
-        else if ((this.state.rate == "" || this.state.rate <= 0) && this.state.paid == true){
-          	alert("Please enter a valid pay rate");
-          	return false;
+		else if ((this.state.rate == "" || this.state.rate <= 0) && this.state.paid == true) {
+			alert("Please enter a valid pay rate");
+			return false;
 		}
-		else if (this.state.daysSelect.length == 0){
+		else if (this.state.daysSelect.length == 0) {
 			alert("Please enter at least one day you are available");
 			return false;
-	  	}
-        else if (this.state.acceptsGroupTutoring == ""){
-          alert("Please state if you will accept group tutoring");
-          return false;
-        }
-        else {
-          return true;
-        }
-    }
+		}
+		else if (this.state.acceptsGroupTutoring == "") {
+			alert("Please state if you will accept group tutoring");
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
 
-    handleFormSubmit = (e) => {
+	handleFormSubmit = (e) => {
 		e.preventDefault();
 		var availability = this.createAvailabilityString();
 
-        if (this.validateForm(availability)) {
+		if (this.validateForm(availability)) {
 
-         	const payload = {
-            	postId: 100,
-	            posterType: "tutor",
-    	        ownerId: this.props.userId, //need props to get ownerId
+			const payload = {
+				postId: 100,
+				posterType: "tutor",
+				ownerId: this.props.userId, //need props to get ownerId
 
-	            subject: this.state.subject[0].toUpperCase(),
-    	        location: this.state.location,
+				subject: this.state.subject[0].toUpperCase(),
+				location: this.state.location,
 				availability: availability,
 				// availability requires a format like this:
 				// {"Monday":"Night","Tuesday":"Morning","Friday":"Afternoon"}
-				
+
 				acceptsPaid: this.state.paid,
 
-            	rate: this.state.rate,
-            	unit: "dollars/hour",
-            
+				rate: this.state.rate,
+				unit: "dollars/hour",
+
 				acceptsGroupTutoring: this.state.groups,
-				
-				createdTs: Math.floor(Date.now()/1000),
-				active: true,		
-				currentlySignedUp: 0,	
+
+				createdTs: Math.floor(Date.now() / 1000),
+				active: true,
+				currentlySignedUp: 0,
 			};
 			console.log("payload: " + JSON.stringify(payload));
 
 			fetch(this.link + '/posts', { //post entries to database :)
 				method: 'put',
 				headers: {
-				  'Accept': 'application/json',
-				  'Content-Type': 'application/json',	
+					'Accept': 'application/json',
+					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify(payload)
 			})
-			.then(response => {
-				if (response.status == 200){ //checks for ok response
-					alert("Success");		
-					this.clearForm();			
-				} else {
-					alert("Error submitting post");
-				}
-			})
-			.catch(error => console.log('parsing failed', error));
+				.then(response => {
+					if (response.status == 200) { //checks for ok response
+						alert("Success");
+						this.clearForm();
+					} else {
+						alert("Error submitting post");
+					}
+				})
+				.catch(error => console.log('parsing failed', error));
 		}//end if validateForm
-    }//end handleFormSubmit
+	}//end handleFormSubmit
 
-    render() {
-        //console.log("state: ", this.state);
-        return(         
-            <Form onSubmit={this.handleFormSubmit}>
+	render() {
+		//console.log("state: ", this.state);
+		return (
+			<Form onSubmit={this.handleFormSubmit}>
 
 				<h4> Subject </h4>
 				<Group
@@ -328,85 +328,85 @@ class NewPostForm extends Component {
 					controlFunc={this.handleSubjectChange}
 					options={this.state.subjects}
 					selectedOptions={this.state.subject}
-					 />
+				/>
 
 				<h4> Preferred Meeting Location </h4>
-                <SingleInput
-		          		inputType={'text'}
-					    title={''}
-          				name={'location'}
-				        controlFunc={this.handleLocationChange}
-          				content={this.state.location}
-		                placeholder={''} />
-						
+				<SingleInput
+					inputType={'text'}
+					title={''}
+					name={'location'}
+					controlFunc={this.handleLocationChange}
+					content={this.state.location}
+					placeholder={''} />
+
 				{/* Availiability */}
 				<h4> Please enter your availability </h4>
 				<Group
-			            title={''}
-            			type={'checkbox'}
-                    	setName={'days'}
-                    	controlFunc={this.handleDaysSelect}
-				        options={this.state.days}
-				        selectedOptions={this.state.daysSelect} />
+					title={''}
+					type={'checkbox'}
+					setName={'days'}
+					controlFunc={this.handleDaysSelect}
+					options={this.state.days}
+					selectedOptions={this.state.daysSelect} />
 				<hr />
 
 				{this.renderTimeOptions()}
 
 				{/* end Availiability */}
 
-                <p> Are you tutoring for pay? </p>
+				<p> Are you tutoring for pay? </p>
 				<Group
-			            title={''}
-            			type={'radio'}
-                    	setName={'acceptsPaid'}
-                    	controlFunc={this.handleAcceptsPaidChange}
-				        options={this.state.booleanOptions}
-				        selectedOptions={this.state.acceptsPaid} />
+					title={''}
+					type={'radio'}
+					setName={'acceptsPaid'}
+					controlFunc={this.handleAcceptsPaidChange}
+					options={this.state.booleanOptions}
+					selectedOptions={this.state.acceptsPaid} />
 
-                {this.renderRateInput()}
+				{this.renderRateInput()}
 
-                <p> Do you accept group tutoring? </p>
-                <Group
-			            title={''}
-            			type={'radio'}
-                    	setName={'acceptsGroupTutoring'}
-                    	controlFunc={this.handleGroupTutoringChange}
-				        options={this.state.booleanOptions}
-				        selectedOptions={this.state.acceptsGroupTutoring} />
-				            
-                <p>
-		      	<SubmitInput
-	    	    	    type="submit"
-				        value="Submit" /> 
-			    </p>
-            </Form>
-        )
+				<p> Do you accept group tutoring? </p>
+				<Group
+					title={''}
+					type={'radio'}
+					setName={'acceptsGroupTutoring'}
+					controlFunc={this.handleGroupTutoringChange}
+					options={this.state.booleanOptions}
+					selectedOptions={this.state.acceptsGroupTutoring} />
+
+				<p>
+					<SubmitInput
+						type="submit"
+						value="Submit" />
+				</p>
+			</Form>
+		)
 	}
 
 	renderRateInput = () => {
-		if (this.state.paid){
+		if (this.state.paid) {
 			return (
 				<div>
 					<p> Enter your rate per hour in dollars </p>
 					<SingleInput
 						inputType={'number'} // sets this.state.rate to "" if it's not a number, validate-able
-			      		title={''}
+						title={''}
 						name={'rate'}
-		    			controlFunc={this.handleRateChange}
+						controlFunc={this.handleRateChange}
 						content={this.state.rate}
-		    			/>
+					/>
 				</div>
 			);
 		}
 	}
-	
+
 	renderTimeOptions = () => {
 		var options = [];
 		var i = 0;
 
-			if (this.state.mondayShow){
-				options[i] = (
-					<td key={i}>
+		if (this.state.mondayShow) {
+			options[i] = (
+				<td key={i}>
 					<GroupDown
 						title={'Monday Time'}
 						type={'radio'}
@@ -415,13 +415,13 @@ class NewPostForm extends Component {
 						options={this.state.times}
 						selectedOptions={this.state.monday}
 						disabled={!this.state.mondayShow} />
-					</td>
-				);
-				i++;
-			};
-			if (this.state.tuesdayShow){
-				options[i] = (
-					<td key={i}>
+				</td>
+			);
+			i++;
+		};
+		if (this.state.tuesdayShow) {
+			options[i] = (
+				<td key={i}>
 					<GroupDown
 						title={'Tuesday Time'}
 						type={'radio'}
@@ -430,14 +430,14 @@ class NewPostForm extends Component {
 						options={this.state.times}
 						selectedOptions={this.state.tuesday}
 						disabled={!this.state.tuesdayShow}
-						 />
-					</td>
-				);
-				i++;
-			};
-			if (this.state.wednesdayShow){
-				options[i] =  (
-					<td key={i}>
+					/>
+				</td>
+			);
+			i++;
+		};
+		if (this.state.wednesdayShow) {
+			options[i] = (
+				<td key={i}>
 					<GroupDown
 						title={'Wednesday Time'}
 						type={'radio'}
@@ -446,14 +446,14 @@ class NewPostForm extends Component {
 						options={this.state.times}
 						selectedOptions={this.state.wednesday}
 						disabled={!this.state.wednesdayShow}
-						 />
-					</td>
-				);
-				i++;
-			};
-			if (this.state.thursdayShow){
-				options[i] = (
-					<td key={i}>
+					/>
+				</td>
+			);
+			i++;
+		};
+		if (this.state.thursdayShow) {
+			options[i] = (
+				<td key={i}>
 					<GroupDown
 						title={'Thursday Time'}
 						type={'radio'}
@@ -462,14 +462,14 @@ class NewPostForm extends Component {
 						options={this.state.times}
 						selectedOptions={this.state.thursday}
 						disabled={!this.state.thursdayShow}
-						 />
-					</td>
-				);
-				i++;
-			};
-			if (this.state.fridayShow){
-				options[i] = (
-					<td key={i}>
+					/>
+				</td>
+			);
+			i++;
+		};
+		if (this.state.fridayShow) {
+			options[i] = (
+				<td key={i}>
 					<GroupDown
 						title={'Friday Time'}
 						type={'radio'}
@@ -478,13 +478,13 @@ class NewPostForm extends Component {
 						options={this.state.times}
 						selectedOptions={this.state.friday}
 						disabled={!this.state.fridayShow} />
-					</td>
-				);
-				i++;
-			};
-			if (this.state.saturdayShow){
-				options[i] = (
-					<td key={i}>
+				</td>
+			);
+			i++;
+		};
+		if (this.state.saturdayShow) {
+			options[i] = (
+				<td key={i}>
 					<GroupDown
 						title={'Saturday Time'}
 						type={'radio'}
@@ -493,14 +493,14 @@ class NewPostForm extends Component {
 						options={this.state.times}
 						selectedOptions={this.state.saturday}
 						disabled={!this.state.saturdayShow}
-						 />
-					</td>
-				);
-				i++;
-			};
-			if (this.state.sundayShow){
-				options[i] = (
-					<td key={i}>
+					/>
+				</td>
+			);
+			i++;
+		};
+		if (this.state.sundayShow) {
+			options[i] = (
+				<td key={i}>
 					<GroupDown
 						title={'Sunday Time'}
 						type={'radio'}
@@ -509,17 +509,17 @@ class NewPostForm extends Component {
 						options={this.state.times}
 						selectedOptions={this.state.sunday}
 						disabled={!this.state.sundayShow}
-						 />
-					</td>
-				);
-				i++;
-			};
-			return options;
+					/>
+				</td>
+			);
+			i++;
+		};
+		return options;
 	}
 }
 
 function mapStateToProps(state) {
-	return{
+	return {
 		userId: state.userId,
 	}
 }

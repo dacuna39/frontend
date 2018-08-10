@@ -13,7 +13,7 @@ import BlueButton from './BlueButton';
 import Form from './Form';
 import Wrapper from './Wrapper';
 import Img from './Img';
-import Modal from './Modal'
+import Modal from 'components/Modal'
 
 import Dropzone from 'react-dropzone';
 import request from 'superagent';

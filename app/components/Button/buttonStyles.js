@@ -23,6 +23,11 @@ const buttonStyles = css`
     background: #002147;
     color: #FFF;
   }
+
+  &:hover {
+    background: #ff0303;
+    border: 2px solid #ff0303;
+  }
 `;
 
 export default buttonStyles;

@@ -12,7 +12,7 @@ const Input = styled.input`
 
 const SingleInput = (props) => (
 	<div className="form-group">
-		<label className="form-label">{props.title}</label>
+		<p style={{margin: '0'}} className="form-title">{props.title}</p>
 		<Input
 			className="form-input"
 			name={props.name}

@@ -65,7 +65,7 @@ class HeaderProfile extends React.Component { // eslint-disable-line react/prefe
     return (
       <div>
 		<Wrapper>
-			<section>
+			<section  onClick={this.redirectToFeed}>
 					<Img src={logo} alt="Tutorfind - Logo"/>
 			</section>
 			
